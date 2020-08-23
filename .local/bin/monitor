@@ -1,0 +1,5 @@
+#!/bin/sh
+cont=$(xrandr --listactivemonitors | grep 'Monitors:' | awk '{print $2}')
+monitor1=$(xrandr --listmonitors | awk '{print $4}' | tr '\n' ' ' | awk '{print $1}' )
+monitor2=$(xrandr --listmonitors | awk '{print $4}' | tr '\n' ' ' | awk '{print $2}' )
+[ $cont = 1  ] && xrandr --output $monitor1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output VGA1 --off --output VIRTUAL1 --off  || xrandr --output $monitor1 --primary --mode 1366x768 --pos 0x0 --rotate normal --output DP1 --off --output $monitor2 --mode 1360x768 --pos 1366x0 --rotate normal --output VIRTUAL1 --off
