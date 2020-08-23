@@ -1,0 +1,381 @@
+[global/wm]
+margin-bottom = 0
+margin-top = 0 
+
+[colors]
+background = #aa2e2e2e
+background-alt = #3b4252
+background-wd = #aa2e2e2e
+foreground = #ffffff
+foreground-alt = #3c3836
+foreground-wk = #707070
+primary = #ffb52a
+secondary = #e60053
+alert = #bf616a
+core-udr = #f5f5f5
+
+blue = #00008B
+yellow = #ebcb8b
+green = #a3be8c
+
+[bar/top]
+monitor = LVDS1
+width = 100%
+height = 20
+offset-x = -1%
+offset-y = -1%
+radius = 0.0
+fixed-center = false
+bottom = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+enable-ipc = true
+line-size = 2
+line-color = ${colors.alert}
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 1
+module-margin-right = 1
+
+
+font-0 = fixed:pixelsize=10;1
+font-1 = "FiraCode:size=8;2"
+font-2 = "xos4 Terminus:size=10;1"
+font-3 = FantasqueSansMono:style:regular:pixelsize=12;1
+font-4 = icomoon:pixelsize=11;2"
+font-5 = SymbolsNerdFont:style:1000-em:pixelsize=12;1
+font-6 = FontAwesome:style:regular:pixelsize=20;2
+
+modules-left = bspwm
+modules-center = xwindow
+modules-right = xbacklight sep alsa sep update sep  powermenu sep date
+
+tray-position = right
+tray-padding = 2
+tray-offset-x = -1
+tray-offset-y = -2
+;tray-background = #0063ff
+
+wm-restack = bspwm
+
+
+;override-redirect = true
+
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/xwindow]
+type = internal/xwindow
+label = [ %title:0:30:...%]
+
+[module/sep]
+type=custom/text
+content= "-"
+content-background = ${colors.background}
+content-foreground = ${colors.background}
+
+[module/openbox]
+type = internal/xworkspaces
+pin-workspaces = false
+
+ws-icon-1 = 1; <1>
+ws-icon-2=  2; <2>
+ws-icon-3=  3; <3>
+ws-icon-4=  4; <4>
+ws-icon-5=  5; <5>
+ws-icon-6=  6; <6>
+ws-icon-default = "&"
+
+format = <label-state> 
+
+label-focused = %name%
+label-focused-background = ${colors.background-wd}
+label-focused-underline= ${colors.core-udr}
+label-focused-padding = 2
+
+label-occupied = %name%
+label-occupied-padding = 2
+
+label-urgent = %name%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %name%
+label-empty-foreground = ${colors.foreground-wk}
+label-empty-padding = 2
+
+[module/title-xmonad]
+type = custom/script
+exec = tail -F /tmp/.xmonad-title-log
+exec-if = [ -p /tmp/.xmonad-title-log ]
+tail = true
+
+
+[module/workspaces-xmonad]
+type = custom/script
+exec = tail -F /tmp/.xmonad-workspace-log
+exec-if = [ -p /tmp/.xmonad-workspace-log ]
+tail = true
+
+[module/bspwm]
+type = internal/bspwm
+pin-workspaces = true
+
+ws-icon-1 = 1; <1>
+ws-icon-2=  2; <2>
+ws-icon-3=  3; <3>
+ws-icon-4=  4; <4>
+ws-icon-5=  5; <5>
+ws-icon-6=  6; <6>
+ws-icon-default = "&"
+
+format = <label-state> <label-mode>
+
+label-focused = %name%
+label-focused-background = ${colors.background-wd}
+label-focused-underline= ${colors.core-udr}
+label-focused-padding = 2
+
+label-occupied = %name%
+label-occupied-padding = 1
+
+label-urgent = %name%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+label-empty = %name%
+label-empty-foreground = ${colors.foreground-wk}
+label-empty-padding = 1
+
+[module/moc]
+type = custom/script
+exec = ~/.config/polybar/scripts/player-moc.sh
+interval = 30
+format = <label>
+label = [%output:0:30:..%]
+click-left = urxvt -e mocp
+
+[module/pause]
+type = custom/text
+content = ""
+click-left = mocp -G
+content-foreground = ${colors.alert}
+
+[module/play]
+type = custom/text
+content = ""
+click-left = mocp -f
+content-foreground = ${colors.green}
+
+[module/xbacklight]
+type = internal/xbacklight
+
+enable-scroll = true
+format = <ramp><label>
+label =  %percentage%%
+prefix = "|"
+background = ${colors.background-wd}
+label-background = ${colors.background-wd}
+format-underline = ${colors.core-udr}
+ramp-background = ${colors.background-wd}
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+
+[module/update]
+type = custom/script
+exec = checkupdates | wc -l 
+interval = 800
+format =  <label>
+label = %output%
+format-background = ${colors.background-wd}
+format-label-foreground = ${colors.foreground}
+format-underline = ${colors.core-udr}
+
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground}
+format-background = ${colors.background-wd}
+label =  %percentage:2%%
+format-underline = ${colors.core-udr}
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = ""
+format-prefix-foreground = ${colors.foreground}
+label = %percentage_used%%
+format-background = ${colors.background-wd}
+format-underline = ${colors.core-udr}
+
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = " %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix =  
+format-prefix-foreground = ${colors.foreground}
+
+label = %date% %time%
+format-underline = ${colors.core-udr}
+format-background = ${colors.background-wd}
+
+[module/alsa]
+type = internal/alsa
+format-volume-background = ${colors.background-wd}
+format-volume = <bar-volume>
+label-volume = ""
+label-volume-foreground = ${colors.background}
+label-volume-padding-right = ${paddings.inner}
+label-volume-padding-left = ${paddings.outer}
+label-volume-font = 5
+format-volume-underline = ${colors.core-udr}
+format-muted-underline = ${colors.core-udr}
+format-muted-prefix = "|mutado"
+format-muted-foreground = ${colors.alert}
+format-muted-background = ${colors.background-wd}
+label-muted = "|"
+label-padding = 
+ramp-volume-0 =  
+ramp-volume-1 = 
+ramp-volume-2 = 
+ramp-volume-padding = 0
+
+bar-volume-width = 15
+bar-volume-foreground-0 = ${colors.green}
+bar-volume-foreground-1 = ${colors.green} 
+bar-volume-foreground-2 = ${colors.green}
+bar-volume-foreground-3 = ${colors.green}
+bar-volume-foreground-4 = ${colors.green}
+bar-volume-foreground-5 = ${colors.green}
+bar-volume-foreground-6 = ${colors.green}
+bar-volume-foreground-7 = ${colors.green}
+bar-volume-foreground-8 = ${colors.green}
+bar-volume-foreground-9 = ${colors.alert}
+bar-volume-foreground-10 = ${colors.alert}
+bar-volume-gradient = true
+bar-volume-indicator = ▐
+bar-volume-indicator-font = 5
+bar-volume-fill = ▐
+bar-volume-fill-font = 5
+bar-volume-empty = ▐
+bar-volume-empty-font = 5
+bar-volume-empty-foreground = ${colors.foreground-wk}
+
+format-padding = 5    
+
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format =  <label>
+format-warn =  <label-warn>
+
+
+label =  %temperature-c%
+label-foreground = ${colors.foreground}
+label-warn =  %temperature-c%
+label-warn-foreground = ${colors.alert}
+label-warn-background = ${colors.background-wd}
+label-underline = ${colors.core-udr}
+label-warn-underline = ${colors.core-udr}
+format-background = ${colors.background-wd}
+
+[module/powermenu]
+type = custom/text
+content =  "⏼"
+click-left = bash ~/.config/rofi/scripts/power.sh
+content-foreground = ${colors.foreground}
+content-background = ${colors.background-wd}
+content-underline = ${colors.core-udr}
+
+[module/mpd]
+type = internal/mpd
+interval = 2
+format-online =   <icon-prev> <icon-seekb> <icon-stop> <toggle> <icon-seekf> <icon-next>  <icon-repeat> <icon-random>  <label-time>  <label-song>
+
+label-song =  - %title:0:30:...% 
+label-offline = 🎜 mpd is offline
+icon-play = 
+icon-pause = 
+icon-stop = 
+icon-prev = 
+icon-next = 
+icon-seekb = ⏪
+icon-seekf = ⏩
+icon-random = 🔀
+icon-repeat = 🔁
+icon-repeatone = 🔂
+icon-single = 🔂
+icon-consume = ✀
+
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+
+[bar/bottom]
+monitor = VGA1 
+bottom = false
+width = 100%
+height = 20
+offset-x = -1%
+offset-y = -1%
+radius = 0.0
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+enable-ipc = true
+line-size = 2
+line-color = ${colors.alert}
+
+border-size = 0
+border-color = #00000000
+
+padding-left =  4
+padding-right = 4 
+
+module-margin-left = 1 
+module-margin-right = 1
+
+font-0 = fixed:pixelsize=10;1
+font-1 = "FiraCode:size=8;2"
+font-2 = "xos4 Terminus:size=10;1"
+font-3 = FantasqueSansMono:style:regular:pixelsize=12;1
+font-4 = icomoon:pixelsize=11;2"
+font-5 = SymbolsNerdFont:style:1000-em:pixelsize=12;1
+font-6 = FontAwesome:style:regular:pixelsize=20;2
+
+modules-left =  bspwm
+modules-center = mpd 
+modules_right =  
+tray-padding = 2
+wm-restack = bspwm
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+; vim:ft=dosini
