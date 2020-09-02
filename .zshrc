@@ -1,7 +1,4 @@
-#       Path
-export PATH=$PATH:~/.npm/apps/bin
-export PATH=$PATH:~/go/bin/
-export PATH=$PATH:~/.local/bin/
+export PATH=$PATH:~/.local/bin
 
 #       General conf
 stty stop undef
@@ -16,13 +13,9 @@ HISTFILE=~/.cache/zsh/history
 setopt correctall
 unsetopt correct_all
 
-# Format the vcs_info_msg_0_ variable
-zstyle ':vcs_info:git:*' formats 'on branch %b'
-
 #        PROMPT
-PROMPT='%B%F{139}[%0~]%f%b%F{2}$ '
-# PROMPT='%B%F{139}%f%b%F{2}$ '
-
+NEWLINE=$'\n'
+PROMPT="%B%F{139}[%0~]%f%b%F{2}$ "
 
 export KEYTIMEOUT=1
 #       Show vim mode
@@ -57,13 +50,14 @@ alias ra="ranger"
 alias grep="grep --color=auto"
 alias vf="vifm"
 alias sxiv="sxiv -b"
-alias xd="xrdb -merge ~/.config/Xresources"
+alias xd="xrdb -merge $HOME/.config/Xresources"
 alias n="nvim"
 alias ms="ncmpcpp"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="youtube-dl -x -i -f bestaudio/best"
 alias l="exa -al --color=always --group-directories-first"
 alias ls="exa -a --color=always --group-directories-first"
+alias sl="exa -a --color=always --group-directories-first"
 alias cp="cp -i"
 alias dcompile="sudo make clean install"
 alias commit="git commit -m"
@@ -83,6 +77,9 @@ bindkey -v
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
 [[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"      backward-char
 [[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"     forward-char
+bindkey '^R' history-incremental-search-backward
+
+
 bindkey -s '^f' 'nvim $(find ~/.local/bin/ -type f | fzf)\n'
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
