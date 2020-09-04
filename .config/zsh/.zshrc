@@ -1,4 +1,3 @@
-export PATH=$PATH:~/.local/bin
 
 #       General conf
 stty stop undef
@@ -55,6 +54,7 @@ alias n="nvim"
 alias ms="ncmpcpp"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="youtube-dl -x -i -f bestaudio/best"
+alias yt-video="youtube-dl -x -i -f best/video"
 alias l="exa -al --color=always --group-directories-first"
 alias ls="exa -a --color=always --group-directories-first"
 alias sl="exa -a --color=always --group-directories-first"
