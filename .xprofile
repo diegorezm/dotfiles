@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
+$HOME/.local/bin/changer &
+xss-lock -- ~/.local/bin/screenlock &
+redshift &
+xset r rate 300 50 &
+xrdb -merge ~/.config/Xresources
