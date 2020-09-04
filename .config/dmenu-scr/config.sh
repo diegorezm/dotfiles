@@ -4,7 +4,8 @@ declare option=("I3
 vifm
 dwm-d
 st-d
-Xresources
+zsh
+xresources
 qtile
 dunst
 nvim
@@ -26,8 +27,11 @@ case "$esc" in
         st-d)
                 esc="$HOME/.config/st-d/config.h"
         ;;
-        Xresources)
+        xresources)
                 esc="$HOME/.config/Xresources"
+        ;;
+        zsh)
+                esc="$HOME/.config/zsh/.zshrc"
         ;;
         qtile)
                 esc="$HOME/.config/qtile/config.py"
