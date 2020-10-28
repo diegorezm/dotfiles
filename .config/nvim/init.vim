@@ -45,12 +45,12 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'altercation/vim-colors-solarized'
         "       code
-Plug 'maralla/completor.vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'maralla/completor.vim', { 'do': 'make js' }
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
 Plug 'lilydjwg/colorizer'
 Plug 'tpope/vim-commentary'
-Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 "	colors
@@ -72,17 +72,9 @@ nnoremap <C-l> <C-w>l
 
 map <leader>p :setlocal spell spelllang=pt_br \| let g:completor_auto_trigger = 0 <CR>
 map <leader>pd :set nospell \| let g:completor_auto_trigger = 1 <CR>
-" map <leader>s :FloatermToggle<CR>
-let g:floaterm_keymap_toggle = '<space>s'
-let g:floaterm_gitcommit='floaterm'
-let g:floaterm_autoinsert=1
-let g:floaterm_width=0.8
-let g:floaterm_height=0.8
-let g:floaterm_wintitle=0
-let g:floaterm_autoclose=1
 map <leader>b :Vexplore<CR>
 map <F5> :w! \| !compiler <c-r>%<CR>
-map <leader>vs :vs 
+map <leader>vs :vs <CR>
 map <leader>f :FZF<CR>
 map <leader>g :Goyo<CR>
 map <leader>cc :Comment<CR>

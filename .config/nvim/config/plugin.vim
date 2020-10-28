@@ -31,3 +31,4 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let g:user_emmet_mode='n'
 let g:user_emmet_leader_key=','
+
