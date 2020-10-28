@@ -1,4 +1,4 @@
-#include "/home/diego/.config/xcolorschemes/gruvbox-dark"
+#include "/home/diego/.config/xcolorschemes/monokai-dark"
 
 dwm.selbordercolor:  #50fa7b
 dwm.selbgcolor:      #98971a 
@@ -6,7 +6,7 @@ dwm.selfgcolor:      S_base2
 dwm.normbgcolor:     S_base03
 dwm.normbordercolor: #282828
 
-URxvt*font: xft:JetBrainsMono NL:pixelsize=18:antialias=true , xft: dejavu sans mono:pixelsize=12:antialias=true, xft: Roboto Mono:pixelsize=12:antialias=true
+URxvt*font: xft:JetBrainsMono NL:pixelsize=14:antialias=true , xft: dejavu sans mono:pixelsize=12:antialias=true, xft: Roboto Mono:pixelsize=12:antialias=true
 URxvt.letterSpace: 0
 URxvt.lineSpace: 0
 URxvt.geometry: 120x34
@@ -43,5 +43,5 @@ URxvt.urlButton: 1
 URxvt.keysym.S-C-J: resize-font:smaller
 URxvt.keysym.S-C-K: resize-font:bigger
 
-/* Sxiv.background: #222222 */
-/* Sxiv.foreground: #bbbbbb */
+Sxiv.background: #222222
+Sxiv.foreground: #bbbbbb
