@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <title>home</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@1,800&display=swap" rel="stylesheet"> 
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            background: #282828;
+            color: #ccc;
+            text-shadow: 1px 1px 2px #222;
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Gaegu', cursive;
+            color: #eee;
+            font-weight: 700;
+            padding: 6px;
+            margin: 0;
+        }
+        .w3-input {
+            color: #ccc;
+            background: none;
+            border-bottom: 4px solid #689d69;
+            text-shadow: 1px 1px 2px #222;
+            transition: border 0.3s ease;
+        }
+        textarea:focus,
+        input:focus {
+            outline: 0;
+            border;
+            0;
+            border-bottom: 4px solid #689d69;
+        }
+        ::placeholder {
+            color: #999;
+            text-shadow: 1px 1px 2px #222;
+        }       
+        .w3-ul li {
+            line-height: 20px;
+            padding: 0;
+            border: 0;
+        }
+        a,
+        a > span {
+            position: relative;
+            color: #999;
+            text-decoration: none;
+            line-height: 22px;
+            transition: color .3s ease-in-out;
+        }
+        a:hover {
+            color: #eee;
+        }
+        a:before,
+        a:after,
+        a > span:before,
+        a > span:after {
+            content: '';
+            position: absolute;
+            transition: transform .3s ease-in-out;
+        }
+        .effect {
+            padding-top: 0;
+        }
+        .effect:before {
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: #79740e;
+            transform: scaleX(0);
+        }
+        .effect:hover:before {
+            transform: scaleX(0.85);
+        }
+        img {
+            display: block;
+            margin-bottom: -25px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+    </style>
+</head>
+ 
+<body>
+    <div class="w3-container w3-display-middle w3-centered" style="width: 22em; margin-top: -4em;">
+        <img src="https://i.pinimg.com/originals/0e/82/08/0e8208ccd9474809fb05a9afe1d94ad7.png" style="filter: invert(100%);"/>
+        <form method="get" action="https://www.google.com/search" target="_blank">
+            <input class="w3-input w3-center w3-section" type="text" name="q" placeholder="Pesquisar" />
+        </form>
+        <div class="w3-cell-row">
+            <div class="w3-container w3-cell w3-mobile">
+                <ul class="w3-ul w3-center">
+                    <li><h4>A</h4></li>
+                    <li><a class="effect" accesskey="y" href="https://www.youtube.com/" target="_blank" >Youtube</a></li>
+                    <li><a class="effect" href="https://www.netflix.com/browse" target="_blank" >Netflix</a></li>
+                    <li><a class="effect" href="https://mangalivre.net/" target="_blank"> MangaLivre</a></li>
+                    <li><a class="effect" accesskey="t" href="https://www.twitch.tv/" target="_blank"> Twitch</a></li>
+                    <li><a class="effect" accesskey="a" href="https://animedao.to/" target="_blank">AnimeDao</a></li>
+                </ul>
+            </div>
+            <div class="w3-container w3-cell w3-mobile">
+                <ul class="w3-ul w3-center">
+                    <li><h4>C</h4></li>
+                    <li><a class="effect" accesskey="w" href="https://web.whatsapp.com/" target="_blank" >Whatsapp</a></li>
+                    <li><a class="effect" href="https://www.reddit.com/" target="_blank" >Reddit</a></li>
+                    <li><a class="effect" href="https://news.google.com/topstories?hl=pt-BR&gl=BR&ceid=BR:pt-419" target="_blank" >Google news</a></li>
+                    <li><a class="effect" href="https://lolchess.gg/#" target="_blank" >lolchess</a></li>
+                    <li><a class="effect" href="https://trello.com/pt-BR" target="_blank" >trello</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+ 
+</html>
