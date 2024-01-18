@@ -1,0 +1,4 @@
+#!/bin/bash 
+up=$(checkupdates | awk '{print $1}')
+dunstify "Updates are:" "$up"
+

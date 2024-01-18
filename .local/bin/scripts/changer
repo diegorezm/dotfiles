@@ -1,0 +1,5 @@
+#!/bin/bash 
+ext=${1##*.}
+[ -f "$1" ] && xwallpaper --zoom  $1 && cp $1 ~/.config/wall
+[ -d "$1" ] &&  rando=$(find "$(readlink -f "$1")" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)  && xwallpaper --zoom $rando && cp $rando ~/.config/wall
+[ -z "$1"  ] && xwallpaper --zoom ~/.config/wall

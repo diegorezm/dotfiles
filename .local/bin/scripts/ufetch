@@ -1,0 +1,91 @@
+#!/bin/bash 
+# my slightly modified version of ufetch
+
+## INFO
+
+host="$(cat /etc/hostname)"
+os='Arch Linux'
+kernel="$(uname -sr | sed 's/-.*//g')"
+uptime="$(uptime -p | sed 's/up //')"
+packages="$(pacman -Q | wc -l)"
+shell="$(basename "${SHELL}")"
+editor="$(printenv | grep "EDITOR" | cut -d '/' -f3 | sed 's/EDITOR=//g')"
+browser="$(printenv | grep "BROWSER" | sed 's/BROWSER=//g')"
+
+## UI DETECTION
+parse_rcs() {
+	for f in "${@}"; do
+		wm="$(tail -n 1 "${f}" 2> /dev/null | cut -d ' ' -f 2)"
+		[ -n "${wm}" ] && echo "${wm}" && return
+	done
+}
+
+rcwm="$(parse_rcs "${HOME}/.xinitrc" "${HOME}/.xsession")"
+
+ui='unknown'
+uitype='UI'
+if [ -n "${DE}" ]; then
+	ui="${DE}"
+	uitype='DE'
+elif [ -n "${WM}" ]; then
+	ui="${WM}"
+	uitype='WM'
+elif [ -n "${XDG_CURRENT_DESKTOP}" ]; then
+	ui="${XDG_CURRENT_DESKTOP}"
+	uitype='DE'
+elif [ -n "${DESKTOP_SESSION}" ]; then
+	ui="${DESKTOP_SESSION}"
+	uitype='DE'
+elif [ -n "${rcwm}" ]; then
+	ui="${rcwm}"
+	uitype='WM'
+elif [ -n "${XDG_SESSION_TYPE}" ]; then
+	ui="${XDG_SESSION_TYPE}"
+fi
+
+ui="$(basename "${ui}")"
+
+## DEFINE COLORS
+
+# probably don't change these
+if [ -x "$(command -v tput)" ]; then
+	bold="$(tput bold 2> /dev/null)"
+	black="$(tput setaf 0 2> /dev/null)"
+	red="$(tput setaf 1 2> /dev/null)"
+	green="$(tput setaf 2 2> /dev/null)"
+	yellow="$(tput setaf 3 2> /dev/null)"
+	blue="$(tput setaf 4 2> /dev/null)"
+	magenta="$(tput setaf 5 2> /dev/null)"
+	cyan="$(tput setaf 6 2> /dev/null)"
+	white="$(tput setaf 7 2> /dev/null)"
+	reset="$(tput sgr0 2> /dev/null)"
+fi
+
+#colors
+lc="${reset}${bold}${white}"         # labels
+nc="${reset}${bold}${red}"         # user and hostname
+ic="${reset}"                       # info
+c0="${reset}${gray}"                # first color
+
+## OUTPUT
+
+cat <<EOF
+⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠤⠔⠒⠒⠒⠒⠲⠤⣄⡀
+⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠚⠁⠀⢀⣤⣶⣶⣿⣿⣿⣿⣶⣯⣒⠤⣀      
+⠀${c0}⠀⠀⠀⠀⠀⠀⠀⣰⠋⠀⠀⢀⣴⣿⣿⣿⣿⠿⠟⠛⠿⠿⣿⣿⣷⡈⠳⡀    ${nc} ┌───────────@${USER}───────────┐${ic}${reset}
+⠀${c0}⠀⠀⠀⠀⠀⠀⡼⠁⠀⠀⢠⣿⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⢉⠻⣿⠀⠹⡀       ${lc}OS:        ${ic}${os}${reset}
+⠀${c0}⠀⠀⠀⠀⠀⣼⠇⠀⠀⠀⢾⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⡀⣼⣇⠘⠇⠀⣼⡄      ${lc}UPTIME:    ${ic}${uptime}${reset}
+⠀${c0}⠀⠀⠀⠀⢸⡹⠀⠀⠀⠀⢸⣿⠁⠀⠀⠀⠀⠀⠀⢀⡄⢀⣾⣿⣿⡆⡀⠀⠈⡇      ${lc}PACKAGES:  ${ic}${packages}${reset}
+⠀${c0}⠀⠀⠀⠀⢸⠇⢠⠀⠀⠀⠀⠇⠀⠀⠀⢠⠆⠀⣠⠎⣠⣿⣿⣿⣿⣷⢁⠆⠀⡇      ${lc}SHELL:     ${ic}${shell}${reset}
+⠀${c0}⠀⠀⠀⠀⢸⠀⠈⡆⠀⠀⠀⠀⠀⠀⣆⣇⣤⣾⡷⠿⠟⡿⣿⣿⣿⣧⠊⠀⠀⡇      ${lc}${uitype}:        ${ic}${ui}${reset}
+⠀${c0}⠀⠀⠀⠀⠀⢇⢣⢡⡠⠀⠀⠀⠀⢰⡿⠋⠈⠀⠀⠀⢠⣾⠈⡻⣿⠁⠀⡀⢀⠇      ${lc}KERNEL:    ${ic}${kernel}${reset}
+⠀${c0}⠀⠀⠀⠀⠀⠈⠻⢷⡹⣷⣄⡀⡄⢸⣇⡀⠀⠀⠀⢠⣤⠀⢀⣼⣿⡶⣰⣇⠎       ${lc}EDITOR:    ${ic}${editor}${reset}
+⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⣿⣼⣜⣿⣝⣶⣤⣀⣀⣡⣶⣿⣿⣿⠟⠛⠁        ${lc}BROWSER:   ${ic}${browser}${reset}
+⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠉⠿⠋         ${nc}└─────────────────────────────┘${reset}
+⠀${c0}⠀⠀⣠⣶⣿⣿⣦⣤⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣄⠀⠀⣠⣤⣤⣄
+⠀${c0}⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣷⣄
+⠀${c0}⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄
+
+EOF
+
+

@@ -1,0 +1,16 @@
+#!/bin/bash 
+
+
+play_list(){
+        num=$(mpc lsplaylists | sort -n | dmenu -p 'Choose one:')
+        if [ -z "$num" ];then
+                  exit 0
+        else
+                mpc clear 
+                mpc load $num 
+                numb=$(mpc playlist | wc -l)
+                mpc play  $(($RANDOM % numb ))
+        fi
+}
+
+play_list

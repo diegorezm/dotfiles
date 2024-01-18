@@ -1,0 +1,39 @@
+#!/bin/bash 
+
+wallpaper() {
+        wll="$HOME/.config/wall"
+        convert $wll -blur 8x4 /tmp/lock.png
+        notify-send "The screen is being locked.. "  -i /tmp/lock.png
+        mpc pause
+        i3lock --bar-indicator --bar-color="#24273A" -k --time-str="%H:%M"  --time-color="#ffffffcc" --date-color="#ffffffcc"  -i $wll
+        rm /tmp/lock.png
+}
+
+default() {
+        scrot "/tmp/printlock.png"
+        convert /tmp/printlock.png -blur 8x4 /tmp/printlock.png
+        notify-send "The screen is being locked.. "  -i /tmp/printlock.png
+        mpc pause
+        i3lock --bar-indicator --bar-color="#24273A" -k --time-str="%H:%M"  --time-color="#ffffffcc" --date-color="#ffffffcc"  -i /tmp/printlock.png 
+        rm /tmp/printlock.png
+}
+
+helptxt() {
+        echo -e "-w  insert a path to a image to use as background \
+                \n-p  to use the screenshot"
+}
+
+case "$1" in
+        -h)
+                helptxt
+        ;;
+        -w)
+                wallpaper
+        ;;
+        -p)
+                default
+        ;;
+        *)
+                default
+        ;;
+esac

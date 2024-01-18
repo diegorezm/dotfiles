@@ -1,0 +1,3 @@
+#!/bin/bash 
+exec xautolock --detectsleep -time 10 -locker "$HOME/.local/bin/screenlock" -notify 30 -notifier "notify-send -u critical -t 10000 -- 'LOCKING SCREEN IN 30 SECONDS'" & 
+exec xidlehook --not-when-fullscreen --timer 1200 "systemctl suspend" .

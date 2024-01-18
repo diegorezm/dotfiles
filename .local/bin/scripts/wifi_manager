@@ -1,0 +1,20 @@
+#!/bin/bash 
+
+wifi_ssid=$(nmcli -f SSID,BARS,SECURITY device wifi list | tail -n +2 | dmenu | awk '{print $1}')
+case "$wifi_ssid" in
+  "")
+    exit
+  ;;
+esac
+
+password=$(dmenu -p "Password for $wifi_ssid:")
+
+case "$password" in
+  "")
+    exit
+  ;;
+esac
+
+nmcli device wifi connect $wifi_ssid password $password && dunstify 'Connecting..'
+
+

@@ -1,0 +1,10 @@
+#!/bin/bash 
+basename="${1%.*}"
+case "${*}" in
+  *.py) python3 "$basename".py;;
+  *.html) $BROWSER "$basename".html;;
+  *.pdf | *.tex)  zathura "$basename".pdf;;
+  *.js) node "$basename".js;;
+  *.ts) npm run dev;;
+esac 
+

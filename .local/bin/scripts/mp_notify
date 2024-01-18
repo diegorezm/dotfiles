@@ -1,0 +1,5 @@
+#!/bin/bash 
+
+msc=$(mpc --format '%title% \n%artist% - %album%')
+form="${msc%.*}"
+dunstify "Now playing!" "$form"
