@@ -5,4 +5,4 @@ export EDITOR="nvim"
 export TERMINAL="st"
 export BROWSER="brave"
 export READER="zathura"
-export SCRIPTS_DIR=$HOME/.local/bin/scripts
+export SCRIPTS_DIR=$HOME/.local/bin/scripts/

@@ -3,7 +3,7 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
 fi
 
 #       General conf
-ufetch
+$SCRIPTS_DIR/ufetch
 stty stop undef
 autoload -U colors && colors
 
