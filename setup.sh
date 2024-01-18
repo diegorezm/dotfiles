@@ -3,14 +3,17 @@
 CURRENT_DIR=$(pwd)
 
 # Install all pkgs
-# pacman -S - < pkglist.txt
+pacman -S - < pkglist.txt
 
+# create home/config
 if [[ ! -d $HOME/.config ]]; then
   mkdir $HOME/.config/
 fi
 
+# Create syslinks
 ln -s $CURRENT_DIR/.zshrc  $HOME/.zshrc
 ln -s $CURRENT_DIR/.zprofile  $HOME/.zprofile
+ln -s $CURRENT_DIR/.tmux.conf  $HOME/.tmux.conf
 ln -s $CURRENT_DIR/.xinitrc  $HOME/.xinitrc
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
