@@ -1,0 +1,20 @@
+mpd_host =                  "127.0.0.1"
+mpd_port =                  "6600"
+mpd_music_dir="~/msc"
+visualizer_data_source = "localhost:5555"
+execute_on_song_change = mp_notify
+visualizer_output_name = "my_fifo"
+visualizer_in_stereo = "yes"
+
+# THEME
+current_item_prefix = "$/b 契 "
+now_playing_prefix = "$/b ♬ "
+song_columns_list_format = "(34)[white]{t|f} (5f)[magenta]{l} (1)[]{}"
+progressbar_look = "»»"
+mouse_support = "yes"
+header_visibility = "no"
+titles_visibility = "no"
+statusbar_visibility = "no"
+enable_window_title = "yes"
+color1 = "white"
+color2 = "green"
