@@ -1,0 +1,28 @@
+#include "colors.Xresources"
+
+! urxvt
+URxvt*buffered: true
+URxvt*cursorBlink: true
+URxvt*underlineColor: yellow
+URxvt*font:  xft:JetBrains Mono:size=14:antialias=true
+URxvt*depth: 32
+URxvt*borderless: 1
+URxvt*scrollBar: false
+URxvt*loginShell: true
+Urxvt*secondaryScroll:  true    # Enable Shift-PageUp/Down in screen
+URxvt*saveLines: 5000
+URxvt*termName: rxvt-unicode
+URxvt.perl-ext-common: default,matcher
+URxvt.urlLauncher: firefox
+URxvt.matcher.button: 1
+
+! sk
+dmenu.font:  xft:JetBrains Mono:size=12:antialias=true
+dmenu.background: bg_dmenu 
+dmenu.foreground: fg_dmenu 
+dmenu.selbackground: bg_sel_dmenu
+dmenu.selforeground: fg_sel_dmenu
+
+st.font:  JetBrains Mono:size=14:antialias=true:autohint=true
+st.background: bg_dmenu 
+st.foreground: fg_dmenu 
