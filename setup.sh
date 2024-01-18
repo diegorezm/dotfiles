@@ -3,7 +3,7 @@
 CURRENT_DIR=$(pwd)
 
 # Install all pkgs
-pacman -S - < pkglist.txt
+sudo pacman -S - < pkglist.txt
 
 # create home/config
 if [[ ! -d $HOME/.config ]]; then
