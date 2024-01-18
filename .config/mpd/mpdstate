@@ -1,0 +1,30 @@
+sw_volume: 78
+audio_device_state:1:pulse audio
+audio_device_state:1:FIFO
+state: pause
+current: 2
+time: 6.664000
+random: 0
+repeat: 0
+single: 0
+consume: 0
+crossfade: 0
+mixrampdb: 0.000000
+mixrampdelay: -1.000000
+playlist_begin
+0:HerAndVilns/Metro Boomin - Around Me (Visualizer) ft. Don Toliver [IjnCoWA9u9M].opus
+1:HerAndVilns/Metro Boomin & Future - Superhero (Heroes & Villains) [Official Music Video] [_WCD3Z9UmJ4].opus
+2:HerAndVilns/Metro Boomin, 21 Savage - Walk Em Down (Don't Kill Civilians) (Visualizer) ft. Mustafa [bCeFEHcDWi8].opus
+3:HerAndVilns/Metro Boomin, 21 Savage, Young Nudy - Umbrella (Visualizer) [lFN9jDziQ78].opus
+4:HerAndVilns/Metro Boomin, A$AP Rocky - Feel The Fiyaaaah (Visualizer) ft. Takeoff [C3UXj2k7jHE].opus
+5:HerAndVilns/Metro Boomin, Future - I Can't Save You (Interlude) (Visualizer) ft. Don Toliver [mSE70gbmBzw].opus
+6:HerAndVilns/Metro Boomin, Future - Too Many Nights (Visualizer) ft. Don Toliver [3q_ijl-aaTI].opus
+7:HerAndVilns/Metro Boomin, Gunna - All The Money (Visualizer) [FnAWMZfcSB0].opus
+8:HerAndVilns/Metro Boomin, John Legend - On Time (Visualizer) [_AcodjYU8iw].opus
+9:HerAndVilns/Metro Boomin, The Weeknd, 21 Savage - Creepin' (Visualizer) [61ymOWwOwuk].opus
+10:HerAndVilns/Metro Boomin, Travis Scott - Raindrops (Insane) (Visualizer) [2WqI50mc7Jo].opus
+11:HerAndVilns/Metro Boomin, Travis Scott, 21 Savage - Niagara Falls (Foot or 2) (Visualizer) [Z8vDU6vUTj4].opus
+12:HerAndVilns/Metro Boomin, Travis Scott, Future - Lock On Me (Visualizer) [7fKrft4le1k].opus
+13:HerAndVilns/Metro Boomin, Travis Scott, Young Thug - Trance (Visualizer) [TxUdlC0057s].opus
+14:HerAndVilns/Metro Boomin, Young Thug - Metro Spider (Visualizer) [PlxOXgPasFk].opus
+playlist_end
