@@ -14,23 +14,25 @@ with open("{}/.config/qtile/colors/colorscheme.json".format(os.getenv("HOME"))) 
 colors = colors_json
 
 
-@lazy.function
-def themeChanger(qtile):
-    script = os.path.expanduser("~/.local/bin/changeTheme")
-    return subprocess.Popen(script)
 
 
 #   DEFINE VARIABLES
 mod = "mod4"
 terminal = os.getenv("TERMINAL")
 home = os.path.expanduser('~')
+scripts_dir = home + '/.local/bin/scripts/'
 nav = os.getenv("BROWSER")
-# nav_app= "rofi -show drun -theme 'macchiato_styled' -show-icons"
 nav_app = "dmenu_run -p 'Run:' "
 main_font = "JetBrainsMono Nerd Font"
 explorer = "pcmanfm"
 monitor = subprocess.run("xrandr | grep -sw 'connected' | wc -l", shell=True,
                          stdout=subprocess.PIPE, universal_newlines=True, stderr=subprocess.PIPE).stdout.strip()
+
+
+@lazy.function
+def themeChanger(qtile):
+    script = scripts_dir + "changeTheme"
+    return subprocess.Popen(script)
 
 
 @hook.subscribe.startup_once
@@ -81,7 +83,7 @@ keys = [
     Key([mod], "F10", lazy.spawn("pamixer -d 10")),
     Key([mod], "F11", lazy.spawn("pamixer -i 10")),
     Key([], "Print", lazy.spawn("screenshot.sh")),
-    Key([mod], "F1", lazy.spawn("power.sh")),
+    Key([mod], "F1", lazy.spawn(scripts_dir +  "power.sh")),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod, "shift"], "Return", themeChanger(),
         desc="Change the theme of the entire system"),
@@ -89,11 +91,12 @@ keys = [
         "playerctl -p 'spotify' play-pause"), desc="Toggle mpd"),
     Key([mod], "n", lazy.spawn("playerctl -p 'spotify' next"),
         desc="Change the music"),
+    # Enable only when usign mpd
     # Key([mod], "m", lazy.spawn(f"{terminal} -e ncmpcpp"), desc="Open music player"),
-    Key([mod], "F2", lazy.spawn("playlist_mpd"), desc="playlist"),
-    Key([mod], "F3", lazy.spawn(
+    # Key([mod], "F2", lazy.spawn("playlist_mpd"), desc="playlist"),
+    Key([mod], "F2", lazy.spawn(
         "wallpaper_cl.AppImage"), desc="wallpaper script"),
-    Key([mod], "F4", lazy.spawn("prjs.sh"), desc="for fun"),
+    Key([mod], "F3", lazy.spawn(scripts_dir + "prjs.sh"), desc="tmux windows"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -101,8 +104,8 @@ keys = [
     Key([mod], "d", lazy.spawn(nav_app),
         desc="Spawn a command using a prompt widget"),
     Key([mod], "w", lazy.spawn(nav), desc="Browser window"),
-    Key([mod], "c", lazy.spawn("config.sh"), desc="config files"),
-    Key([mod], "z", lazy.spawn("dirop.sh"), desc="config files"),
+    Key([mod], "c", lazy.spawn(scripts_dir + "config.sh"), desc="config files"),
+    Key([mod], "z", lazy.spawn(scripts_dir + "dirop.sh"), desc="config files"),
     # Switch focus of monitors
     Key([mod], "period", lazy.next_screen(),
         desc='Move focus to next monitor'),
