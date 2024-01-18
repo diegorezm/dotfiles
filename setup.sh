@@ -10,11 +10,23 @@ if [[ ! -d $HOME/.config ]]; then
   mkdir $HOME/.config/
 fi
 
+# create home/.local/
+if [[ ! -d $HOME/.local ]]; then
+  mkdir $HOME/.local/
+  mkdir $HOME/.local/bin
+fi
+
+# create home/img
+if [[ ! -d $HOME/img ]]; then
+  mkdir $HOME/img/
+fi
+
 # Create syslinks
 ln -s $CURRENT_DIR/.zshrc  $HOME/.zshrc
 ln -s $CURRENT_DIR/.zprofile  $HOME/.zprofile
 ln -s $CURRENT_DIR/.tmux.conf  $HOME/.tmux.conf
 ln -s $CURRENT_DIR/.xinitrc  $HOME/.xinitrc
+ln -s $CURRENT_DIR/wallpapers $HOME/img/wallpapers
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
 ln -s $CURRENT_DIR/.local/bin/scripts $HOME/.local/bin/scripts
