@@ -13,14 +13,11 @@ with open("{}/.config/qtile/colors/colorscheme.json".format(os.getenv("HOME"))) 
 
 colors = colors_json
 
-
-
-
 #   DEFINE VARIABLES
 mod = "mod4"
 terminal = os.getenv("TERMINAL")
 home = os.path.expanduser('~')
-scripts_dir = home + '/.local/bin/scripts/'
+scripts_dir = os.getenv("SCRIPTS_DIR") or os.path.join(home, "/.local/bin/scripts")
 nav = os.getenv("BROWSER")
 nav_app = "dmenu_run -p 'Run:' "
 main_font = "JetBrainsMono Nerd Font"
