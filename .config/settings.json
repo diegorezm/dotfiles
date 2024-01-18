@@ -1,0 +1,54 @@
+{
+    "editor.fontFamily": "Jetbrains Mono",
+    "editor.fontSize": 16,
+    "editor.fontLigatures": true,
+    "editor.lineHeight": 1.6,
+    "editor.tabSize": 2,
+    "window.zoomLevel": 1,
+    "editor.rulers": [80,120],
+    "editor.renderLineHighlight": "gutter",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.editor.labelFormat": "short",
+    "editor.semanticHighlighting.enabled": false,
+    "breadcrumbs.enabled": false,
+    "workbench.activityBar.location": "hidden",
+    "editor.minimap.enabled": false,
+    "editor.scrollbar.vertical": "hidden",
+    "editor.scrollbar.horizontal": "hidden",
+    "workbench.statusBar.visible": false,
+    "explorer.fileNesting.enabled": true,
+    "terminal.integrated.fontFamily": "Jetbrains Mono",
+    "terminal.integrated.fontSize": 16,
+    "explorer.fileNesting.patterns": {
+        "Cargo.toml": "Cargo.lock",
+        "package.json": ".eslint*, prettier*,tsconfig*, vite*, next*, package-lock*",
+        "tailwind.config.js": "tailwind.config*, postcss.config*",
+        "tailwind.config.ts": "tailwind.config*, postcss.config*"
+    },
+    "emmet.syntaxProfiles": {
+        "javascript": "jsx",
+        "typescript": "tsx"
+    },
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "typescript":"typescriptreact"
+    },
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "explorer.compactFolders": false,
+    "git.enableSmartCommit": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "eslint.validate": [
+        "javascript",
+        "typescript",
+        "svelte"
+
+    ],
+    "workbench.iconTheme": "symbols",
+    "workbench.colorTheme": "Min Dark",
+    "workbench.editor.empty.hint": "hidden",
+    "svelte.enable-ts-plugin": true,
+    "window.menuBarVisibility": "toggle",
+    "symbols.hidesExplorerArrows": false,
+}
