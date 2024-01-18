@@ -6,5 +6,6 @@ Just so i don't have to do it again!
 ```bash
 git clone https://github.com/diegorezm/dotfiles.git
 cd dotfiles
-chmod +x ./setup.sh
+chmod +x setup.sh
+./setup.sh
 ```
