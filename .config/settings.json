@@ -51,4 +51,5 @@
     "svelte.enable-ts-plugin": true,
     "window.menuBarVisibility": "toggle",
     "symbols.hidesExplorerArrows": false,
+    "redhat.telemetry.enabled": true,
 }
