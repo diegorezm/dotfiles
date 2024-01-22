@@ -79,7 +79,7 @@ keys = [
     Key([mod], "F9", lazy.spawn("xbacklight -inc 10")),
     Key([mod], "F10", lazy.spawn("pamixer -d 10")),
     Key([mod], "F11", lazy.spawn("pamixer -i 10")),
-    Key([], "Print", lazy.spawn("screenshot.sh")),
+    Key([], "Print", lazy.spawn(scripts_dir + "screenshot.sh")),
     Key([mod], "F1", lazy.spawn(scripts_dir +  "power.sh")),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod, "shift"], "Return", themeChanger(),
