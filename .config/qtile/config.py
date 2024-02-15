@@ -91,8 +91,7 @@ keys = [
     # Enable only when usign mpd
     # Key([mod], "m", lazy.spawn(f"{terminal} -e ncmpcpp"), desc="Open music player"),
     # Key([mod], "F2", lazy.spawn("playlist_mpd"), desc="playlist"),
-    Key([mod], "F2", lazy.spawn(
-        "wallpaper_cl.AppImage"), desc="wallpaper script"),
+    Key([mod], "F2", lazy.spawn(home + "/.local/bin/" + "wallpapercl"), desc="wallpaper script"),
     Key([mod], "F3", lazy.spawn(scripts_dir + "prjs.sh"), desc="tmux windows"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
@@ -380,7 +379,6 @@ floating_layout = layout.Floating(
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="pavucontrol"),  # gitk
         Match(wm_class="Thunar"),  # gitk
-        Match(wm_class="wallpapercl"),  # gitk
         Match(wm_class="tk"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
