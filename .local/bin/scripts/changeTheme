@@ -40,12 +40,12 @@ change_alacritty(){
   case "$esc" in
     "${ops[0]}") 
       cd $alacritty_path
-      cp "macchiato.toml" "theme.toml"
+      cp "./themes/macchiato.toml" "theme.toml"
     ;;
     
     "${ops[1]}") 
       cd $alacritty_path
-      cp "ayudark.toml" "theme.toml"
+      cp "./themes/ayudark.toml" "theme.toml"
     ;;
   esac
 }

@@ -1,0 +1,15 @@
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key = "k"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key = "j"
+mods = "Control|Shift"
+
