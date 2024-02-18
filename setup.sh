@@ -28,6 +28,7 @@ ln -s $CURRENT_DIR/.tmux.conf  $HOME/.tmux.conf
 ln -s $CURRENT_DIR/.xinitrc  $HOME/.xinitrc
 ln -s $CURRENT_DIR/wallpapers $HOME/img/wallpapers
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
+ln -s $CURRENT_DIR/.config/alacritty  $HOME/.config/alacritty
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
 ln -s $CURRENT_DIR/.local/bin/scripts $HOME/.local/bin/scripts
 ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim

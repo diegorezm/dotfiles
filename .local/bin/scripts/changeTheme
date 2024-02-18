@@ -35,6 +35,21 @@ change_qtile () {
   qtile cmd-obj -o cmd -f reload_config
 }
 
+change_alacritty(){
+  alacritty_path="$HOME/.config/alacritty" 
+  case "$esc" in
+    "${ops[0]}") 
+      cd $alacritty_path
+      cp "macchiato.toml" "theme.toml"
+    ;;
+    
+    "${ops[1]}") 
+      cd $alacritty_path
+      cp "ayudark.toml" "theme.toml"
+    ;;
+  esac
+}
+
 change_kitty () {
   kitty_path="$HOME/.config/kitty/"
 
@@ -87,4 +102,4 @@ change_xresources(){
   xrdb -merge ~/.config/Xresources/Xresources 
 }
 
-change_kitty && change_qtile && change_neovim && change_xresources
+change_kitty && change_qtile && change_neovim && change_xresources && change_alacritty

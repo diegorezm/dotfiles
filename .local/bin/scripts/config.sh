@@ -27,7 +27,7 @@ case "${esc#* }" in
                 esc="$HOME/.config/nvim/"
         ;;
         alacritty)
-                esc="$HOME/.config/alacritty/alacritty.yml"
+                esc="$HOME/.config/alacritty"
         ;;
         rofi)
                 esc="$HOME/.local/share/rofi/"
