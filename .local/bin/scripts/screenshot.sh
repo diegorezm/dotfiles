@@ -1,5 +1,10 @@
 #!/bin/bash 
 
+
+if [[ ! -d '~/img/prints' ]]; then
+  mkdir ~/img/prints
+fi
+
 declare option=("  Fullscreen
   Cropped
 󰃢  Clean")
