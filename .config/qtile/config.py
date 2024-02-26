@@ -16,6 +16,7 @@ colors = colors_json
 #   DEFINE VARIABLES
 mod = "mod4"
 terminal = os.getenv("TERMINAL")
+terminal = "alacritty" if terminal is None else terminal
 home = os.path.expanduser('~')
 scripts_dir = os.getenv("SCRIPTS_DIR") or os.path.join(home, "/.local/bin/scripts")
 nav = os.getenv("BROWSER")
