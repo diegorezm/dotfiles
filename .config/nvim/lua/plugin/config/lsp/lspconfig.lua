@@ -146,7 +146,11 @@ lspconfig["clangd"].setup({
   filetypes = {"c","cpp"},
 })
 
-
+lspconfig["gopls"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = {"go"},
+})
 
 lspconfig["lua_ls"].setup({
   capabilities = capabilities,

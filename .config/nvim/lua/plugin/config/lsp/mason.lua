@@ -38,3 +38,5 @@ mason_tool_installer.setup({
     "eslint_d",
   },
 })
+local python_path = vim.fn.expand('$HOME') .. '/local/share/nvim/mason/packages/black/venv/bin/black'
+vim.g.python3_host_prog = python_path
