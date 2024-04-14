@@ -103,23 +103,28 @@ lspconfig["cssls"].setup({
 lspconfig["rust_analyzer"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  cmd = { "rust-analyzer" },
+  filetypes = { "rust" },
   settings = {
     ["rust-analyzer"] = {
-      imports = {
-        granularity = {
-          group = "module",
-        },
-        prefix = "self",
+      assist = {
+        importEnforceGranularity = true,
+        importPrefix = "crate"
       },
       cargo = {
-        buildScripts = {
-          enable = true,
-        },
+        allFeatures = true
       },
-      procMacro = {
-        enable = true
+      checkOnSave = {
+        -- default: `cargo check`
+        command = "clippy"
       },
-    }
+    },
+    inlayHints = {
+      lifetimeElisionHints = {
+        enable = true,
+        useParameterNames = true
+      },
+    },
   }
 })
 
@@ -143,13 +148,19 @@ lspconfig["emmet_ls"].setup({
 lspconfig["clangd"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  filetypes = {"c","cpp"},
+  filetypes = { "c", "cpp" },
+})
+
+lspconfig["phpactor"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = { "php" },
 })
 
 lspconfig["gopls"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
-  filetypes = {"go"},
+  filetypes = { "go" },
 })
 
 lspconfig["lua_ls"].setup({

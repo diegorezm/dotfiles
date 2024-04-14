@@ -8,6 +8,10 @@ fi
 
 lxsession & 
 redshift -l -22.905843:-47.052617 &
+xset r rate 300 50 &
 xrdb -merge ~/.config/Xresources/Xresources &
-
-exec qtile start
+export _JAVA_AWT_WM_NONREPARENTING=1
+export AWT_TOOLKIT=MToolkit
+wmname LG3D
+# exec qtile start
+exec dwm

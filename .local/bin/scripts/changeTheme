@@ -102,4 +102,4 @@ change_xresources(){
   xrdb -merge ~/.config/Xresources/Xresources 
 }
 
-change_kitty && change_qtile && change_neovim && change_xresources && change_alacritty
+change_kitty && change_neovim && change_xresources && change_alacritty

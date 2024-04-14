@@ -2,6 +2,7 @@
 basename="${1%.*}"
 case "${*}" in
   *.py) python3 "$basename".py;;
+  *.sh) bash "$basename".sh;;
   *.html) $BROWSER "$basename".html;;
   *.pdf | *.tex)  zathura "$basename".pdf;;
   *.js) node "$basename".js;;
