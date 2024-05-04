@@ -54,13 +54,12 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- configure html server
 lspconfig["html"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  filetypes = { "html" },
 })
 
--- configure typescript server with plugin
 lspconfig["tsserver"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
@@ -131,6 +130,7 @@ lspconfig["rust_analyzer"].setup({
 lspconfig["tailwindcss"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  filetypes = { "html", "typescriptreact", "javascriptreact", "svelte" },
 })
 
 lspconfig["svelte"].setup({
