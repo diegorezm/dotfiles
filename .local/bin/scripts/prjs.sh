@@ -4,6 +4,6 @@ pjrs=$(tmux ls | awk '{print $1}' | sed 's/:/''/g' | dmenu -p "Choose one: " -l 
 if [[ -z $pjrs ]]; then
   exit 
 else
-  kitty -e tmux a -t $es
+  $TERMINAL -e tmux a -t $pjrs
 fi
 
