@@ -51,5 +51,9 @@
     "svelte.enable-ts-plugin": true,
     "window.menuBarVisibility": "toggle",
     "symbols.hidesExplorerArrows": false,
-    "vim.smartRelativeLine": true
+    "vim.smartRelativeLine": true,
+    "[vue]": {
+        "editor.defaultFormatter": "Vue.volar"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always"
 }
