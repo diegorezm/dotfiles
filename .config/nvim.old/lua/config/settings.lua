@@ -15,7 +15,6 @@ o.tabstop = 2
 o.shiftwidth = 0
 o.softtabstop = -1 -- If negative, shiftwidth value is used
 
-o.noswapfile = true
 o.backup = false
 o.undodir = os.getenv("HOME") .. "/.cache/undodir"
 o.undofile = true

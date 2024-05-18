@@ -72,13 +72,13 @@ change_kitty () {
 change_neovim () {
   case "$esc" in
     "${ops[0]}") 
-        echo 'vim.cmd.colorscheme "catppuccin-macchiato"' > "$HOME/.config/nvim/lua/plugin/config/colorscheme.lua"
+        echo 'vim.cmd.colorscheme "catppuccin-macchiato"' > "$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
       ;;
     "${ops[1]}") 
-        echo 'vim.cmd.colorscheme "ayu-dark"' > "$HOME/.config/nvim/lua/plugin/config/colorscheme.lua"
+        echo 'vim.cmd.colorscheme "ayu-dark"' > "$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
       ;;
-    "${ops[2]}") 
-        echo 'vim.cmd.colorscheme "gruvbox"' > "$HOME/.config/nvim/lua/plugin/config/colorscheme.lua"
+    "${ops[2]}")
+        echo 'vim.cmd.colorscheme "gruvbox"' > "$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
       ;;
   esac
 }
