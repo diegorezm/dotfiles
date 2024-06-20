@@ -5,10 +5,17 @@
     "editor.lineHeight": 1.6,
     "editor.tabSize": 2,
     "window.zoomLevel": 1,
-    "editor.rulers": [80,120],
+    "editor.rulers": [
+        80,
+        120
+    ],
     "editor.renderLineHighlight": "gutter",
     "workbench.startupEditor": "newUntitledFile",
     "workbench.editor.labelFormat": "short",
+    "tailwindCSS.includeLanguages": {
+        "astro": "astro"
+    },
+    "editor.formatOnSave": true,
     "editor.semanticHighlighting.enabled": false,
     "breadcrumbs.enabled": false,
     "workbench.activityBar.location": "hidden",
@@ -21,7 +28,7 @@
     "terminal.integrated.fontSize": 16,
     "explorer.fileNesting.patterns": {
         "Cargo.toml": "Cargo.lock",
-        "package.json": ".eslint*, prettier*,tsconfig*, vite*, next*, package-lock*",
+        "package.json": ".eslint*,eslint*, prettier*,.prettierrc*,tsconfig*, vite*, next*, package-lock*",
         "tailwind.config.js": "tailwind.config*, postcss.config*",
         "tailwind.config.ts": "tailwind.config*, postcss.config*"
     },
@@ -31,7 +38,7 @@
     },
     "emmet.includeLanguages": {
         "javascript": "javascriptreact",
-        "typescript":"typescriptreact"
+        "typescript": "typescriptreact"
     },
     "editor.acceptSuggestionOnCommitCharacter": false,
     "explorer.compactFolders": false,
@@ -43,7 +50,6 @@
         "javascript",
         "typescript",
         "svelte"
-
     ],
     "workbench.iconTheme": "symbols",
     "workbench.colorTheme": "Min Dark",
@@ -55,5 +61,8 @@
     "[vue]": {
         "editor.defaultFormatter": "Vue.volar"
     },
-    "typescript.updateImportsOnFileMove.enabled": "always"
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "redhat.telemetry.enabled": false,
+    "workbench.editor.enablePreview": false,
+    "git.openRepositoryInParentFolders": "never"
 }
