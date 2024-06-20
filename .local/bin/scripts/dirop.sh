@@ -29,7 +29,6 @@ case "${esc#* }" in
         ;;
         code)
               dir=$(ls "$HOME/docs/code" | dmenu -p "Choose one:")
-              echo $dir
               esc="$HOME/docs/code/$dir"
         ;;
         music)
