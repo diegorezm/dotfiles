@@ -38,3 +38,4 @@ ln -s $CURRENT_DIR/.config/ncmpcpp  $HOME/.config/ncmpcpp
 ln -s $CURRENT_DIR/.config/zathura  $HOME/.config/zathura
 ln -s $CURRENT_DIR/.config/dunst  $HOME/.config/dunst
 ln -s $CURRENT_DIR/.config/settings.json  $HOME/.config/Code/User/settings.json
+ln -s $CURRENT_DIR/.config/yazi  $HOME/.config/yazi
