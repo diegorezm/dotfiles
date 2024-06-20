@@ -1,1 +1,1 @@
-require('diegorezm')
+require("diegorezm")
