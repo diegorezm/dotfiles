@@ -11,8 +11,6 @@ return {
 
 		local mason_lspconfig = require("mason-lspconfig")
 
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
 		local keymap = vim.keymap
 
 		vim.api.nvim_create_autocmd("LspAttach", {
@@ -88,6 +86,11 @@ return {
 		mason_lspconfig.setup_handlers({
 			function(server_name)
 				lspconfig[server_name].setup({
+					capabilities = capabilities,
+				})
+			end,
+			["eslint"] = function()
+				lspconfig["eslint"].setup({
 					capabilities = capabilities,
 				})
 			end,
