@@ -1,5 +1,5 @@
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
- exec startx
+  exec startx
 fi
 
 #       General conf
@@ -53,15 +53,15 @@ preexec() { echo -ne '\e[5 q' ;}
 
 #       alias
 alias ap="sudo pacman -S"
-alias p="sudo pacmna -Sy"
+alias p="sudo pacman -Sy"
+alias rp="sudo pacman -Rcs"
+alias aps="pacman -Ss"
+alias pu="sudo pacman -Syu"
 alias android="aft-mtp-mount $HOME/docs/pendrive"
 alias ssh-conn="ssh diego@192.168.10.2"
 alias create_venv="pyenv exec python -m venv .venv && source .venv/bin/activate"
-alias rp="sudo pacman -Rcs"
-alias pu="sudo pacman -Syu"
-alias aps="pacman -Ss"
-alias zathura="devour zathura"
-alias mpv="devour mpv"
+alias zathura="zathura"
+alias mpv="mpv"
 alias grep="grep --color=auto"
 alias vf="vifm"
 alias sxiv="sxiv -b"
@@ -82,6 +82,7 @@ alias dcompile="sudo make clean install"
 alias commit="git commit -m"
 alias push="git push origin"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
+alias code="zeditor"
 
 #       autocompletion
 autoload -U compinit
@@ -134,8 +135,17 @@ NPM_PACKAGES="${HOME}/.local/pkg/"
 export PATH="$PATH:$NPM_PACKAGES/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin/scripts/"
+export PATH="$PATH:$HOME/go/bin/"
+PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# bun completions
+[ -s "/home/diego/.bun/_bun" ] && source "/home/diego/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

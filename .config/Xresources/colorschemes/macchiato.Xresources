@@ -36,5 +36,5 @@
 
 #define  bg_dmenu       #24273A
 #define  fg_dmenu       #CAD3F5
-#define  bg_sel_dmenu   #EED49F
-#define fg_sel_dmenu    #24273A  
+#define  bg_sel_dmenu   #F5BDE6
+#define  fg_sel_dmenu   #24273A  

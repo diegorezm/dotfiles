@@ -30,12 +30,14 @@ edit = [
 ]
 open = [
 	{ run = 'xdg-open "$@"',                desc = "Open", for = "linux" },
-	{ run = 'open "$@"',                    desc = "Open", for = "macos" },
-	{ run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" }
 ]
 
 img = [
   {run = 'sxiv "$@"', desc = "Open image"}
+]
+
+term = [
+{ run = '$TERMINAL -e "$@"', desc = "Open with terminal"}
 ]
 
 reveal = [

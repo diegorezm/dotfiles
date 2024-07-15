@@ -6,6 +6,21 @@ return {
 		"windwp/nvim-ts-autotag",
 	},
 	config = function()
+		local parser_config = require("nvim-treesitter.parsers")
+		parser_config.blade = {
+			install_info = {
+				url = "https://github.com/EmranMR/tree-sitter-blade",
+				files = {
+					"src/parser.c",
+					-- 'src/scanner.cc',
+				},
+				branch = "main",
+				generate_requires_npm = true,
+				requires_generate_from_grammar = true,
+			},
+			filetype = "blade",
+		}
+
 		-- import nvim-treesitter plugin
 		local treesitter = require("nvim-treesitter.configs")
 

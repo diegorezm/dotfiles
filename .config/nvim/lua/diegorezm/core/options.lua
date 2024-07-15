@@ -6,21 +6,21 @@ o.relativenumber = true
 o.number = true
 
 -- tabs & indentation
-o.tabstop = 2 
-o.shiftwidth = 2 
-o.expandtab = true 
-o.autoindent = true 
+o.tabstop = 2
+o.shiftwidth = 2
+o.expandtab = true
+o.autoindent = true
 o.wrap = false
 
 -- search settings
-o.ignorecase = true 
-o.smartcase = true 
+o.ignorecase = true
+o.smartcase = true
 
 o.cursorline = true
 
 -- leader to space
-g.mapleader = ' '
-g.maplocalleader = ' '
+g.mapleader = " "
+g.maplocalleader = " "
 
 o.swapfile = false
 
@@ -32,4 +32,10 @@ o.background = "dark" -- colorschemes that can be light or dark will be made dar
 o.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 o.backspace = "indent,eol,start"
-o.clipboard = 'unnamedplus'
+o.clipboard = "unnamedplus"
+
+vim.filetype.add({
+	pattern = {
+		[".*%.blade%.php"] = "blade",
+	},
+})

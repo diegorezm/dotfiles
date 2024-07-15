@@ -47,4 +47,3 @@
 #define  fg_dmenu       #b3b1ad
 #define  bg_sel_dmenu   #ffd580
 #define fg_sel_dmenu    #0a0e14
-

@@ -49,16 +49,16 @@ git clone $DMENU
 git clone $DWM_BLOCKS
 
 # Build and install dwm
-cd dwm
-sudo make install
-cd ..
-
-# Build and install dwmblocks
-cd dwmblocks
-sudo make install
-cd ..
-
-# Build and install dmenu
-cd dmenu
-sudo make install
-cd ..
+# cd dwm
+# sudo make install
+# cd ..
+#
+# # Build and install dwmblocks
+# cd dwmblocks
+# sudo make install
+# cd ..
+#
+# # Build and install dmenu
+# cd dmenu
+# sudo make install
+# cd ..

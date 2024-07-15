@@ -94,6 +94,28 @@ return {
 					capabilities = capabilities,
 				})
 			end,
+			["tsserver"] = function()
+				lspconfig["tsserver"].setup({
+					init_options = {
+						plugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = "/home/diego/.local/lib/node_modules/@vue/typescript-plugin",
+								languages = { "javascript", "typescript", "vue" },
+							},
+						},
+					},
+					capabilities = capabilities,
+					filetypes = {
+						"javascript",
+						"typescript",
+						"javascriptreact",
+						"typescriptreact",
+						"vue",
+						"svelte",
+					},
+				})
+			end,
 			["svelte"] = function()
 				lspconfig["svelte"].setup({
 					capabilities = capabilities,
@@ -120,6 +142,23 @@ return {
 						"scss",
 						"less",
 						"svelte",
+						"blade",
+						"markdown",
+					},
+				})
+			end,
+			["intelephense"] = function()
+				lspconfig["intelephense"].setup({
+					capabilities = capabilities,
+					filetype = {
+						"php",
+						"blade",
+					},
+					settings = {
+						files = {
+							associations = { "*.php", "*.blade.php" },
+							maxSize = 5000000,
+						},
 					},
 				})
 			end,
