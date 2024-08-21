@@ -144,6 +144,8 @@ return {
 						"svelte",
 						"blade",
 						"markdown",
+						"astro",
+						"vue",
 					},
 				})
 			end,

@@ -82,7 +82,6 @@ alias dcompile="sudo make clean install"
 alias commit="git commit -m"
 alias push="git push origin"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
-alias code="zeditor"
 
 #       autocompletion
 autoload -U compinit
@@ -141,7 +140,7 @@ PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+# export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # bun completions
 [ -s "/home/diego/.bun/_bun" ] && source "/home/diego/.bun/_bun"
@@ -149,3 +148,7 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

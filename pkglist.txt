@@ -1,9 +1,6 @@
 alacritty
-alsa-tools
-alsa-utils
 amd-ucode
 android-file-transfer
-appimagetool-bin
 appmenu-gtk-module
 arandr
 arc-solid-gtk-theme
@@ -50,8 +47,6 @@ pavucontrol
 pcmanfm
 php
 php-pgsql
-playerctl
-pulseaudio
 pyenv
 redshift
 ripgrep

@@ -6,3 +6,4 @@ export TERMINAL="kitty"
 export BROWSER="firefox"
 export READER="zathura"
 export SCRIPTS_DIR=$HOME/.local/bin/scripts/
+export npm_config_prefix="$HOME/.local"

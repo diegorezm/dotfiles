@@ -1,18 +1,19 @@
 icon_theme = Papirus
 enable_recursive_icon_lookup = true
+
 [global]
-frame_color = "#8AADF4"
+frame_color = "#89b4fa"
 separator_color= frame
 
 [urgency_low]
-background = "#24273A"
-foreground = "#CAD3F5"
+background = "#1e1e2e"
+foreground = "#cdd6f4"
 
 [urgency_normal]
-background = "#24273A"
-foreground = "#CAD3F5"
+background = "#1e1e2e"
+foreground = "#cdd6f4"
 
 [urgency_critical]
-background = "#24273A"
-foreground = "#CAD3F5"
-frame_color = "#F5A97F"
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+frame_color = "#fab387"

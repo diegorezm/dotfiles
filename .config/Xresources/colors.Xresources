@@ -1,40 +1,46 @@
-*background: #24273A
-*foreground: #CAD3F5
+*.foreground:  #d6dbe5
+*.background:  #131313
+*.cursorColor: #b9b9b9
+!
+! Black
+*.color0:      #1f1f1f
+*.color8:      #d6dbe5
+!
+! Red
+*.color1:      #f81118
+*.color9:      #de352e
+!
+! Green
+*.color2:      #2dc55e
+*.color10:     #1dd361
+!
+! Yellow
+*.color3:      #ecba0f
+*.color11:     #f3bd09
+!
+! Blue
+*.color4:      #2a84d2
+*.color12:     #1081d6
+!
+! Magenta
+*.color5:      #4e5ab7
+*.color13:     #5350b9
+!
+! Cyan
+*.color6:      #1081d6
+*.color14:     #0f7ddb
+!
+! White
+*.color7:      #d6dbe5
+*.color15:     #ffffff
+!
+! Bold, Italic, Underline
+*.colorBD:     #d6dbe5
+!*.colorIT:
+!*.colorUL:
 
-! black
-*color0: #494D64
-*color8: #6e6c7e
 
-! red
-*color1: #ED8796
-*color9: #ee99a0
-
-! green
-*color2: #A6DA95
-*color10: #8bd5ca
-
-! yellow
-*color3: #EED49F
-*color11: #EED49F
-
-! blue
-*color4: #8AADF4
-*color12: #8AADF4
-
-! magenta
-*color5: #F5BDE6
-*color13: #F5BDE6
-
-! cyan
-*color6: #8BD5CA
-*color14: #8BD5CA
-
-! white
-*color7: #B8C0E0
-*color15: #A5ADCB
-
-
-#define  bg_dmenu       #24273A
-#define  fg_dmenu       #CAD3F5
-#define  bg_sel_dmenu   #F5BDE6
-#define  fg_sel_dmenu   #24273A  
+#define  bg_dmenu       #131313
+#define  fg_dmenu       #d6dbe5
+#define  bg_sel_dmenu   #d6dbe5
+#define  fg_sel_dmenu   #131313
