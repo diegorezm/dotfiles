@@ -42,5 +42,6 @@
 
 #define  bg_dmenu       #131313
 #define  fg_dmenu       #d6dbe5
-#define  bg_sel_dmenu   #d6dbe5
+#define  bg_sel_dmenu  #d6dbe5
 #define  fg_sel_dmenu   #131313
+
