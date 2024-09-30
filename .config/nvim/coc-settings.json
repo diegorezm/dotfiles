@@ -1,0 +1,12 @@
+{
+  "typescript.preferences.quoteStyle": "double",
+  "typescript.suggest.autoImports": true,
+  "typescript.autoClosingTags": true,
+  "typescript.format.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.format.enable": false,
+  "eslint.codeActionsOnSave.rules": [
+    "all"
+  ],
+  "coc.preferences.formatOnSave": true
+}

@@ -17,6 +17,11 @@ return {
 		})
 
 		telescope.setup({
+			pickers = {
+				find_files = {
+					theme = "dropdown",
+				},
+			},
 			defaults = {
 				path_display = { "smart" },
 				mappings = {
