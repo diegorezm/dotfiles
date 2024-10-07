@@ -29,13 +29,13 @@ o.splitbelow = true -- split horizontal window to the bottom
 
 o.termguicolors = true
 o.background = "dark" -- colorschemes that can be light or dark will be made dark
-o.signcolumn = "yes" -- show sign column so that text doesn't shift
+o.signcolumn = "yes"  -- show sign column so that text doesn't shift
 
 o.backspace = "indent,eol,start"
 o.clipboard = "unnamedplus"
 
 vim.filetype.add({
-	pattern = {
-		[".*%.blade%.php"] = "blade",
-	},
+  pattern = {
+    [".*%.blade%.php"] = "blade",
+  },
 })
