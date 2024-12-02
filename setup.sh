@@ -24,6 +24,15 @@ if [[ ! -d $HOME/img ]]; then
   mkdir $HOME/img/
 fi
 
+# install yay
+if [[ ! -d $HOME/.local/pkg ]];then
+  mkdir $HOME/.local/pkg
+fi
+
+git clone https://aur.archlinux.org/yay-bin.git $HOME/.local/pkg/yay-bin
+cd $HOME/.local/pkg/yay-bin
+makepkg -si
+
 # Create syslinks
 ln -s $CURRENT_DIR/.zshrc  $HOME/.zshrc
 ln -s $CURRENT_DIR/.zprofile  $HOME/.zprofile
