@@ -2,10 +2,14 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
   exec startx
 fi
 
+
 #       General conf
 $SCRIPTS_DIR/ufetch
 stty stop undef
 autoload -U colors && colors
+
+#       Reminder
+reminder-cli list notifications
 
 #       Editor config
 export EDITOR=/bin/nvim
@@ -27,9 +31,18 @@ unsetopt correct_all
 
 
 #        PROMPT
-PROMPT=" %(?.%F{154}√.%F{160}? %?)%f %B%F{213}  %0~%f%b%F{154} > "
+#
+# Load vcs (version control system)
+autoload -Uz vcs_info
+precmd() { vcs_info }
+# show the branch
+zstyle ':vcs_info:git:*' formats '%b '
+setopt PROMPT_SUBST
+# PROMPT='%F{green}%T%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+PROMPT=' %F{green}%~%f %F{red}${vcs_info_msg_0_}%f$ '
 
 export KEYTIMEOUT=1
+
 #       Show vim mode
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
@@ -69,7 +82,7 @@ alias genpsw="head -c 16 /dev/random | od -A n -t x1 | sed 's/[[:space:]]//g'"
 alias xd="xrdb -merge $HOME/.config/Xresources"
 alias n="nvim"
 alias ms="ncmpcpp"
-alias fmrecord="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast output.mp4"
+alias fmrecord="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="yt-dlp --add-metadata -x -i -f bestaudio"
 alias yt-video="yt-dlp --add-metadata -i -f best/video"
@@ -77,11 +90,22 @@ alias l="exa -al --color=always --group-directories-first"
 alias ls="exa -a --color=always --group-directories-first"
 alias sl="exa -a --color=always --group-directories-first"
 alias cp="cp -i"
-alias live-server="live-server --browser=$BROWSER"
 alias dcompile="sudo make clean install"
-alias commit="git commit -m"
-alias push="git push origin"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
+
+#       laravel alias
+alias a="php artisan"
+alias mfs="php artisan migrate:fresh --seed"
+
+#       git alias
+alias g="git"
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+alias gac="git add . && git commit -m"
+alias gp="git push"
+alias gl="git pull"
+alias wip="git add . && git commit -m 'wip'"
 
 #       autocompletion
 autoload -U compinit
@@ -152,3 +176,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+# pnpm
+export PNPM_HOME="/home/diego/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

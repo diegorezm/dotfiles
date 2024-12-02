@@ -11,5 +11,14 @@
   "coc.preferences.formatOnSave": true,
   "Lua.diagnostics.globals": [
     "vim"
-  ]
+  ],
+  "emmet.includeLanguages": {
+    "vue-html": "html",
+    "astro": "html",
+    "markdown": "html",
+  },
+  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
+  "java.jdt.ls.lombokSupport.enabled": true,
+  "java.jdt.ls.vmargs": "-javaagent:'/home/diego/.local/lib/lombok.jar'",
+  "java.trace.server": "verbose"
 }

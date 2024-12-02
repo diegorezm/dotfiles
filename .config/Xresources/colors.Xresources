@@ -1,47 +1,40 @@
-*.foreground:  #d6dbe5
-*.background:  #131313
-*.cursorColor: #b9b9b9
-!
-! Black
-*.color0:      #1f1f1f
-*.color8:      #d6dbe5
-!
-! Red
-*.color1:      #f81118
-*.color9:      #de352e
-!
-! Green
-*.color2:      #2dc55e
-*.color10:     #1dd361
-!
-! Yellow
-*.color3:      #ecba0f
-*.color11:     #f3bd09
-!
-! Blue
-*.color4:      #2a84d2
-*.color12:     #1081d6
-!
-! Magenta
-*.color5:      #4e5ab7
-*.color13:     #5350b9
-!
-! Cyan
-*.color6:      #1081d6
-*.color14:     #0f7ddb
-!
-! White
-*.color7:      #d6dbe5
-*.color15:     #ffffff
-!
-! Bold, Italic, Underline
-*.colorBD:     #d6dbe5
-!*.colorIT:
-!*.colorUL:
+*background: #1e1e2e
+*foreground: #cdd6f4
+*cursorColor: #f5e0dc
 
+! black
+*color0: #45475a
+*color8: #585b70
 
-#define  bg_dmenu       #131313
-#define  fg_dmenu       #d6dbe5
-#define  bg_sel_dmenu  #d6dbe5
-#define  fg_sel_dmenu   #131313
+! red
+*color1: #f38ba8
+*color9: #f38ba8
 
+! green
+*color2: #a6e3a1
+*color10: #a6e3a1
+
+! yellow
+*color3: #f9e2af
+*color11: #f9e2af
+
+! blue
+*color4: #89b4fa
+*color12: #89b4fa
+
+! magenta
+*color5: #f5c2e7
+*color13: #f5c2e7
+
+! cyan
+*color6: #94e2d5
+*color14: #94e2d5
+
+! white
+*color7: #bac2de
+*color15: #a6adc8
+
+#define  bg_dmenu       #1e1e2e
+#define  fg_dmenu       #cdd6f4
+#define  bg_sel_dmenu   #cba6f7
+#define fg_sel_dmenu    #45475a

@@ -1,1 +1,2 @@
-vim.cmd.colorscheme("cyberdream")
+vim.o.background = "dark"
+vim.cmd.colorscheme("catppuccin-mocha")

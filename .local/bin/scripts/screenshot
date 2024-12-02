@@ -1,27 +1,33 @@
 #!/bin/bash 
 
-
-if [[ ! -d '~/img/prints' ]]; then
-  mkdir ~/img/prints
+# Create the directory if it doesn't exist
+if [[ ! -d ~/img/prints ]]; then
+  mkdir -p ~/img/prints
 fi
 
-declare option=("  Fullscreen
-  Cropped
-󰃢  Clean")
+# Declare options for the menu
+declare -a option=("  Fullscreen" "  Cropped" "󰃢  Clean")
 
-esc=$(echo -e "${option[@]}" | dmenu -p 'Choose one:' | xargs)
+# Show the menu and capture the selection
+esc=$(printf "%s\n" "${option[@]}" | dmenu -p 'Choose one:' | xargs)
 
+# Process the selection
 case "${esc#* }" in
-        Fullscreen)
-                scrot 'FULLPRINT-%Y-%d_%M-%S.png' -e 'mv $f ~/img/prints/ && sxiv ~/img/prints/$f && xclip -selection clipboard -target image/png -i ~/img/prints/$f'
+    Fullscreen)
+        FILENAME=$(date '+FULLPRINT-%Y-%d_%M-%S.png')
+        import -window root "${HOME}/img/prints/${FILENAME}"
+        sxiv ~/img/prints/${FILENAME} && xclip -selection clipboard -target image/png -i ~/img/prints/${FILENAME}
         ;;
-        Cropped)
-                scrot -s 'CROPPRINT-%Y-%d_%M-%S.png' -e 'mv $f ~/img/prints/ && sxiv ~/img/prints/$f && xclip -selection clipboard -target image/png -i ~/img/prints/$f'
+    Cropped)
+        FILENAME=$(date '+CROPPRINT-%Y-%d_%M-%S.png')
+        import -crop 1920x1080+0+0 "${HOME}/img/prints/${FILENAME}"
+        sxiv ~/img/prints/${FILENAME} && xclip -selection clipboard -target image/png -i ~/img/prints/${FILENAME}
         ;;
-        Clean)
-                rm  ~/img/prints/*
+    Clean)
+        rm ~/img/prints/*
         ;;
-        *)
-                exit 0
+    *)
+        exit 0
         ;;
 esac
+
