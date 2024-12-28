@@ -28,8 +28,8 @@ case "${esc#* }" in
                 esc="$HOME/img"
         ;;
         code)
-              dir=$(ls "$HOME/docs/code" | dmenu -p "Choose one:")
-              esc="$HOME/docs/code/$dir"
+              dir=$(ls "$HOME/code" | dmenu -p "Choose one:")
+              esc="$HOME/code/$dir"
         ;;
         music)
                 esc="$HOME/msc"

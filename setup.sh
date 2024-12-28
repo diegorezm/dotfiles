@@ -49,8 +49,11 @@ ln -s $CURRENT_DIR/.config/mpd  $HOME/.config/mpd
 ln -s $CURRENT_DIR/.config/ncmpcpp  $HOME/.config/ncmpcpp
 ln -s $CURRENT_DIR/.config/zathura  $HOME/.config/zathura
 ln -s $CURRENT_DIR/.config/dunst  $HOME/.config/dunst
-ln -s $CURRENT_DIR/.config/settings.json  $HOME/.config/Code/User/settings.json
 ln -s $CURRENT_DIR/.config/yazi  $HOME/.config/yazi
+ln -s $CURRENT_DIR/.config/kitty  $HOME/.config/kitty
+ln -s $CURRENT_DIR/.config/Xresources  $HOME/.config/Xresources
+ln -s $CURRENT_DIR/.config/xmonad  $HOME/.config/xmonad
+ln -s $CURRENT_DIR/.config/xmobar  $HOME/.config/xmobar
 
 cd $HOME/.config/
 git clone $DWM

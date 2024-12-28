@@ -9,7 +9,7 @@ stty stop undef
 autoload -U colors && colors
 
 #       Reminder
-reminder-cli list notifications
+# reminder-cli list notifications
 
 #       Editor config
 export EDITOR=/bin/nvim
@@ -173,14 +173,11 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-
-# Load Angular CLI autocompletion.
-source <(ng completion script)
-
 # pnpm
 export PNPM_HOME="/home/diego/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+
 # pnpm end
