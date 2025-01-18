@@ -83,6 +83,7 @@ alias xd="xrdb -merge $HOME/.config/Xresources"
 alias n="nvim"
 alias ms="ncmpcpp"
 alias fmrecord="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast"
+alias fmrecordsm="ffmpeg -video_size 1366x768 -framerate 30 -f x11grab -i :0.0+204,1080 -c:v libx264 -preset ultrafast"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="yt-dlp --add-metadata -x -i -f bestaudio"
 alias yt-video="yt-dlp --add-metadata -i -f best/video"
@@ -123,8 +124,7 @@ bindkey -v
 [[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"     forward-char
 bindkey '^R' history-incremental-search-backward
 
-
-bindkey -s '^f' 'nvim $(find ~/.local/bin/ ~/docs/code/ -type f | fzf)\n'
+bindkey -s '^f' 'cd $(find ~/.local/bin/ ~/code/ -type d -not -path "*/node_modules/*" -not -path "*/vendor/*" -not -path "*/.git/*" | fzf)\n'
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
@@ -156,6 +156,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 NPM_PACKAGES="${HOME}/.local/pkg/"
 export PATH="$PATH:$NPM_PACKAGES/bin"
+export PATH="$PATH:$HOME/.fly/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin/scripts/"
 export PATH="$PATH:$HOME/go/bin/"
@@ -181,3 +182,7 @@ case ":$PATH:" in
 esac
 
 # pnpm end
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

@@ -2,7 +2,7 @@
 
 declare options=("⏻ Shutdown
  Reboot
- Lock")
+ Suspend")
 
 chs=$(echo -e "${options[@]}" | dmenu -p "What do you want to do?")
 case "${chs#* }" in 
@@ -12,8 +12,8 @@ case "${chs#* }" in
         Reboot)
                 reboot
         ;;
-        Lock)
-                screenlock -w
+        Suspend)
+                systemctl suspend
         ;;
         *)
                 exit 0

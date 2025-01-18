@@ -5,6 +5,7 @@
   "typescript.format.enable": true,
   "eslint.autoFixOnSave": true,
   "eslint.format.enable": false,
+  "tailwindCSS.headwind.runOnSave": true,
   "eslint.codeActionsOnSave.rules": [
     "all"
   ],

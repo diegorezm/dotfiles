@@ -4,6 +4,7 @@
 import Colors.Dracula
 import Data.Char (toUpper)
 import Data.Map qualified as M
+import Data.Maybe (fromJust)
 import XMonad
 import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.CycleWS
@@ -75,7 +76,7 @@ myKeys c =
           [ ("M-<Return>", addName "Spawn terminal" $ spawn "$TERMINAL"),
             ("M-w", addName "Spawn browser" $ spawn "$BROWSER"),
             ("M-d", addName "Run dmenu" $ spawn "dmenu_run"),
-            ("<F2>", addName "Launch wallpapercl" $ spawn "$TERMINAL -e wallpapercl")
+            ("M-<F2>", addName "Launch wallpapercl" $ spawn "$TERMINAL -e wallpapercl")
           ]
         ^++^ subKeys
           "Scratch Pads"
@@ -87,7 +88,7 @@ myKeys c =
           "Scripts"
           [ ("M-c", addName "Configs dmenu script" $ spawn "$HOME/.local/bin/scripts/config_quick_search"),
             ("M-z", addName "Directories dmenu script" $ spawn "$HOME/.local/bin/scripts/dir_quick_search"),
-            ("<F1>", addName "Power dmenu script" $ spawn "$HOME/.local/bin/scripts/power_ctl")
+            ("M-<F1>", addName "Power dmenu script" $ spawn "$HOME/.local/bin/scripts/power_ctl")
           ]
         ^++^ subKeys
           "Window Navigation"
@@ -138,7 +139,9 @@ myManageHook =
       className =? "dialog" --> doFloat,
       className =? "download" --> doFloat,
       className =? "error" --> doFloat,
-      className =? "discord" --> doShift "9",
+      className =? "Sxiv" --> doFloat,
+      className =? "discord" --> doShift (myWorkspaces !! 8),
+      className =? "Spotify" --> doShift (myWorkspaces !! 7),
       isDialog --> doFloat,
       isFullscreen --> doFullFloat
     ]
@@ -147,6 +150,15 @@ myManageHook =
 -- Layouts
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
+
+-- workspace
+myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
+
+myWorkspaceIndices = M.fromList $ zip myWorkspaces [1 ..] -- (,) == \x y -> (x,y)
+
+clickable ws = "<action=xdotool key super+" ++ show i ++ ">" ++ ws ++ "</action>"
+  where
+    i = fromJust $ M.lookup ws myWorkspaceIndices
 
 myLayoutHook =
   avoidStruts
@@ -167,7 +179,7 @@ myLayoutHook =
             windowNavigation $
               addTabs shrinkText myTabTheme $
                 subLayout [] (smartBorders Simplest) $
-                  mySpacing 1 $
+                  mySpacing 2 $
                     ResizableTall 1 (3 / 100) (1 / 2) []
 
     floats = renamed [Replace "float"] simplestFloat
@@ -202,8 +214,10 @@ myShowWNameTheme =
     }
 
 -- Autostart programs
-myStartupHook =
+myStartupHook :: X ()
+myStartupHook = do
   spawn "firefox"
+  spawn "spotify-launcher"
 
 -- Scratchpads
 myDefaultScratchPadSize = customFloating $ W.RationalRect l t w h
@@ -228,13 +242,14 @@ main = do
     ewmh $
       docks $
         addDescrKeys
-          ((mod4Mask, xK_F1), xMessage)
+          ((mod4Mask, xK_F3), xMessage)
           myKeys
           def
             { modMask = mod4Mask,
               layoutHook = showWName' myShowWNameTheme myLayoutHook,
               terminal = "$TERMINAL",
               manageHook = myManageHook <+> manageDocks,
+              workspaces = myWorkspaces,
               startupHook = myStartupHook,
               borderWidth = myBorderWidth,
               normalBorderColor = myNormColor,
@@ -251,23 +266,22 @@ main = do
                             . wrap
                               ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">")
                               "</box>",
-                        ppVisible = xmobarColor color06 "",
+                        ppVisible = xmobarColor color06 "" . clickable,
                         -- Hidden workspace
                         ppHidden =
                           xmobarColor color05 ""
                             . wrap
                               ("<box type=Top width=2 mt=2 color=" ++ color05 ++ ">")
-                              "</box>",
+                              "</box>"
+                            . clickable,
                         -- Hidden workspaces (no windows)
-                        ppHiddenNoWindows = xmobarColor color05 "",
+                        ppHiddenNoWindows = xmobarColor color05 "" . clickable,
                         -- Title of active window
-                        ppTitle = xmobarColor color16 "" . shorten 60,
+                        ppTitle = xmobarColor color16 "" . shorten 30,
                         -- Separator character
                         ppSep = "<fc=" ++ color09 ++ "> <fn=1>|</fn> </fc>",
                         -- Urgent workspace
                         ppUrgent = xmobarColor color02 "" . wrap "!" "!",
-                        -- Adding # of windows on current workspace to the bar
-                        ppExtras = [windowCount],
                         -- order of things in xmobar
                         ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t]
                       }

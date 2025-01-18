@@ -2,6 +2,8 @@
 
 declare option=("󰀼  vifm
   alacritty
+\uf35e  xmonad
+  xmobar
 󰄛  kitty
   zsh
   dwm
@@ -20,6 +22,12 @@ fi
 case "${esc#* }" in
         vifm)
                 esc="$HOME/.config/vifm/vifmrc"
+        ;;
+      xmonad)
+                esc="$HOME/.config/xmonad"
+        ;;
+      xmobar)
+                esc="$HOME/.config/xmobar"
         ;;
         xresources)
                 esc="$HOME/.config/Xresources"
