@@ -1,5 +1,5 @@
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
+   exec startx
 fi
 
 
@@ -93,6 +93,7 @@ alias sl="exa -a --color=always --group-directories-first"
 alias cp="cp -i"
 alias dcompile="sudo make clean install"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
+alias rmt_server="/opt/urserver/urserver --daemon"
 
 #       laravel alias
 alias a="php artisan"
