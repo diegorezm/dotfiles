@@ -1,45 +1,47 @@
 return {
-	"nvim-telescope/telescope.nvim",
-	branch = "0.1.x",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-		"nvim-tree/nvim-web-devicons",
-		"kelly-lin/telescope-ag",
-	},
-	config = function()
-		local telescope = require("telescope")
-		local actions = require("telescope.actions")
-		local telescope_ag = require("telescope-ag")
+  {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.8',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
+    },
+    config = function()
+      local actions = require("telescope.actions")
 
-		telescope_ag.setup({
-			cmd = telescope_ag.cmds.rg,
-		})
+      require('telescope').setup {
+        pickers = {
+          find_files = {
+            theme = "dropdown"
+          }
+        },
+        extensions = {
+          fzf = {}
+        },
+        defaults = {
+          path_display = { "smart" },
+          mappings = {
+            i = {
+              ["<C-k>"] = actions.move_selection_previous, -- move to prev result
+              ["<C-j>"] = actions.move_selection_next, -- move to next result
+            },
+          },
+        },
+      }
+      require('telescope').load_extension('fzf')
 
-		telescope.setup({
-			pickers = {
-				find_files = {
-					theme = "dropdown",
-				},
-			},
-			defaults = {
-				path_display = { "smart" },
-				mappings = {
-					i = {
-						["<C-k>"] = actions.move_selection_previous, -- move to prev result
-						["<C-j>"] = actions.move_selection_next, -- move to next result
-					},
-				},
-			},
-		})
-
-		local keymap = vim.keymap
-		telescope.load_extension("fzf")
-		telescope.load_extension("ag")
-		keymap.set("n", "<leader>ff", ":Telescope find_files<CR>")
-		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
-		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
-		keymap.set("n", "<leader>ag", "<cmd>Ag .<cr>", { desc = "Use silver searcher" })
-	end,
+      vim.keymap.set("n", "<space>fh", require('telescope.builtin').help_tags)
+      vim.keymap.set("n", "<space>ff", require('telescope.builtin').find_files)
+      vim.keymap.set("n", "<space>en", function()
+        require('telescope.builtin').find_files {
+          cwd = vim.fn.stdpath("config")
+        }
+      end)
+      vim.keymap.set("n", "<space>ep", function()
+        require('telescope.builtin').find_files {
+          cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")
+        }
+      end)
+    end
+  }
 }

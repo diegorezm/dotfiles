@@ -1,3 +1,5 @@
 return {
-  "nvim-lua/plenary.nvim"
+	{ "catppuccin/nvim", name = "catppuccin" },
+	"nvim-lua/plenary.nvim",
+	"kdheepak/lazygit.nvim",
 }
