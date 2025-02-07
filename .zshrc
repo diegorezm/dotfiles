@@ -2,7 +2,6 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
    exec startx
 fi
 
-
 #       General conf
 $SCRIPTS_DIR/ufetch
 stty stop undef

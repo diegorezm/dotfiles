@@ -64,6 +64,7 @@ return {
 				html = {},
 				tailwindcss = {},
 				ts_ls = {},
+				astro = {},
 				jsonls = {},
 				gopls = {},
 				lua_ls = {
@@ -118,8 +119,23 @@ return {
 			local mason_lspconfig = require("mason-lspconfig")
 			mason_lspconfig.setup({
 				ensure_installed = vim.tbl_keys(servers),
+				automatic_installation = true,
 			})
-
+			require("lspconfig").emmet_language_server.setup({
+				filetypes = {
+					"css",
+					"eruby",
+					"html",
+					"javascript",
+					"javascriptreact",
+					"less",
+					"sass",
+					"scss",
+					"pug",
+					"typescriptreact",
+					"php",
+				},
+			})
 			mason_lspconfig.setup_handlers({
 				function(server_name)
 					require("lspconfig")[server_name].setup({

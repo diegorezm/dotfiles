@@ -1,9 +1,14 @@
-import = [
-  "~/.config/alacritty/theme.toml",
-  "~/.config/alacritty/config/keybinds.toml",
-  "~/.config/alacritty/config/fontconfig.toml"
-]
 
 [window]
 startup_mode = "Maximized"
 dynamic_title = true
+
+[env]
+TERM = "xterm-256color"
+
+[general]
+import = [
+  "~/.config/alacritty/themes/mocha.toml",
+  "~/.config/alacritty/config/keybinds.toml",
+  "~/.config/alacritty/config/fontconfig.toml"
+]
