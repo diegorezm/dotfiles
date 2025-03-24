@@ -1,26 +1,51 @@
 #!/bin/bash 
 
-# Create the directory if it doesn't exist
 if [[ ! -d ~/img/prints ]]; then
   mkdir -p ~/img/prints
 fi
 
-# Declare options for the menu
 declare -a option=("  Fullscreen" "  Cropped" "󰃢  Clean")
 
-# Show the menu and capture the selection
 esc=$(printf "%s\n" "${option[@]}" | dmenu -p 'Choose one:' | xargs)
 
-# Process the selection
+get_monitors() {
+  xrandr --listmonitors | awk '{print $4}'
+}
+
+get_geometry() {
+    local mon="$1"
+    is_primary=$(xrandr --query | grep "^$mon" | grep 'primary')
+    
+    if [ -n "$is_primary" ]; then 
+        xrandr --query | grep "^$mon " | awk '{print $4}'
+    else
+        xrandr --query | grep "^$mon " | awk '{print $3}'
+    fi
+}
+
+select_monitor() {
+    monitors=($(get_monitors))
+    
+    if [[ ${#monitors[@]} -eq 1 ]]; then
+        echo "${monitors[0]}"
+    else
+        printf "%s\n" "${monitors[@]}" | dmenu -p "Choose monitor:"
+    fi
+}
+
 case "${esc#* }" in
     Fullscreen)
         FILENAME=$(date '+FULLPRINT-%Y-%d_%M-%S.png')
-        import -window root "${HOME}/img/prints/${FILENAME}"
+
+        MONITOR=$(select_monitor)
+        GEOMETRY=$(get_geometry "$MONITOR")
+
+        maim -u -f "png" -g "$GEOMETRY" -o "${HOME}/img/prints/${FILENAME}"
         sxiv ~/img/prints/${FILENAME} && xclip -selection clipboard -target image/png -i ~/img/prints/${FILENAME}
         ;;
     Cropped)
         FILENAME=$(date '+CROPPRINT-%Y-%d_%M-%S.png')
-        import -crop 1920x1080+0+0 "${HOME}/img/prints/${FILENAME}"
+        maim -u -s -f "png" -o "${HOME}/img/prints/${FILENAME}"
         sxiv ~/img/prints/${FILENAME} && xclip -selection clipboard -target image/png -i ~/img/prints/${FILENAME}
         ;;
     Clean)
