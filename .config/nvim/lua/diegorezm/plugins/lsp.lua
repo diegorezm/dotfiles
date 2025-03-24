@@ -5,7 +5,8 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"saghen/blink.cmp",
+			"hrsh7th/nvim-cmp",
+			"hrsh7th/cmp-nvim-lsp",
 			{
 				"folke/lazydev.nvim",
 				opts = {
@@ -26,7 +27,9 @@ return {
 				},
 			})
 
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
 			require("lspconfig").lua_ls.setup({ capabilites = capabilities })
 
 			local servers = {
@@ -94,6 +97,7 @@ return {
 				nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 				nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 				nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+				nmap("<leader>da", vim.diagnostic.open_float, "[L]ine [D]iagnostic")
 				nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
 				nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
 				nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
