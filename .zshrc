@@ -2,6 +2,7 @@
 #   startxfce4 
 # fi
 
+source $HOME/.env
 #       General conf
 $SCRIPTS_DIR/ufetch
 stty stop undef
