@@ -34,7 +34,8 @@
 *color15: #A5ADCB
 
 
-#define  bg_dmenu       #24273A
-#define  fg_dmenu       #CAD3F5
-#define  bg_sel_dmenu   #F5BDE6
-#define  fg_sel_dmenu   #24273A  
+#define background #24273A
+#define foreground #CAD3F5
+#define primary #F5BDE6
+#define secondary #24273A
+#define subtext #B8C0E0

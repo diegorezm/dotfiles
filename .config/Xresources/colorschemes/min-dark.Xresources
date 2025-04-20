@@ -43,7 +43,8 @@
 *color15:      #FAFAFA
 
 
-#define  bg_dmenu       #212121
-#define  fg_dmenu       #c1c1c1
-#define  bg_sel_dmenu   #cd9731
-#define fg_sel_dmenu    #292929
+#define background #212121
+#define foreground #c1c1c1
+#define primary #cd9731
+#define secondary #292929
+#define subtext #c1c1c1

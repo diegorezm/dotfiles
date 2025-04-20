@@ -34,7 +34,8 @@
 *color7: #bac2de
 *color15: #a6adc8
 
-#define  bg_dmenu       #1e1e2e
-#define  fg_dmenu       #cdd6f4
-#define  bg_sel_dmenu   #f5c2e7
-#define fg_sel_dmenu    #45475a
+#define background #1e1e2e
+#define foreground #cdd6f4
+#define primary #f5c2e7
+#define secondary #45475a
+#define subtext #bac2de

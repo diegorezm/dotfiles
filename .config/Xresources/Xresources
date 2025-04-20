@@ -1,4 +1,4 @@
-#include "colors.Xresources"
+#include "./colorschemes/rose-pine.Xresources"
 
 ! urxvt
 URxvt*buffered: true
@@ -18,22 +18,27 @@ URxvt.matcher.button: 1
 
 ! sk
 dmenu.font:  xft:JetBrains Mono:size=12:antialias=true
-dmenu.background: bg_dmenu 
-dmenu.foreground: fg_dmenu 
-dmenu.selbackground: bg_sel_dmenu
-dmenu.selforeground: fg_sel_dmenu
+dmenu.background: background
+dmenu.foreground: foreground
+dmenu.selbackground: foreground
+dmenu.selforeground: background
 
 st.font:  JetBrains Mono:size=14:antialias=true:autohint=true
-st.background: bg_dmenu 
-st.foreground: fg_dmenu 
+st.background: background
+st.foreground: foreground
 
-! window border 
-dwm.normbordercolor: bg_dmenu
-dwm.selbordercolor: bg_sel_dmenu
+! window border
+dwm.normbordercolor: background
+dwm.selbordercolor: primary
 
 ! non active tag bg
-dwm.normbgcolor: bg_dmenu
-dwm.normfgcolor: fg_dmenu
+dwm.normbgcolor: background
+dwm.normfgcolor: foreground
 
-dwm.selbgcolor: bg_sel_dmenu
-dwm.selfgcolor: fg_sel_dmenu
+dwm.selbgcolor: primary
+dwm.selfgcolor: background
+
+wallpapercl.bg: background
+wallpapercl.fg: foreground
+wallpapercl.pr: primary
+wallpapercl.sb: subtext

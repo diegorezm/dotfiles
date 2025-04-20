@@ -28,9 +28,8 @@
 *color15: #ebdbb2
 
 
-#define  bg_dmenu       #282828
-#define  fg_dmenu       #ebdbb2
-#define  bg_sel_dmenu   #d79921
-#define fg_sel_dmenu    #282828
-
-
+#define background #282828
+#define foreground #ebdbb2
+#define primary #d79921
+#define secondary #282828
+#define subtext #a89984
