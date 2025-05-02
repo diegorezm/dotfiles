@@ -21,9 +21,16 @@ return {
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = lint_augroup,
 			callback = function()
-				lint.try_lint()
+				pcall(function()
+					lint.try_lint()
+				end)
 			end,
 		})
+
+		lint.linters.cspell = require("lint.util").wrap(lint.linters.cspell, function(diagnostic)
+			diagnostic.severity = vim.diagnostic.severity.HINT
+			return diagnostic
+		end)
 
 		vim.keymap.set("n", "<leader>l", function()
 			lint.try_lint()
