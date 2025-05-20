@@ -1,47 +1,90 @@
-Config { 
+Config {
+
 
    -- appearance
+
      font =         "JetBrains Mono 12"
+
     , additionalFonts = [ "Mononoki 11"
+
                            , "Font Awesome 6 Free 12"
+
                            , "Font Awesome 6 Brands 12"
+
                            ]
+
    , bgColor      = "#282a36"
+
    , fgColor      = "#f8f8f2"
+
     , position       = TopSize L 100 24
 
+
    -- layout
+
    , sepChar =  "%"   -- delineator between plugin names and straight text
+
    , alignSep = "}{"  -- separator between left-right alignment
+
   , template = " %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#8be9fd><fc=#8be9fd><action=`$TERMINAL -e sudo pacman -Syu`>%pacupdate%</action></fc></box>   <box type=Bottom width=2 mb=2 color=#ff6e67><fc=#ff6e67>%battery%</fc></box>  <box type=Bottom width=2 mb=2 color=#caa9fa><fc=#caa9fa>%date%</fc></box> "
 
+
    -- general behavior
+
    , lowerOnStart =     True    -- send to bottom of window stack on start
+
    , hideOnStart =      False   -- start with window unmapped (hidden)
+
    , allDesktops =      True    -- show on all desktops
+
    , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+
    , pickBroadest =     False   -- choose widest display (multi-monitor)
+
    , persistent =       True    -- enable/disable hiding (True = disabled)
 
+
    -- plugins
+
    --   Numbers can be automatically colored according to their value. xmobar
+
    --   decides color based on a three-tier/two-cutoff system, controlled by
+
    --   command options:
+
    --     --Low sets the low cutoff
+
    --     --High sets the high cutoff
+
    --
+
    --     --low sets the color below --Low cutoff
+
    --     --normal sets the color between --Low and --High cutoffs
+
    --     --High sets the color above --High cutoff
+
    --
+
    --   The --template option controls how the plugin is displayed. Text
+
    --   color can be set by enclosing in <fc></fc> tags. For more details
+
    --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
-   , commands = 
+
+   , commands =
+
         [ Run BatteryP ["BAT0"] ["-t", "<fn=2>\xf242</fn>  <left>%"] 360
+
         , Run Date "<fn=2>\xf017</fn> %H:%M" "date" 50
+
         , Run Com "echo" ["<fn=2>\xf0f3</fn>"] "bell" 3600
-        , Run Com ".local/bin/pacupdate.sh" [] "pacupdate" 36000
+
+        , Run Com ".local/bin/pacupdate" [] "pacupdate" 36000
+
         , Run UnsafeStdinReader
+
         ]
+
    }
+
