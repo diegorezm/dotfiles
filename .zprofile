@@ -8,7 +8,7 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 
 # Programs
 export EDITOR="nvim"
-export TERMINAL="kitty"
+export TERMINAL="alacritty"
 export VISUAL=/bin/nvim
 export BROWSER="firefox"
 export READER="zathura"

@@ -1,7 +1,5 @@
 7zip
-amd-ucode
 arandr
-arc-solid-gtk-theme
 arch-install-scripts
 base
 base-devel
@@ -19,7 +17,6 @@ docker
 docker-compose
 dosfstools
 dunst
-dwm
 efibootmgr
 exo
 eza
@@ -32,12 +29,10 @@ git
 github-cli
 go
 gradle
-gst-plugin-pipewire
 htop
 httpie
 imagemagick
 inetutils
-intellij-idea-community-edition
 iwd
 jdk-openjdk
 jdk21-openjdk
@@ -46,7 +41,6 @@ kitty
 lazygit
 libpulse
 libvips
-lightdm
 lxappearance-gtk3
 lxsession
 maven
@@ -58,17 +52,12 @@ noto-fonts-emoji
 npm
 ntfs-3g
 openssh
-pacman-contrib
 pamixer
 pavucontrol
 pcmanfm
 php
 php-pgsql
 php-sqlite
-pipewire
-pipewire-alsa
-pipewire-jack
-pipewire-pulse
 pnpm
 rclone
 redshift
@@ -107,11 +96,6 @@ wget
 xclip
 xcolor
 xdotool
-xf86-video-amdgpu
-xf86-video-vesa
-xfburn
-xfwm4
-xfwm4-themes
 xterm
 xwallpaper
 yazi

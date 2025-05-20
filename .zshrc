@@ -1,8 +1,9 @@
-# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-#   startxfce4 
-# fi
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  startx
+fi
 
-source $HOME/.env
+# source $HOME/.env
+#
 #       General conf
 $SCRIPTS_DIR/ufetch
 stty stop undef
@@ -78,6 +79,11 @@ alias xd="xrdb -merge $HOME/.config/Xresources"
 alias n="nvim"
 alias ms="ncmpcpp"
 alias fmrecord="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast"
+
+alias fmrecord_w="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 \
+-c:v libx264 -preset ultrafast -tune zerolatency -pix_fmt yuv420p -crf 23 \
+-movflags +faststart"
+
 alias fmrecordsm="ffmpeg -video_size 1366x768 -framerate 30 -f x11grab -i :0.0+204,1080 -c:v libx264 -preset ultrafast"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="yt-dlp --add-metadata -x -i -f bestaudio"
@@ -138,6 +144,7 @@ PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # bun completions

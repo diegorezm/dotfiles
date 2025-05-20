@@ -2,6 +2,7 @@
 -- i don't really know haskell and i don't understand half of the stuff that is here
 
 import Colors.Dracula
+import Util.Xresources
 import Data.Char (toUpper)
 import Data.Map qualified as M
 import Data.Maybe (fromJust)
@@ -47,8 +48,8 @@ myBorderWidth :: Dimension
 myBorderWidth = 2
 
 myNormColor, myFocusColor :: String
-myNormColor = colorBack
-myFocusColor = color05
+myNormColor = xProp "xmonad.normalBorderColor"
+myFocusColor = xProp "xmonad.focusedBorderColor"
 
 myFont :: String
 myFont = "xft:Roboto Mono Medium:regular:size=9:antialias=true:hinting=true"
@@ -142,6 +143,7 @@ myManageHook =
       className =? "Sxiv" --> doFloat,
       className =? "discord" --> doShift (myWorkspaces !! 8),
       className =? "Spotify" --> doShift (myWorkspaces !! 7),
+      className =? "steam" --> doShift (myWorkspaces !! 6),
       isDialog --> doFloat,
       isFullscreen --> doFullFloat
     ]
@@ -218,6 +220,8 @@ myStartupHook :: X ()
 myStartupHook = do
   spawn "firefox"
   spawn "spotify-launcher"
+  spawn "steam"
+  spawn "wallpapercl restore"
 
 -- Scratchpads
 myDefaultScratchPadSize = customFloating $ W.RationalRect l t w h
@@ -231,7 +235,7 @@ myScratchPads :: [NamedScratchpad]
 myScratchPads =
   [ NS "terminal" "$TERMINAL -T 'scratchpad'" (title =? "scratchpad") myDefaultScratchPadSize,
     NS "pavucontrol" "pavucontrol" (className =? "pavucontrol") myDefaultScratchPadSize,
-    NS "filemanager" "pcmanfm" (className =? "Pcmanfm") myDefaultScratchPadSize
+    NS "filemanager" "thunar" (className =? "Thunar") myDefaultScratchPadSize
   ]
 
 main :: IO ()

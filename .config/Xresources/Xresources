@@ -1,4 +1,4 @@
-#include "./colorschemes/rose-pine.Xresources"
+#include "./colorschemes/moonfly.Xresources"
 
 ! urxvt
 URxvt*buffered: true
@@ -36,9 +36,29 @@ dwm.normbgcolor: background
 dwm.normfgcolor: foreground
 
 dwm.selbgcolor: primary
-dwm.selfgcolor: background
+dwm.selfgcolor: subtext
 
 wallpapercl.bg: background
 wallpapercl.fg: foreground
 wallpapercl.pr: primary
 wallpapercl.sb: subtext
+
+qtile.background: background
+qtile.foreground: foreground
+qtile.primary: primary
+
+
+xmonad.normalBorderColor: background
+xmonad.focusedBorderColor: primary
+xmonad.bgColor: background
+xmonad.fgColor: foreground
+
+
+xmobar.bgColor: #282a36
+xmobar.fgColor: #f8f8f2
+xmobar.pacupdateColor: #8be9fd
+xmobar.pacupdateFgColor: #282a36
+xmobar.batteryColor: #ff6e67
+xmobar.batteryFgColor: #282a36
+xmobar.dateColor: #caa9fa
+xmobar.dateFgColor: #282a36
