@@ -8,10 +8,11 @@ fi
 
 lxsession & 
 # redshift -l -22.905843:-47.052617  -P -O 2400 &
-xset r rate 300 50 &
-$HOME/.local/bin/scripts/screen.sh
+$HOME/.local/bin/scripts/screen.sh &
+spotify &
 discord &
 steam &
+start_page &
 # picom &
 wallpapercl restore &
 xrdb -merge ~/.config/Xresources/Xresources

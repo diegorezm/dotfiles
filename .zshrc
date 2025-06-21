@@ -2,11 +2,10 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
   startx
 fi
 
-# source $HOME/.env
+source $HOME/.env
 #
 #       General conf
-$SCRIPTS_DIR/ufetch
-stty stop undef
+$SCRIPTS_DIR/ufetch stty stop undef
 autoload -U colors && colors
 
 #       Reminder
@@ -69,13 +68,13 @@ alias pu="sudo pacman -Syu"
 alias android="aft-mtp-mount $HOME/docs/pendrive"
 alias ssh-conn="ssh diego@192.168.10.2"
 alias create_venv="pyenv exec python -m venv .venv && source .venv/bin/activate"
-alias zathura="zathura"
-alias mpv="mpv"
+alias zathura="devour zathura"
+alias mpv="devour mpv"
 alias grep="grep --color=auto"
 alias vf="vifm"
 alias sxiv="sxiv -b"
 alias genpsw="head -c 16 /dev/random | od -A n -t x1 | sed 's/[[:space:]]//g'"
-alias xd="xrdb -merge $HOME/.config/Xresources"
+alias xd="xrdb -merge $HOME/.config/Xresources/Xresources"
 alias n="nvim"
 alias ms="ncmpcpp"
 alias fmrecord="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast"
@@ -102,7 +101,6 @@ alias mfs="php artisan migrate:fresh --seed"
 
 #       git alias
 alias g="git"
-alias gs="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gac="git add . && git commit -m"
@@ -160,3 +158,11 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}

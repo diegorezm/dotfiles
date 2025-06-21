@@ -23,3 +23,5 @@ def _load_xcolors():
 
 
 _load_xcolors()
+
+print(xcolors)

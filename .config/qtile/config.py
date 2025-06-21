@@ -27,7 +27,7 @@
 import os
 import subprocess
 import re
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from xcolors import xcolors
@@ -48,7 +48,6 @@ FILE_EXPLORER = "thunar"
 terminal = guess_terminal()
 home = os.path.expanduser("~")
 scripts_dir = os.getenv("SCRIPTS_DIR") or os.path.join(home, "/.local/bin/scripts")
-print(scripts_dir)
 browser = os.getenv("BROWSER")
 monitor = subprocess.run(
     "xrandr | grep -sw 'connected' | wc -l",
@@ -59,18 +58,29 @@ monitor = subprocess.run(
     stderr=subprocess.PIPE,
 ).stdout.strip()
 
+
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.call(home)
+
+
 colors = {
     "background": (
-        xcolors["qtile.background"] if "qtile.background" in xcolors else "#000000"
+        xcolors["qtile.bg"] if "qtile.bg" in xcolors else "#000000"
     ),
     "foreground": (
-        xcolors["qtile.background"] if "qtile.foreground" in xcolors else "#FFFFFF"
+        xcolors["qtile.fg"] if "qtile.fg" in xcolors else "#FFFFFF"
     ),
     "primary": (
-        xcolors["qtile.background"] if "qtile.primary" in xcolors else "#FFFFFF"
+        xcolors["qtile.pr"] if "qtile.pr" in xcolors else "#FFFFFF"
+    ),
+    "subtext": (
+        xcolors["qtile.sb"] if "qtile.sb" in xcolors else "#FFFFFF"
     ),
 }
 
+print(colors["background"])
 
 keys = [
     Key(
@@ -126,17 +136,21 @@ keys = [
     Key([MOD], "F10", lazy.spawn("pamixer -d 10")),
     Key([MOD], "F11", lazy.spawn("pamixer -i 10")),
     Key([], "Print", lazy.spawn(scripts_dir + "/screenshot")),
+
     Key([MOD], "F1", lazy.spawn(scripts_dir + "/power_ctl")),
-    Key([MOD], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([MOD], "p", lazy.spawn("playerctl -p 'spotify' play-pause"), desc="Toggle mpd"),
-    Key([MOD], "n", lazy.spawn("playerctl -p 'spotify' next"), desc="Change the music"),
     Key(
         [MOD],
         "F2",
         lazy.spawn(terminal + " -e " + home + "/.local/bin/" + "wallpapercl"),
         desc="wallpaper script",
     ),
-    Key([MOD], "F3", lazy.spawn(scripts_dir + "/prjs.sh"), desc="tmux windows"),
+    Key([MOD], "F3", lazy.spawn(scripts_dir + "/tmux_sessions"), desc="Tmux sessions"),
+    Key([MOD], "F4", lazy.spawn(scripts_dir + "/change_theme"), desc="Change the system theme."),
+
+    Key([MOD], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([MOD, "shift"], "Return", lazy.spawn(terminal + " -e yazi"), desc="Launch yazi"),
+    Key([MOD], "p", lazy.spawn("playerctl -p 'spotify' play-pause"), desc="Toggle mpd"),
+    Key([MOD], "n", lazy.spawn("playerctl -p 'spotify' next"), desc="Change the music"),
     Key([MOD], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([MOD], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([MOD, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -190,7 +204,7 @@ for i in groups:
         ]
     )
 
-scratch_args = {"height": 0.9, "width": 0.90, "x": 0.05, "y": 0.01}
+scratch_args = {"height": 0.9, "width": 0.90, "x": 0.05, "y": 0.01, "on_focus_lost_hide": False}
 
 groups.append(
     ScratchPad(
@@ -208,11 +222,11 @@ layout_theme = {
     "border_width": 2,
     "margin": 8,
     "border_focus": colors["primary"],
-    "border_normal": colors["background"],
+    "border_normal": colors["subtext"],
 }
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    layout.Columns(border_focus_stack=[colors["primary"], colors["background"]], border_width=4),
     layout.MonadTall(**layout_theme),
     layout.Stack(num_stacks=2),
     layout.RatioTile(**layout_theme),
@@ -257,155 +271,12 @@ floating_layout = layout.Floating(
 
 widget_defaults = dict(
     font=FONT,
-    fontsize=12,
+    fontsize=13,
     padding=3,
 )
 
 extension_defaults = widget_defaults.copy()
 
-
-# def init_widgets_list():
-#
-#     widgets_list = [
-#         widget.GroupBox(
-#             highlight_method="line",
-#             rounded=False,
-#             margin_y=3,
-#             margin_x=0,
-#             padding_y=5,
-#             padding_x=3,
-#             borderwidth=3,
-#             background=colors["background"],
-#             highlight_color=colors["background"],
-#             inactive=xcolors["*color8"],
-#             disable_drag=True,
-#             other_current_screen_border=xcolors["*color5"],
-#             this_current_screen_border=xcolors["*color1"],
-#         ),
-#         widget.Spacer(
-#             length=8,
-#         ),
-#         widget.Mpris2(
-#             name="spotify",
-#             objname="org.mpris.MediaPlayer2.spotify",
-#             foreground=colors["foreground"],
-#             format="{xesam:title} - {xesam:artist}",
-#             playing_text=" {track}",
-#             paused_text=" {track}",
-#             no_metadata_text="NO METADATA",
-#             scroll_chars=None,
-#             max_chars=80,
-#         ),
-#         widget.Spacer(),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=25,
-#             foreground=xcolors["*color3"],
-#             background=xcolors["*color3"],
-#         ),
-#         widget.Clock(
-#             format=" %H:%M",
-#             background=xcolors["*color3"],
-#             foreground=colors["background"],
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=25,
-#             foreground=xcolors["*color3"],
-#             background=xcolors["*color3"],
-#         ),
-#         widget.Spacer(),
-#         widget.Systray(),
-#         widget.Spacer(
-#             length=3,
-#             background=colors["background"],
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=25,
-#             foreground=xcolors["*color9"],
-#             background=colors["background"],
-#         ),
-#         widget.CheckUpdates(
-#             update_interval=800,
-#             no_update_string="No updates",
-#             # font='JetBrains Mono ExtraBold',
-#             display_format="󰃘 {updates} ",
-#             padding=5,
-#             background=xcolors["*color9"],
-#             initial_text="Aguarde...",
-#             colour_have_updates=colors["foreground"],
-#             distro="Arch_checkupdates",
-#             mouse_callbacks={
-#                 "Button1": lazy.spawn("chk_up"),
-#                 "Button3": lazy.spawn(terminal + " -e sudo pacman -Syyu"),
-#             },
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=25,
-#             foreground=xcolors["*color9"],
-#             background=colors["background"],
-#         ),
-#         widget.Spacer(
-#             length=3,
-#             background=colors["background"],
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=30,
-#             foreground=xcolors["*color6"],
-#             background=colors["background"],
-#         ),
-#         widget.Volume(
-#             background=xcolors["*color6"],
-#             foreground=colors["background"],
-#             emoji_list=["󰖁", "󰕿", "󰖀", "󰕾"],
-#             emoji=False,
-#             volume_app="pavucontrol",
-#             fmt="󰕾 {}",
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=30,
-#             foreground=xcolors["*color6"],
-#             background=colors["background"],
-#         ),
-#         widget.Spacer(
-#             length=3,
-#             background=colors["background"],
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=30,
-#             foreground=xcolors["*color2"],
-#             background=colors["background"],
-#         ),
-#         widget.Battery(
-#             background=xcolors["*color2"],
-#             foreground=colors["background"],
-#             format="{char} {percent:2.0%}",
-#             charge_char="󰂄",
-#             discharge_char=" ",
-#             padding=2,
-#         ),
-#         widget.TextBox(
-#             text="",
-#             padding=-2,
-#             fontsize=30,
-#             foreground=xcolors["*color2"],
-#             background=colors["background"],
-#         ),
-#     ]
-#
-#     return widgets_list
 
 def build_widgets():
     return {
@@ -420,7 +291,8 @@ def build_widgets():
                 borderwidth=3,
                 background=colors["background"],
                 highlight_color=colors["background"],
-                inactive=xcolors["*color8"],
+                inactive=colors["subtext"],
+                active=colors["foreground"],
                 disable_drag=True,
                 other_current_screen_border=xcolors["*color5"],
                 this_current_screen_border=xcolors["*color1"],
@@ -569,6 +441,7 @@ def init_widgets_screen2():
     return (
         widget_map["GroupBox"]
         + widget_map["Clock"]
+        + widget_map["Battery"]
 
     )
 
@@ -580,7 +453,7 @@ def init_screens():
                 top=bar.Bar(
                     widgets=init_widgets_screen1(),
                     opacity=1.0,
-                    size=20,
+                    size=22,
                     background=colors["background"],
                 )
             ),
@@ -588,7 +461,7 @@ def init_screens():
                 top=bar.Bar(
                     widgets=init_widgets_screen2(),
                     opacity=1.0,
-                    size=22,
+                    size=20,
                     background=colors["background"],
                 )
             ),
@@ -596,7 +469,7 @@ def init_screens():
     return [
         Screen(
             top=bar.Bar(
-                widgets=init_widgets_screen2(),
+                widgets=init_widgets_screen1(),
                 opacity=1.0,
                 size=20,
                 background=colors["background"],

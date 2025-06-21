@@ -8,9 +8,9 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 
 # Programs
 export EDITOR="nvim"
-export TERMINAL="alacritty"
+export TERMINAL="st"
 export VISUAL=/bin/nvim
-export BROWSER="firefox"
+export BROWSER="zen-browser"
 export READER="zathura"
 export SCRIPTS_DIR=$HOME/.local/bin/scripts
 export npm_config_prefix="$HOME/.local"

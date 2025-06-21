@@ -25,7 +25,7 @@
 
 
 #define background #080808
-#define foreground #bdbdbd
-#define primary  #323437
-#define secondary #949494
-#define subtext #e4e4e4
+#define foreground #e4e4e4
+#define primary  #cf87e8
+#define secondary #323437 
+#define subtext #949494

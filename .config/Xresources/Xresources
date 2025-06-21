@@ -1,4 +1,4 @@
-#include "./colorschemes/moonfly.Xresources"
+#include "./colorschemes/solarized-light.Xresources"
 
 ! urxvt
 URxvt*buffered: true
@@ -23,7 +23,7 @@ dmenu.foreground: foreground
 dmenu.selbackground: foreground
 dmenu.selforeground: background
 
-st.font:  JetBrains Mono:size=14:antialias=true:autohint=true
+st.font:  JetBrains Mono:size=13:antialias=true:autohint=true
 st.background: background
 st.foreground: foreground
 
@@ -43,22 +43,13 @@ wallpapercl.fg: foreground
 wallpapercl.pr: primary
 wallpapercl.sb: subtext
 
-qtile.background: background
-qtile.foreground: foreground
-qtile.primary: primary
+qtile.bg: background
+qtile.fg: foreground
+qtile.pr: primary
+qtile.sb: subtext
 
 
 xmonad.normalBorderColor: background
 xmonad.focusedBorderColor: primary
 xmonad.bgColor: background
 xmonad.fgColor: foreground
-
-
-xmobar.bgColor: #282a36
-xmobar.fgColor: #f8f8f2
-xmobar.pacupdateColor: #8be9fd
-xmobar.pacupdateFgColor: #282a36
-xmobar.batteryColor: #ff6e67
-xmobar.batteryFgColor: #282a36
-xmobar.dateColor: #caa9fa
-xmobar.dateFgColor: #282a36

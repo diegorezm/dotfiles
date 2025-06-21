@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[manager]
+[mgr]
 
 keymap = [
 	{ on = [ "<Esc>" ], run = "escape",             desc = "Exit visual mode, clear selected, or cancel search" },
@@ -142,10 +142,10 @@ keymap = [
 	# Goto
 	{ on = [ "g", "h" ],       run = "cd ~",             desc = "Go to the home directory" },
 	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go to the config directory" },
-	{ on = [ "g", "p" ],       run = "cd ~/docs/code/projects/",     desc = "Go to the projects directory" },
-	{ on = [ "g", "d" ],       run = "cd ~/down",   desc = "Go to the downloads directory" },
+	{ on = [ "g", "p" ],       run = "cd ~/code/projects/",     desc = "Go to the projects directory" },
+	{ on = [ "g", "d" ],       run = "cd ~/Downloads/",   desc = "Go to the downloads directory" },
 	{ on = [ "g", "m" ],       run = "cd ~/img",   desc = "Go to the image directory" },
-	{ on = [ "g", "t" ],       run = "cd /tmp",          desc = "Go to the temporary directory" },
+	{ on = [ "g", "t" ],       run = "cd ~/code/tests",          desc = "Go to the tests directory" },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Go to a directory interactively" },
 
 	# Help
@@ -298,7 +298,7 @@ keymap = [
 	{ on = [ "/" ], run = "filter", desc = "Apply a filter for the help items" },
 ]
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = [ "<C-s>" ]
 run  = 'shell "$SHELL" --block --confirm'
 desc = "Open shell here"

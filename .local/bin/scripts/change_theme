@@ -1,105 +1,82 @@
-#!/bin/bash 
+#!/bin/bash
 
-declare -a ops=("Catppuccin macchiato" 
-"Ayu Dark"
-"gruvbox"
+# Available theme options
+declare -a ops=(
+  "Catppuccin macchiato"
+  "Catppuccin mocha"
+  "Ayu Dark"
+  "Gruvbox"
+  "Moonfly"
+  "Solarized Light"
+  "Rose Pine"
+  "Ember Dark"
+  "Ember Light"
 )
 
-esc=$(printf '%s\n'  "${ops[@]}" | dmenu  -p "Choose one:")
+# Show dmenu prompt
+esc=$(printf '%s\n' "${ops[@]}" | dmenu -p "Choose one:")
 
-if [ -z "$esc" ]
-then
-  exit
-fi
+# Exit if nothing selected
+[ -z "$esc" ] && exit
 
-change_qtile () {
-  qtile_path="$HOME/.config/qtile/"
+
+change_neovim() {
+  local nvim_theme_file="$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
+  local new_colorscheme
+  local new_background
+
   case "$esc" in
-    "${ops[0]}") 
-      cd $qtile_path
-      python3 "$HOME/.config/qtile/changeTheme.py" --theme=1
-    ;;
-    "${ops[1]}") 
-      cd $qtile_path
-      python3 "$HOME/.config/qtile/changeTheme.py" --theme=2
-    ;;
-    "${ops[2]}") 
-      cd $qtile_path
-      python3 "$HOME/.config/qtile/changeTheme.py" --theme=3
-    ;;
+    "Catppuccin macchiato") new_colorscheme="catppuccin-macchiato";  new_background="dark" ;;
+    "Catppuccin mocha")     new_colorscheme="catppuccin-mocha";      new_background="dark" ;;
+    "Ayu Dark")             new_colorscheme="ayu-dark";              new_background="dark" ;;
+    "Gruvbox")              new_colorscheme="gruvbox";               new_background="dark" ;;
+    "Moonfly")              new_colorscheme="moonfly";               new_background="dark" ;;
+    "Solarized Light")      new_colorscheme="solarized";             new_background="light" ;;
+    "Ember Dark")           new_colorscheme="ember_dark";            new_background="dark" ;;
+    "Ember Light")          new_colorscheme="ember_light";           new_background="light" ;;
+    "Rose Pine")            new_colorscheme="rose-pine";             new_background="dark" ;;
     *) 
-      cd $qtile_path
-      python3 "$HOME/.config/qtile/changeTheme.py" --theme=1
-    ;;
+      echo "No Neovim theme match found."
+      return 1
+      ;;
   esac
+
+  # Replace the colorscheme line
+  sed -i 's|^\s*vim\.cmd\.colorscheme.*|vim.cmd.colorscheme("'"$new_colorscheme"'")|' "$nvim_theme_file"
+
+  # Replace the background setting line
+  sed -i 's|^\s*vim\.o\.background\s*=.*|vim.o.background = "'"$new_background"'"|' "$nvim_theme_file"
+}
+
+# Change Xresources theme
+change_xresources() {
+  local xres_file="$HOME/.config/Xresources/Xresources"
+  local scheme_file
+
+  case "$esc" in
+    "Catppuccin macchiato") scheme_file="./colorschemes/macchiato.Xresources" ;;
+    "Catppuccin mocha")     scheme_file="./colorschemes/mocha.Xresources" ;;
+    "Ayu Dark")             scheme_file="./colorschemes/ayu-dark.Xresources" ;;
+    "Gruvbox")              scheme_file="./colorschemes/gruvbox.Xresources" ;;
+    "Moonfly")              scheme_file="./colorschemes/moonfly.Xresources" ;;
+    "Solarized Light")      scheme_file="./colorschemes/solarized-light.Xresources" ;;
+    "Rose Pine")            scheme_file="./colorschemes/rose-pine.Xresources" ;;
+    "Ember Dark")            scheme_file="./colorschemes/ember-dark.Xresources" ;;
+    "Ember Light")            scheme_file="./colorschemes/ember-light.Xresources" ;;
+    *) 
+      echo "No Xresources theme match found."
+      return 1
+      ;;
+  esac
+
+  # Replace the include line in .Xresources
+  sed -i "s|^#include \".*/colorschemes/.*\"|#include \"$scheme_file\"|" "$xres_file"
+  
+  # Reload Xresources
+  xrdb -merge "$xres_file"
   qtile cmd-obj -o cmd -f reload_config
 }
 
-change_alacritty(){
-  alacritty_path="$HOME/.config/alacritty" 
-  case "$esc" in
-    "${ops[0]}") 
-      cd $alacritty_path
-      cp "./themes/macchiato.toml" "theme.toml"
-    ;;
-    
-    "${ops[1]}") 
-      cd $alacritty_path
-      cp "./themes/ayudark.toml" "theme.toml"
-    ;;
-  esac
-}
+# Run both functions
+change_neovim && change_xresources
 
-change_kitty () {
-  kitty_path="$HOME/.config/kitty/"
-
-  case "$esc" in
-    "${ops[0]}") 
-      cd $kitty_path
-      cp "colors/macchiato.conf"  "colorscheme.conf"
-      ;;
-
-    "${ops[1]}") 
-      cd $kitty_path
-      cp "colors/ayu.conf"  "colorscheme.conf"
-      ;;
-
-      *) echo default
-      ;;
-  esac
-}
-
-change_neovim () {
-  case "$esc" in
-    "${ops[0]}") 
-        echo 'vim.cmd.colorscheme "catppuccin-macchiato"' > "$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
-      ;;
-    "${ops[1]}") 
-        echo 'vim.cmd.colorscheme "ayu-dark"' > "$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
-      ;;
-    "${ops[2]}")
-        echo 'vim.cmd.colorscheme "gruvbox"' > "$HOME/.config/nvim/lua/diegorezm/colorscheme.lua"
-      ;;
-  esac
-}
-
-change_xresources(){
-   xpath="$HOME/.config/Xresources/"
-  case "$esc" in
-    "${ops[0]}") 
-        cd $xpath
-        cp "colorschemes/macchiato.Xresources" "$xpath/colors.Xresources"
-      ;;
-    "${ops[1]}") 
-        cd $xpath
-        cp "colorschemes/ayu-dark.Xresources" "$xpath/colors.Xresources"
-      ;;
-    "${ops[2]}") 
-        cd $xpath
-        cp "colorschemes/gruvbox.Xresources" "$xpath/colors.Xresources"
-      ;;
-  esac
-  xrdb -merge ~/.config/Xresources/Xresources 
-}
-
-change_kitty && change_neovim && change_xresources && change_alacritty
