@@ -34,6 +34,22 @@ o.signcolumn = "yes"  -- show sign column so that text doesn't shift
 o.backspace = "indent,eol,start"
 o.clipboard = "unnamedplus"
 
+if vim.fn.executable('win32yank.exe') == 1 then
+  vim.g.clipboard = {
+    name = 'win32yank-wsl',
+    copy = {
+      ['+'] = 'win32yank.exe -i --crlf',
+      ['*'] = 'win32yank.exe -i --crlf',
+    },
+    paste = {
+      ['+'] = 'win32yank.exe -o --lf',
+      ['*'] = 'win32yank.exe -o --lf',
+    },
+    cache_enabled = 0,
+  }
+  vim.notify('win32yank clipboard provider loaded.', vim.log.levels.INFO, { title = 'Neovim Clipboard' })
+end
+
 vim.filetype.add({
   pattern = {
     [".*%.blade%.php"] = "blade",

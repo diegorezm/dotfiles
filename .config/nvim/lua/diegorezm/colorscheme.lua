@@ -1,3 +1,4 @@
-vim.o.background = "light"
 vim.o.termguicolors = true
-vim.cmd.colorscheme("solarized")
+vim.o.background = "dark"
+vim.g.gruvbox_contrast_dark = 'hard'
+vim.cmd.colorscheme("ember_dark")

@@ -1,5 +1,5 @@
 local function map(m, k, v)
-	vim.keymap.set(m, k, v, { silent = true })
+  vim.keymap.set(m, k, v, { silent = true })
 end
 
 local opts = { silent = true, noremap = true }
@@ -23,15 +23,13 @@ map("n", "<leader>l", ":tabl<CR>")
 map("n", "<C-n>", ":tabn<CR>")
 
 vim.api.nvim_set_keymap(
-	"n",
-	"<leader>o",
-	":!opener " .. vim.fn.expand("%") .. "<CR>",
-	{ noremap = true, silent = true }
+  "n",
+  "<leader>o",
+  ":!opener " .. vim.fn.expand("%") .. "<CR>",
+  { noremap = true, silent = true }
 )
 
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
-
-map("n", "<leader>g", ":LazyGit<CR>")
 
 map("n", "<C-q>", ":q!<CR>")
