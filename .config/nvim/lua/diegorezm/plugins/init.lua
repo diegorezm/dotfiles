@@ -4,5 +4,10 @@ return {
   { "bluz71/vim-moonfly-colors", name = "moonfly",   lazy = false, priority = 1000 },
   "shaunsingh/solarized.nvim",
   "nvim-lua/plenary.nvim",
-  "morhetz/gruvbox"
+  "morhetz/gruvbox",
+  {
+    "vague2k/vague.nvim",
+    lazy = false,
+    priority = 1000,
+  }
 }
