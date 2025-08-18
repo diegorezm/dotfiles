@@ -1,4 +1,4 @@
-#include "./colorschemes/solarized-light.Xresources"
+#include "./colorschemes/moonfly.Xresources"
 
 ! urxvt
 URxvt*buffered: true

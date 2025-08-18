@@ -11,6 +11,7 @@ declare -a ops=(
   "Rose Pine"
   "Ember Dark"
   "Ember Light"
+  "Vague"
 )
 
 # Show dmenu prompt
@@ -35,6 +36,7 @@ change_neovim() {
     "Ember Dark")           new_colorscheme="ember_dark";            new_background="dark" ;;
     "Ember Light")          new_colorscheme="ember_light";           new_background="light" ;;
     "Rose Pine")            new_colorscheme="rose-pine";             new_background="dark" ;;
+    "Vague") new_colorscheme="vague";             new_background="dark" ;;
     *) 
       echo "No Neovim theme match found."
       return 1
@@ -63,6 +65,8 @@ change_xresources() {
     "Rose Pine")            scheme_file="./colorschemes/rose-pine.Xresources" ;;
     "Ember Dark")            scheme_file="./colorschemes/ember-dark.Xresources" ;;
     "Ember Light")            scheme_file="./colorschemes/ember-light.Xresources" ;;
+    "Vague") scheme_file="./colorschemes/vague.Xresources" ;;
+
     *) 
       echo "No Xresources theme match found."
       return 1
