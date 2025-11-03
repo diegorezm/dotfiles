@@ -1,11 +1,11 @@
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  startx
-fi
+# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+#  startx
+# fi
 
 source $HOME/.env
 #
 #       General conf
-$SCRIPTS_DIR/ufetch stty stop undef
+# $SCRIPTS_DIR/ufetch stty stop undef
 autoload -U colors && colors
 
 #       Reminder
@@ -65,11 +65,10 @@ alias p="sudo pacman -Sy"
 alias rp="sudo pacman -Rcs"
 alias aps="pacman -Ss"
 alias pu="sudo pacman -Syu"
+alias cat="bat"
 alias android="aft-mtp-mount $HOME/docs/pendrive"
 alias ssh-conn="ssh diego@192.168.10.2"
 alias create_venv="pyenv exec python -m venv .venv && source .venv/bin/activate"
-alias zathura="devour zathura"
-alias mpv="devour mpv"
 alias grep="grep --color=auto"
 alias vf="vifm"
 alias sxiv="sxiv -b"
@@ -87,9 +86,9 @@ alias fmrecordsm="ffmpeg -video_size 1366x768 -framerate 30 -f x11grab -i :0.0+2
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="yt-dlp --add-metadata -x -i -f bestaudio"
 alias yt-video="yt-dlp --add-metadata -i -f best/video"
-alias l="exa -al --color=always --group-directories-first"
-alias ls="exa -a --color=always --group-directories-first"
-alias sl="exa -a --color=always --group-directories-first"
+alias l="exa -al --color=always --group-directories-first --icons"
+alias ls="exa -a --color=always --group-directories-first --icons"
+alias sl="exa -a --color=always --group-directories-first --icons"
 alias cp="cp -i"
 alias dcompile="sudo make clean install"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"

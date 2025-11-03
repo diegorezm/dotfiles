@@ -9,6 +9,7 @@ return {
     g.ale_linters = {
       lua = { 'lua_language_server' },
       javascript = { "eslint", "biome" },
+      php = { "phpcs" },
       typescript = { "eslint", "biome" },
       javascriptreact = { "eslint", "biome" },
       typescriptreact = { "eslint", "biome" },

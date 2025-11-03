@@ -1,0 +1,51 @@
+#!/bin/bash
+# Simple wallpaper manager using xwallpaper
+
+CONFIG="$HOME/.config/xwallpaper.conf"
+
+set_wallpaper() {
+    local img="$1"
+
+    if [ ! -f "$img" ]; then
+        echo "Error: File not found -> $img"
+        exit 1
+    fi
+
+    mkdir -p "$(dirname "$CONFIG")"
+    echo "$img" > "$CONFIG"
+    xwallpaper --stretch "$img"
+    echo "Wallpaper set to: $img"
+}
+
+restore_wallpaper() {
+    if [ ! -f "$CONFIG" ]; then
+        echo "No wallpaper config found at $CONFIG."
+        exit 1
+    fi
+
+    local img
+    img=$(cat "$CONFIG")
+
+    if [ ! -f "$img" ]; then
+        echo "Stored wallpaper not found: $img"
+        exit 1
+    fi
+
+    xwallpaper --stretch "$img"
+    echo "Wallpaper restored: $img"
+}
+
+case "$1" in
+    set)
+        set_wallpaper "$2"
+        ;;
+    restore)
+        restore_wallpaper
+        ;;
+    *)
+        echo "Usage:"
+        echo "  $0 set /path/to/image.jpg"
+        echo "  $0 restore"
+        exit 1
+        ;;
+esac

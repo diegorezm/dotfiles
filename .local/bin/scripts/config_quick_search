@@ -15,9 +15,9 @@ declare option=("󰀼  vifm
 
 esc=$(echo -e "${option[@]}" | dmenu -p 'Choose one:' | xargs)
 
-if [[ "$esc" == *"dwm"* ]]; then
-  $TERMINAL --working-directory="$HOME/.config/dwm" && exit 0
-fi
+# if [[ "$esc" == *"dwm"* ]]; then
+#   $TERMINAL --working-directory="$HOME/.config/dwm" && exit 0
+# fi
 
 case "${esc#* }" in
         vifm)
@@ -40,6 +40,9 @@ case "${esc#* }" in
         ;;
         nvim)
                 esc="$HOME/.config/nvim/"
+        ;;
+      dwm)
+        esc="$HOME/.config/dwm"
         ;;
         alacritty)
                 esc="$HOME/.config/alacritty"

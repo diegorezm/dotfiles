@@ -32,7 +32,6 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, 
 from libqtile.lazy import lazy
 from xcolors import xcolors
 
-
 def guess_terminal() -> str:
     term_v = os.environ.get("TERMINAL")
     if(term_v is None):
@@ -79,8 +78,6 @@ colors = {
         xcolors["qtile.sb"] if "qtile.sb" in xcolors else "#FFFFFF"
     ),
 }
-
-print(colors["background"])
 
 keys = [
     Key(

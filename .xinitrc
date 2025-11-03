@@ -11,12 +11,13 @@ lxsession &
 $HOME/.local/bin/scripts/screen.sh &
 spotify &
 discord &
-steam &
-start_page &
 # picom &
+xset r rate 300 50 &
 wallpapercl restore &
 xrdb -merge ~/.config/Xresources/Xresources
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
 wmname LG3D
+# exec dwm
 exec qtile start
+# exec startxfce4

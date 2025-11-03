@@ -31,10 +31,12 @@ return {
 
       require("telescope").load_extension("fzf")
 
-      vim.keymap.set("n", "<space>fh", require("telescope.builtin").help_tags)
-      vim.keymap.set("n", "<space>ff", require("telescope.builtin").find_files)
-      vim.keymap.set("n", "<space>fr", require("telescope.builtin").lsp_references)
-      vim.keymap.set("n", "<space>xx", require("telescope.builtin").diagnostics)
+      vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags)
+      vim.keymap.set("n", "<leader>rg", require("telescope.builtin").live_grep)
+      vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags)
+      vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files)
+      vim.keymap.set("n", "<leader>fr", require("telescope.builtin").lsp_references)
+      vim.keymap.set("n", "<leader>xx", require("telescope.builtin").diagnostics)
 
       vim.keymap.set("n", "<space>en", function()
         require("telescope.builtin").find_files({

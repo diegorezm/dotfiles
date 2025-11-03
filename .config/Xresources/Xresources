@@ -1,4 +1,4 @@
-#include "./colorschemes/moonfly.Xresources"
+#include "./colorschemes/vague.Xresources"
 
 ! urxvt
 URxvt*buffered: true
@@ -17,13 +17,13 @@ URxvt.urlLauncher: firefox
 URxvt.matcher.button: 1
 
 ! sk
-dmenu.font:  xft:JetBrains Mono:size=12:antialias=true
+dmenu.font:  xft:JetBrainsMono:size=12:antialias=true
 dmenu.background: background
 dmenu.foreground: foreground
 dmenu.selbackground: foreground
 dmenu.selforeground: background
 
-st.font:  JetBrains Mono:size=13:antialias=true:autohint=true
+st.font:  JetBrainsMono:size=13:antialias=true:autohint=true
 st.background: background
 st.foreground: foreground
 
@@ -36,7 +36,7 @@ dwm.normbgcolor: background
 dwm.normfgcolor: foreground
 
 dwm.selbgcolor: primary
-dwm.selfgcolor: subtext
+dwm.selfgcolor: background
 
 wallpapercl.bg: background
 wallpapercl.fg: foreground

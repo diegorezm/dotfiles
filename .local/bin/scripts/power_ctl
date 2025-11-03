@@ -1,23 +1,26 @@
 #!/bin/bash 
 
-declare options=("⏻ Shutdown
- Reboot
- Suspend")
+echo "hey"
 
-chs=$(echo -e "${options[@]}" | dmenu -p "What do you want to do?")
-case "${chs#* }" in 
-        Shutdown)
-                poweroff
-        ;;
-        Reboot)
-                reboot
-        ;;
-        Suspend)
-                systemctl suspend
-        ;;
-        *)
-                exit 0
-        ;;
-esac
-
-
+# declare -a opts=("⏻ Shutdown 
+#  Reboot 
+#  Suspend")
+#
+# chs=$(echo -e "${opts[@]}" | dmenu -p "What do you want to do?")
+#
+# case "${chs#* }" in 
+#         Shutdown)
+#                 poweroff
+#         ;;
+#         Reboot)
+#                 reboot
+#         ;;
+#         Suspend)
+#                 systemctl suspend
+#         ;;
+#         *)
+#                 exit 0
+#         ;;
+# esac
+#
+#

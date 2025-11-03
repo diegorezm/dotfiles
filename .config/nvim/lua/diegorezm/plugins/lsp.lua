@@ -29,8 +29,18 @@ return {
 
       require("lspconfig").lua_ls.setup({ capabilites = capabilities })
 
+      local vue_language_server_path = vim.fn.stdpath('data') ..
+          "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+      local vue_plugin = {
+        name = '@vue/typescript-plugin',
+        location = vue_language_server_path,
+        languages = { 'vue' },
+        configNamespace = 'typescript',
+      }
+
       local servers = {
-        eslint = {
+        eslint                = {
           codeAction = {
             disableRuleComment = {
               enable = true,
@@ -58,17 +68,17 @@ return {
           },
         },
         emmet_language_server = {},
-        intelephense = {},
-        cssls = {},
-        rust_analyzer = {},
-        html = {},
-        tailwindcss = {},
-        ts_ls = {
-        },
-        astro = {},
-        jsonls = {},
-        gopls = {},
-        lua_ls = {
+        intelephense          = {},
+        cssls                 = {},
+        rust_analyzer         = {},
+        ts_ls                 = {},
+        html                  = {},
+        vue_ls                = {},
+        tailwindcss           = {},
+        astro                 = {},
+        jsonls                = {},
+        gopls                 = {},
+        lua_ls                = {
           Lua = {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
