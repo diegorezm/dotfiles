@@ -1,5 +1,6 @@
 7zip
 arandr
+bat
 arch-install-scripts
 base
 base-devel

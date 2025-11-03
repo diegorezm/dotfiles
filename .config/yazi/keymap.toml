@@ -1,0 +1,10 @@
+[mgr]
+
+append_keymap = [
+	{ on = [ "g", "p" ], run = "cd ~/code/projects/",          desc = "Projects directory" },
+	{ on = [ "g", "i" ], run = "cd ~/img/",          desc = "Images directory" },
+	{ on = [ "g", "w" ], run = "cd ~/img/wallpapers",          desc = "Wallpapers directory" },
+	{ on = [ "g", "l" ], run = "cd ~/.local",          desc = "Local directory" },
+
+	{ on = [ "c", "w" ], run = "shell -- wallpapercl set $0",          desc = "Change wallpaper" },
+]
