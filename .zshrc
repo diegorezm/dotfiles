@@ -1,6 +1,6 @@
-# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-#  startx
-# fi
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+ startx
+fi
 
 source $HOME/.env
 #

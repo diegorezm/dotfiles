@@ -1,5 +1,6 @@
 7zip
 arandr
+python-dbus
 bat
 arch-install-scripts
 base
@@ -42,7 +43,6 @@ kitty
 lazygit
 libpulse
 libvips
-lxappearance-gtk3
 lxsession
 maven
 mpv

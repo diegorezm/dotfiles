@@ -11,6 +11,7 @@ lxsession &
 $HOME/.local/bin/scripts/screen.sh &
 spotify &
 discord &
+steam &
 # picom &
 xset r rate 300 50 &
 wallpapercl restore &
