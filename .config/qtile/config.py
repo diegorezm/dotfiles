@@ -312,23 +312,18 @@ def build_widgets():
         "Clock": [
             widget.Spacer(),
             widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=25,
+                text="[",
+                fontsize=15,
                 foreground=xcolors["*color3"],
-                background=xcolors["*color3"],
             ),
             widget.Clock(
                 format=" %H:%M",
-                background=xcolors["*color3"],
-                foreground=colors["background"],
+                foreground=xcolors["*color3"],
             ),
             widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=25,
+                text="]",
+                fontsize=15,
                 foreground=xcolors["*color3"],
-                background=xcolors["*color3"],
             ),
             widget.Spacer(),
         ],
@@ -337,22 +332,21 @@ def build_widgets():
             widget.Systray(),
         ],
         "Updates": [
-            widget.Spacer(length=3, background=colors["background"]),
+            widget.Spacer(length=3),
             widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=25,
+                text="[",
+                fontsize=15,
                 foreground=xcolors["*color9"],
-                background=colors["background"],
             ),
             widget.CheckUpdates(
                 update_interval=800,
-                no_update_string="No updates",
+                no_update_string="󰃘  0",
                 display_format="󰃘 {updates} ",
                 padding=5,
-                background=xcolors["*color9"],
                 initial_text="Aguarde...",
-                colour_have_updates=colors["foreground"],
+                colour_have_updates=xcolors["*color9"],
+                foreground=xcolors["*color9"],
+                colour_no_updates=xcolors["*color9"],
                 distro="Arch_checkupdates",
                 mouse_callbacks={
                     "Button1": lazy.spawn("chk_up"),
@@ -360,62 +354,31 @@ def build_widgets():
                 },
             ),
             widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=25,
+                text="]",
+                fontsize=15,
                 foreground=xcolors["*color9"],
-                background=colors["background"],
             ),
         ],
         "Volume": [
-            widget.Spacer(length=3, background=colors["background"]),
+            widget.Spacer(length=3),
             widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=30,
+                text="[",
+                fontsize=15,
                 foreground=xcolors["*color6"],
-                background=colors["background"],
             ),
             widget.Volume(
-                background=xcolors["*color6"],
-                foreground=colors["background"],
                 emoji_list=["󰖁", "󰕿", "󰖀", "󰕾"],
                 emoji=False,
                 volume_app="pavucontrol",
                 fmt="󰕾 {}",
-            ),
-            widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=30,
                 foreground=xcolors["*color6"],
-                background=colors["background"],
-            ),
-        ],
-        "Battery": [
-            widget.Spacer(length=3, background=colors["background"]),
-            widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=30,
-                foreground=xcolors["*color2"],
-                background=colors["background"],
-            ),
-            widget.Battery(
-                background=xcolors["*color2"],
-                foreground=colors["background"],
-                format="{char} {percent:2.0%}",
-                charge_char="󰂄",
-                discharge_char=" ",
-                padding=2,
             ),
             widget.TextBox(
-                text="",
-                padding=-2,
-                fontsize=30,
-                foreground=xcolors["*color2"],
-                background=colors["background"],
+                text="]",
+                fontsize=15,
+                foreground=xcolors["*color6"],
             ),
+            widget.Spacer(length=3),
         ],
     }
 
@@ -429,7 +392,6 @@ def init_widgets_screen1():
         + widget_map["Systray"]
         + widget_map["Updates"]
         + widget_map["Volume"]
-        + widget_map["Battery"]
     )
 
 
@@ -438,7 +400,6 @@ def init_widgets_screen2():
     return (
         widget_map["GroupBox"]
         + widget_map["Clock"]
-        + widget_map["Battery"]
 
     )
 
