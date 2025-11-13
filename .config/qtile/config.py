@@ -32,9 +32,10 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen, ScratchPad, 
 from libqtile.lazy import lazy
 from xcolors import xcolors
 
+
 def guess_terminal() -> str:
     term_v = os.environ.get("TERMINAL")
-    if(term_v is None):
+    if term_v is None:
         return "alacritty"
     return term_v
 
@@ -60,23 +61,15 @@ monitor = subprocess.run(
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    home = os.path.expanduser("~/.config/qtile/autostart.sh")
     subprocess.call(home)
 
 
 colors = {
-    "background": (
-        xcolors["qtile.bg"] if "qtile.bg" in xcolors else "#000000"
-    ),
-    "foreground": (
-        xcolors["qtile.fg"] if "qtile.fg" in xcolors else "#FFFFFF"
-    ),
-    "primary": (
-        xcolors["qtile.pr"] if "qtile.pr" in xcolors else "#FFFFFF"
-    ),
-    "subtext": (
-        xcolors["qtile.sb"] if "qtile.sb" in xcolors else "#FFFFFF"
-    ),
+    "background": (xcolors["qtile.bg"] if "qtile.bg" in xcolors else "#000000"),
+    "foreground": (xcolors["qtile.fg"] if "qtile.fg" in xcolors else "#FFFFFF"),
+    "primary": (xcolors["qtile.pr"] if "qtile.pr" in xcolors else "#FFFFFF"),
+    "subtext": (xcolors["qtile.sb"] if "qtile.sb" in xcolors else "#FFFFFF"),
 }
 
 keys = [
@@ -133,7 +126,6 @@ keys = [
     Key([MOD], "F10", lazy.spawn("pamixer -d 10")),
     Key([MOD], "F11", lazy.spawn("pamixer -i 10")),
     Key([], "Print", lazy.spawn(scripts_dir + "/screenshot")),
-
     Key([MOD], "F1", lazy.spawn(scripts_dir + "/power_ctl")),
     Key(
         [MOD],
@@ -142,10 +134,16 @@ keys = [
         desc="wallpaper script",
     ),
     Key([MOD], "F3", lazy.spawn(scripts_dir + "/tmux_sessions"), desc="Tmux sessions"),
-    Key([MOD], "F4", lazy.spawn(scripts_dir + "/change_theme"), desc="Change the system theme."),
-
+    Key(
+        [MOD],
+        "F4",
+        lazy.spawn(scripts_dir + "/change_theme"),
+        desc="Change the system theme.",
+    ),
     Key([MOD], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([MOD, "shift"], "Return", lazy.spawn(terminal + " -e yazi"), desc="Launch yazi"),
+    Key(
+        [MOD, "shift"], "Return", lazy.spawn(terminal + " -e yazi"), desc="Launch yazi"
+    ),
     Key([MOD], "p", lazy.spawn("playerctl -p 'spotify' play-pause"), desc="Toggle mpd"),
     Key([MOD], "n", lazy.spawn("playerctl -p 'spotify' next"), desc="Change the music"),
     Key([MOD], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -201,7 +199,13 @@ for i in groups:
         ]
     )
 
-scratch_args = {"height": 0.9, "width": 0.90, "x": 0.05, "y": 0.01, "on_focus_lost_hide": False}
+scratch_args = {
+    "height": 0.9,
+    "width": 0.90,
+    "x": 0.05,
+    "y": 0.01,
+    "on_focus_lost_hide": False,
+}
 
 groups.append(
     ScratchPad(
@@ -223,7 +227,9 @@ layout_theme = {
 }
 
 layouts = [
-    layout.Columns(border_focus_stack=[colors["primary"], colors["background"]], border_width=4),
+    layout.Columns(
+        border_focus_stack=[colors["primary"], colors["background"]], border_width=4
+    ),
     layout.MonadTall(**layout_theme),
     layout.Stack(num_stacks=2),
     layout.RatioTile(**layout_theme),
@@ -341,8 +347,7 @@ def build_widgets():
             widget.CheckUpdates(
                 update_interval=800,
                 no_update_string="󰃘  0",
-                display_format="󰃘 {updates} ",
-                padding=5,
+                display_format="󰃘 {updates}",
                 initial_text="Aguarde...",
                 colour_have_updates=xcolors["*color9"],
                 foreground=xcolors["*color9"],
@@ -371,6 +376,7 @@ def build_widgets():
                 emoji=False,
                 volume_app="pavucontrol",
                 fmt="󰕾 {}",
+                get_volume_command="amixer get 'PCM,1' | grep -o -m 1 '[0-9]\{1,3\}%'",
                 foreground=xcolors["*color6"],
             ),
             widget.TextBox(
@@ -397,11 +403,7 @@ def init_widgets_screen1():
 
 def init_widgets_screen2():
     widget_map = build_widgets()
-    return (
-        widget_map["GroupBox"]
-        + widget_map["Clock"]
-
-    )
+    return widget_map["GroupBox"] + widget_map["Clock"]
 
 
 def init_screens():
