@@ -1,0 +1,112 @@
+* {
+    /* Background tones */
+    bg:            rgba({{colors.surface.default.red}}, {{colors.surface.default.green}}, {{colors.surface.default.blue}}, 0.92);
+    bg-alt:        rgba({{colors.surface_container.default.red}}, {{colors.surface_container.default.green}}, {{colors.surface_container.default.blue}}, 1.0);
+    bg-selected:   rgba({{colors.surface_container_high.default.red}}, {{colors.surface_container_high.default.green}}, {{colors.surface_container_high.default.blue}}, 1.0);
+
+    /* Foreground tones */
+    fg-dim:        rgba({{colors.on_surface_variant.default.red}}, {{colors.on_surface_variant.default.green}}, {{colors.on_surface_variant.default.blue}}, 1.0);
+    fg:            rgba({{colors.on_surface.default.red}}, {{colors.on_surface.default.green}}, {{colors.on_surface.default.blue}}, 1.0);
+
+    /* Accent */
+    accent:        rgba({{colors.primary.default.red}}, {{colors.primary.default.green}}, {{colors.primary.default.blue}}, 1.0);
+    on-accent:     rgba({{colors.on_primary.default.red}}, {{colors.on_primary.default.green}}, {{colors.on_primary.default.blue}}, 1.0);
+
+    /* Utility */
+    border-color:  rgba({{colors.outline_variant.default.red}}, {{colors.outline_variant.default.green}}, {{colors.outline_variant.default.blue}}, 0.5);
+    none:          rgba(0, 0, 0, 0);
+
+    font: "Sans 13";
+}
+
+window {
+    width:            640px;
+    location:         center;
+    anchor:           center;
+    background-color: @bg;
+    border-color:     @border-color;
+    border:           1px;
+    border-radius:    12px;
+}
+
+mainbox {
+    background-color: @none;
+    children:         [ inputbar, listview ];
+    spacing:          0px;
+    padding:          0px;
+}
+
+/* ── Input bar ─────────────────────────────────────────── */
+inputbar {
+    background-color: @none;
+    text-color:       @fg;
+    padding:          16px 20px;
+    spacing:          12px;
+    children:         [ prompt, entry ];
+    border-radius:    12px 12px 0px 0px;
+}
+
+prompt {
+    background-color: @none;
+    text-color:       @accent;
+    font:             "Sans Bold 13";
+}
+
+entry {
+    background-color: @none;
+    text-color:       @fg;
+    placeholder:      "Search...";
+    placeholder-color: @fg-dim;
+    cursor:           text;
+}
+
+/* ── Result list ────────────────────────────────────────── */
+listview {
+    background-color: @bg-alt;
+    lines:            8;
+    columns:          1;
+    spacing:          0px;
+    padding:          8px 0px;
+    border-radius:    0px 0px 12px 12px;
+    border-color:     @border-color;
+    border:           1px 0px 0px 0px;
+    scrollbar:        false;
+}
+
+element {
+    background-color: @none;
+    text-color:       @fg;
+    padding:          10px 20px;
+    spacing:          12px;
+    border-radius:    0px;
+    children:         [ element-icon, element-text ];
+}
+
+element selected {
+    background-color: @bg-selected;
+    text-color:       @accent;
+}
+
+element-icon {
+    size:             20px;
+    background-color: @none;
+}
+
+element-text {
+    background-color: @none;
+    text-color:       inherit;
+    highlight:        bold;
+}
+
+/* ── No results ─────────────────────────────────────────── */
+message {
+    background-color: @bg-alt;
+    border-color:     @border-color;
+    border:           1px 0px 0px 0px;
+    padding:          10px 20px;
+}
+
+textbox {
+    background-color: @none;
+    text-color:       @fg-dim;
+}
