@@ -37,6 +37,6 @@
 
 #define background #dbd6d1
 #define foreground #433b32
-#define primary #6d5782
+#define primary #576d82
 #define secondary #82576d
 #define subtext #a39a90

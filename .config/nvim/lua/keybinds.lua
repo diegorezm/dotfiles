@@ -1,0 +1,65 @@
+local keymap = vim.keymap.set
+
+vim.g.mapleader = ' '
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open netrw" })
+
+-- LSP
+keymap("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Code Rename" })
+-- keymap("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
+keymap("n", "<leader>k", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+keymap("n", "K", vim.lsp.buf.hover, { desc = "Hover (alt)" })
+keymap("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
+keymap("i", "<C-space>", vim.lsp.completion.get, { desc = "Trigger completion" })
+
+-- Jump to next/previous diagnostic
+vim.keymap.set('n', ']d', function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = 'Next diagnostic' })
+
+vim.keymap.set('n', '[d', function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = 'Previous diagnostic' })
+
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = 'Diagnostics to quickfix' })
+
+
+vim.keymap.set('i', '<CR>', function()
+	if vim.fn.pumvisible() == 1 then
+		return '<C-y>'
+	else
+		return '<CR>'
+	end
+end, { expr = true })
+
+keymap('i', '<C-j>', function()
+	if vim.fn.pumvisible() == 1 then
+		return '<C-n>'
+	else
+		return '<Tab>'
+	end
+end, { expr = true })
+
+keymap('i', '<C-k>', function()
+	if vim.fn.pumvisible() == 1 then
+		return '<C-p>'
+	else
+		return '<S-Tab>'
+	end
+end, { expr = true })
+
+-- TERMINAL
+keymap("t", "<Esc>", "<C-\\><C-N>")
+
+-- FZF
+local fzf = require('fzf-lua')
+
+vim.keymap.set('n', '<leader>ff', fzf.files, { desc = 'Find files' })
+vim.keymap.set('n', '<leader>gg', fzf.live_grep, { desc = 'Grep' })
+vim.keymap.set('n', '<leader>bb', fzf.buffers, { desc = 'Buffers' })
+vim.keymap.set('n', '<leader>fr', fzf.lsp_references, { desc = 'LSP references' })
+vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, { desc = "Code Actions" })
+
+
+-- GIT
+keymap("n", "<leader>gg", '<cmd>Git<CR>', {})
+keymap("n", "<leader>gp", '<cmd>Git push<CR>', {})

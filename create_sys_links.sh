@@ -1,26 +1,37 @@
-#!/bin/bash 
+#!/bin/bash
 
 CURRENT_DIR=$(pwd)
+HOME_DIR=$HOME
 
-ln -s $CURRENT_DIR/.zshrc  $HOME/.zshrc
-ln -s $CURRENT_DIR/.zprofile  $HOME/.zprofile
-ln -s $CURRENT_DIR/.tmux.conf  $HOME/.tmux.conf
-ln -s $CURRENT_DIR/.xinitrc  $HOME/.xinitrc
-ln -s $CURRENT_DIR/wallpapers $HOME/img/wallpapers
-ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
-ln -s $CURRENT_DIR/.config/alacritty  $HOME/.config/alacritty
-ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
-ln -s $CURRENT_DIR/.local/bin/scripts $HOME/.local/bin/scripts
-ln -s $CURRENT_DIR/.config/nvim  $HOME/.config/nvim
-ln -s $CURRENT_DIR/.config/qtile  $HOME/.config/qtile
-ln -s $CURRENT_DIR/.config/mpd  $HOME/.config/mpd
-ln -s $CURRENT_DIR/.config/ncmpcpp  $HOME/.config/ncmpcpp
-ln -s $CURRENT_DIR/.config/zathura  $HOME/.config/zathura
-ln -s $CURRENT_DIR/.config/dunst  $HOME/.config/dunst
-ln -s $CURRENT_DIR/.config/yazi  $HOME/.config/yazi
-ln -s $CURRENT_DIR/.config/kitty  $HOME/.config/kitty
-ln -s $CURRENT_DIR/.config/Xresources  $HOME/.config/Xresources
-ln -s $CURRENT_DIR/.config/xmonad  $HOME/.config/xmonad
-ln -s $CURRENT_DIR/.config/xmobar  $HOME/.config/xmobar
-ln -s $CURRENT_DIR/.config/emacs  $HOME/.config/emacs
-ln -s $CURRENT_DIR/.config/doom  $HOME/.config/doom
+create_symlink() {
+    local src=$1
+    local dest=$2
+
+    # Create parent directory if it doesn't exist
+    mkdir -p "$(dirname "$dest")"
+
+    if [ -L "$dest" ]; then
+        echo "SKIP (already symlinked): $dest"
+    elif [ -e "$dest" ]; then
+        echo "SKIP (file exists): $dest"
+    else
+        ln -s "$src" "$dest"
+        echo "LINKED: $dest -> $src"
+    fi
+}
+
+# Walk through all files and directories tracked by git (respects .gitignore)
+while IFS= read -r -d '' file; do
+    # Get the relative path from CURRENT_DIR
+    rel="${file#$CURRENT_DIR/}"
+
+    # Skip the script itself and git internals
+    [[ "$rel" == .git* ]] && continue
+    [[ "$rel" == "$(basename "$0")" ]] && continue
+
+    create_symlink "$file" "$HOME_DIR/$rel"
+done < <(find "$CURRENT_DIR" -mindepth 1 \
+    -not -path '*/.git/*' \
+    -not -name '.git' \
+    -not -name "$(basename "$0")" \
+    -print0)

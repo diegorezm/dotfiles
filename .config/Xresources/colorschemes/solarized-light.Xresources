@@ -57,6 +57,6 @@
 
 #define background S_base3
 #define foreground S_base02
-#define primary S_violet
-#define secondary S_blue
+#define primary S_base01
+#define secondary S_violet
 #define subtext S_base0

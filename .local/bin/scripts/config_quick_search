@@ -1,61 +1,43 @@
-#!/bin/bash 
+#!/bin/bash
 
-declare option=("󰀼  vifm
-  alacritty
-\uf35e  xmonad
-  xmobar
-󰄛  kitty
-  zsh
-  dwm
-  xresources
-  qtile
-  rofi
-  nvim")
+THEME="$HOME/.config/rofi/noctalia-theme.rasi"
 
+get_icon() {
+    local name="$1"
+    icon=$(find /usr/share/icons ~/.local/share/icons -name "${name}.png" -o -name "${name}.svg" 2>/dev/null | head -1)
+    if [[ -n "$icon" ]]; then
+        echo "$name"
+    else
+        echo "text-editor"
+    fi
+}
 
-esc=$(echo -e "${option[@]}" | dmenu -p 'Choose one:' | xargs)
+options="kitty\0icon\x1f$(get_icon kitty)\nzsh\0icon\x1f$(get_icon zsh)\nnvim\0icon\x1f$(get_icon nvim)\nrofi\0icon\x1f$(get_icon rofi)\nhyprland\0icon\x1f$(get_icon hyprland)"
 
-# if [[ "$esc" == *"dwm"* ]]; then
-#   $TERMINAL --working-directory="$HOME/.config/dwm" && exit 0
-# fi
+esc=$(echo -e "$options" | rofi -dmenu -p "Edit config" -theme "$THEME" | xargs)
 
 case "${esc#* }" in
-        vifm)
-                esc="$HOME/.config/vifm/vifmrc"
+    vifm)
+        esc="$HOME/.config/vifm/vifmrc"
         ;;
-      xmonad)
-                esc="$HOME/.config/xmonad"
+    kitty)
+        esc="$HOME/.config/kitty/kitty.conf"
         ;;
-      xmobar)
-                esc="$HOME/.config/xmobar"
+    zsh)
+        esc="$HOME/.zshrc"
         ;;
-        xresources)
-                esc="$HOME/.config/Xresources"
+    nvim)
+        esc="$HOME/.config/nvim/"
         ;;
-        zsh)
-                esc="$HOME/.zshrc"
+    rofi)
+        esc="$HOME/.local/share/rofi/"
         ;;
-        qtile)
-                esc="$HOME/.config/qtile"
+    hyprland)
+        esc="$HOME/.config/hypr/"
         ;;
-        nvim)
-                esc="$HOME/.config/nvim/"
-        ;;
-      dwm)
-        esc="$HOME/.config/dwm"
-        ;;
-        alacritty)
-                esc="$HOME/.config/alacritty"
-        ;;
-        rofi)
-                esc="$HOME/.local/share/rofi/"
-        ;;
-        kitty)
-                esc="$HOME/.config/kitty/kitty.conf"
-        ;;
-        *)
-                exit 0
+    *)
+        exit 0
         ;;
 esac
 
-$TERMINAL -e nvim $esc
+$TERMINAL -e nvim "$esc"

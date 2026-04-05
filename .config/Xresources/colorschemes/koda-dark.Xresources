@@ -1,0 +1,32 @@
+! Koda Dark Colorscheme
+! https://github.com/oskarnurm/koda.nvim
+
+*foreground:   #b0b0b0
+*background:   #101010
+*cursorColor:  #ffffff
+
+! Normal colors
+*color0:  #101010
+*color1:  #ff7676
+*color2:  #86cd82
+*color3:  #d9ba73
+*color4:  #0058d0
+*color5:  #777777
+*color6:  #8ebeec
+*color7:  #b0b0b0
+
+! Bright colors
+*color8:  #272727
+*color9:  #ff7676
+*color10: #86cd82
+*color11: #d9ba73
+*color12: #0058d0
+*color13: #ffffff
+*color14: #8ebeec
+*color15: #ffffff
+
+#define background #101010
+#define foreground #b0b0b0
+#define primary #ffffff
+#define secondary #8ebeec
+#define subtext #50585d

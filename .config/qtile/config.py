@@ -123,8 +123,8 @@ keys = [
     #   Ult keys
     Key([MOD], "F8", lazy.spawn("xbacklight -dec 10")),
     Key([MOD], "F9", lazy.spawn("xbacklight -inc 10")),
-    Key([MOD], "F10", lazy.spawn("pamixer -d 10")),
-    Key([MOD], "F11", lazy.spawn("pamixer -i 10")),
+    Key([MOD], "F10", lazy.spawn(scripts_dir + "/volume.sh --i")),
+    Key([MOD], "F11", lazy.spawn(scripts_dir + "/volume.sh --d")),
     Key([], "Print", lazy.spawn(scripts_dir + "/screenshot")),
     Key([MOD], "F1", lazy.spawn(scripts_dir + "/power_ctl")),
     Key(

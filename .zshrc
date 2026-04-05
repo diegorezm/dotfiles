@@ -1,11 +1,13 @@
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
- startx
+ start-hyprland
 fi
+
+fpath+=~/.zfunc
 
 source $HOME/.env
 #
 #       General conf
-# $SCRIPTS_DIR/ufetch stty stop undef
+$SCRIPTS_DIR/ufetch stty stop undef
 autoload -U colors && colors
 
 #       Reminder
@@ -165,3 +167,12 @@ function y() {
 	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+
+# opencode
+export PATH=/home/diego/.opencode/bin:$PATH
+
+autoload -U +X bashcompinit && bashcompinit
+
+. $HOME/.local/share/bob/env/env.sh
+
+complete -o nospace -C /usr/bin/terraform terraform

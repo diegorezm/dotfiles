@@ -1,1 +1,6 @@
-require("diegorezm")
+require('plugins')
+require('autocmds')
+require('lsp')
+require('keybinds')
+require('configs')
+require('statusline')

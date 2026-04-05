@@ -1,62 +1,58 @@
-#!/bin/bash 
-declare option=("  .local
-  download
-  images
-  Xresources
-  docs 
-  videos 
-  code
-  music
-  bin
-  share")
-esc=$(echo -e "${option[@]}" | dmenu  -p "Choose one:" | xargs)
-echo "${esc#* }" 
+#!/bin/bash
+
+THEME="$HOME/.config/rofi/noctalia-theme.rasi"
+
+get_icon() {
+    local name="$1"
+    icon=$(find /usr/share/icons ~/.local/share/icons -name "${name}.png" -o -name "${name}.svg" 2>/dev/null | head -1)
+    if [[ -n "$icon" ]]; then
+        echo "$name"
+    else
+        echo "folder"
+    fi
+}
+
+options=".local\0icon\x1f$(get_icon folder)\ndownload\0icon\x1f$(get_icon folder-download)\nimages\0icon\x1f$(get_icon folder-pictures)\ndocs\0icon\x1f$(get_icon folder-documents)\nvideos\0icon\x1f$(get_icon folder-videos)\ncode\0icon\x1f$(get_icon folder-development)\nmusic\0icon\x1f$(get_icon folder-music)\nbin\0icon\x1f$(get_icon folder)\nshare\0icon\x1f$(get_icon folder)"
+
+esc=$(echo -e "$options" | rofi -dmenu -p "Go to" -theme "$THEME" | xargs)
+
 case "${esc#* }" in
-        docs)
-                esc="$HOME/docs"
+    .local)
+        esc="$HOME/.local"
         ;;
-        .local)
-                esc="$HOME/.local"
+    download)
+        esc="$HOME/down"
         ;;
-        videos)
-                esc="$HOME/vids"
+    images)
+        esc="$HOME/img"
         ;;
-        download)
-                esc="$HOME/down"
+    docs)
+        esc="$HOME/docs"
         ;;
-        images)
-                esc="$HOME/img"
+    videos)
+        esc="$HOME/vids"
         ;;
-        code)
-              dir=$(ls "$HOME/code" | dmenu -p "Choose one:")
-              esc="$HOME/code/$dir"
+    code)
+	dir=$(for d in "$HOME/code"/*/; do
+	    name=$(basename "$d")
+	    icon=$(get_icon "$name")
+	    printf '%s\0icon\x1f%s\n' "$name" "$icon"
+	done | rofi -dmenu -p "Project" -theme "$THEME")
+		[[ -z "$dir" ]] && exit 0
+        esc="$HOME/code/$dir"
         ;;
-        music)
-                esc="$HOME/msc"
+    music)
+        esc="$HOME/msc"
         ;;
-        bin)
-                esc="$HOME/.local/bin"
+    bin)
+        esc="$HOME/.local/bin"
         ;;
-        share)
-                esc="$HOME/.local/share"
+    share)
+        esc="$HOME/.local/share"
         ;;
-        Xresources)
-                esc="$HOME/.config/Xresources"
-        ;;
-        *)
-                exit 0 
+    *)
+        exit 0
         ;;
 esac
 
-case $TERMINAL in
-  st)
-    $TERMINAL -d $esc
-  ;;
-  kitty)
-    $TERMINAL --working-directory=$esc
-  ;;
-  *)
-    $TERMINAL --working-directory=$esc
-  ;;
-    
-esac
+$TERMINAL --working-directory="$esc"
