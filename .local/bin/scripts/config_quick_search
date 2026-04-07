@@ -12,32 +12,44 @@ get_icon() {
     fi
 }
 
-options="kitty\0icon\x1f$(get_icon kitty)\nzsh\0icon\x1f$(get_icon zsh)\nnvim\0icon\x1f$(get_icon nvim)\nrofi\0icon\x1f$(get_icon rofi)\nhyprland\0icon\x1f$(get_icon hyprland)"
+declare -A apps=(
+    [kitty]="Kitty Terminal"
+    [zsh]="Z Shell"
+    [nvim]="Neovim"
+    [rofi]="Rofi Launcher"
+    [hyprland]="Hyprland WM"
+)
+
+options=""
+for key in "${!apps[@]}"; do
+    label="${apps[$key]}"
+    options+="$label\0icon\x1f$(get_icon "$key")\n"
+done
 
 esc=$(echo -e "$options" | rofi -dmenu -p "Edit config" -theme "$THEME" | xargs)
+esc=${esc,,}
 
-case "${esc#* }" in
-    vifm)
-        esc="$HOME/.config/vifm/vifmrc"
-        ;;
-    kitty)
+case "$esc" in
+    "kitty terminal")
         esc="$HOME/.config/kitty/kitty.conf"
         ;;
-    zsh)
+    "z shell")
         esc="$HOME/.zshrc"
         ;;
-    nvim)
+    "neovim")
         esc="$HOME/.config/nvim/"
         ;;
-    rofi)
+    "rofi launcher")
         esc="$HOME/.local/share/rofi/"
         ;;
-    hyprland)
+    "hyprland wm")
         esc="$HOME/.config/hypr/"
         ;;
     *)
+        echo "${esc} is not an option."
         exit 0
         ;;
 esac
 
+echo "$TERMINAL -e nvim "$esc""
 $TERMINAL -e nvim "$esc"

@@ -1,58 +1,57 @@
 #!/bin/bash
 
-THEME="$HOME/.config/rofi/noctalia-theme.rasi"
-
 get_icon() {
     local name="$1"
     icon=$(find /usr/share/icons ~/.local/share/icons -name "${name}.png" -o -name "${name}.svg" 2>/dev/null | head -1)
-    if [[ -n "$icon" ]]; then
-        echo "$name"
-    else
-        echo "folder"
-    fi
+    [[ -n "$icon" ]] && echo "$name" || echo "folder"
 }
 
-options=".local\0icon\x1f$(get_icon folder)\ndownload\0icon\x1f$(get_icon folder-download)\nimages\0icon\x1f$(get_icon folder-pictures)\ndocs\0icon\x1f$(get_icon folder-documents)\nvideos\0icon\x1f$(get_icon folder-videos)\ncode\0icon\x1f$(get_icon folder-development)\nmusic\0icon\x1f$(get_icon folder-music)\nbin\0icon\x1f$(get_icon folder)\nshare\0icon\x1f$(get_icon folder)"
+# label | path | icon
+folders=(
+    ".local  | $HOME/.local        | folder"
+    "download| $HOME/down          | folder-download"
+    "images  | $HOME/img           | folder-pictures"
+    "docs    | $HOME/docs          | folder-documents"
+    "videos  | $HOME/vids          | folder-videos"
+    "code    | $HOME/code          | folder-development"
+    "music   | $HOME/msc           | folder-music"
+    "bin     | $HOME/.local/bin    | folder"
+    "share   | $HOME/.local/share  | folder"
+)
 
-esc=$(echo -e "$options" | rofi -dmenu -p "Go to" -theme "$THEME" | xargs)
+# Build options string from array
+options=""
+for entry in "${folders[@]}"; do
+    IFS='|' read -r label path icon <<< "$entry"
+    label=$(echo "$label" | xargs)  # trim whitespace
+    options+="$label\0icon\x1f$(get_icon "$(echo "$icon" | xargs)")\n"
+done
+options="${options%\\n}"
 
-case "${esc#* }" in
-    .local)
-        esc="$HOME/.local"
-        ;;
-    download)
-        esc="$HOME/down"
-        ;;
-    images)
-        esc="$HOME/img"
-        ;;
-    docs)
-        esc="$HOME/docs"
-        ;;
-    videos)
-        esc="$HOME/vids"
-        ;;
-    code)
-	dir=$(for d in "$HOME/code"/*/; do
-	    name=$(basename "$d")
-	    icon=$(get_icon "$name")
-	    printf '%s\0icon\x1f%s\n' "$name" "$icon"
-	done | rofi -dmenu -p "Project" -theme "$THEME")
-		[[ -z "$dir" ]] && exit 0
-        esc="$HOME/code/$dir"
-        ;;
-    music)
-        esc="$HOME/msc"
-        ;;
-    bin)
-        esc="$HOME/.local/bin"
-        ;;
-    share)
-        esc="$HOME/.local/share"
-        ;;
-    *)
-        exit 0
-        ;;
-esac
+esc=$(echo -e "$options" | rofi -dmenu -p "Go to" | xargs)
+[[ -z "$esc" ]] && exit 0
 
-$TERMINAL --working-directory="$esc"
+# Find matching entry
+target=""
+for entry in "${folders[@]}"; do
+    IFS='|' read -r label path icon <<< "$entry"
+    label=$(echo "$label" | xargs)
+    if [[ "$label" == "$esc" ]]; then
+        target=$(echo "$path" | xargs)
+        break
+    fi
+done
+
+# Special case: code drills down into projects
+if [[ "$esc" == "code" ]]; then
+    dir=$(for d in "$HOME/code"/*/; do
+        name=$(basename "$d")
+        printf '%s\0icon\x1f%s\n' "$name" "$(get_icon "$name")"
+    done | rofi -dmenu -p "Project")
+    [[ -z "$dir" ]] && exit 0
+    target="$HOME/code/$dir"
+fi
+
+[[ -z "$target" ]] && exit 0
+
+$TERMINAL --working-directory="$target"

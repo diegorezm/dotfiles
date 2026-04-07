@@ -173,6 +173,4 @@ export PATH=/home/diego/.opencode/bin:$PATH
 
 autoload -U +X bashcompinit && bashcompinit
 
-. $HOME/.local/share/bob/env/env.sh
-
 complete -o nospace -C /usr/bin/terraform terraform
