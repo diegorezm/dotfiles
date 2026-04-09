@@ -109,17 +109,6 @@
                     "id": "Clock",
                     "tooltipFormat": "HH:mm ddd, MMM dd",
                     "useCustomFont": false
-                },
-                {
-                    "colorizeIcons": false,
-                    "hideMode": "hidden",
-                    "id": "ActiveWindow",
-                    "maxWidth": 145,
-                    "scrollingMode": "hover",
-                    "showIcon": true,
-                    "showText": true,
-                    "textColor": "none",
-                    "useFixedWidth": false
                 }
             ],
             "right": [
@@ -409,7 +398,7 @@
         "firstDayOfWeek": -1,
         "hideWeatherCityName": false,
         "hideWeatherTimezone": false,
-        "name": "",
+        "name": "Taubaté",
         "showCalendarEvents": true,
         "showCalendarWeather": true,
         "showWeekNumberInCalendar": false,
@@ -432,11 +421,11 @@
     "nightLight": {
         "autoSchedule": true,
         "dayTemp": "6500",
-        "enabled": false,
+        "enabled": true,
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "nightTemp": "4000"
+        "nightTemp": "3252"
     },
     "noctaliaPerformance": {
         "disableDesktopWidgets": true,
