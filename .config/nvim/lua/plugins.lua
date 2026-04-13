@@ -12,7 +12,10 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/brenoprata10/nvim-highlight-colors" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.icons" }
+	{ src = "https://github.com/OXY2DEV/markview.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.icons" },
+	{ src = "https://github.com/rafamadriz/friendly-snippets" },
+	{ src = "https://github.com/L3MON4D3/LuaSnip",                  version = "v2.5.0", }
 })
 
 require('nvim-treesitter').setup {

@@ -195,7 +195,7 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Kanagawa",
+        "predefinedScheme": "Murasaki",
         "schedulingMode": "off",
         "syncGsettings": true,
         "useWallpaperColors": true
@@ -664,7 +664,7 @@
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",
         "wallhavenPurity": "100",
-        "wallhavenQuery": "",
+        "wallhavenQuery": "frieren",
         "wallhavenRatios": "",
         "wallhavenResolutionHeight": "",
         "wallhavenResolutionMode": "atleast",

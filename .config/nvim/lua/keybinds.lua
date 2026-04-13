@@ -54,7 +54,7 @@ keymap("t", "<Esc>", "<C-\\><C-N>")
 local fzf = require('fzf-lua')
 
 vim.keymap.set('n', '<leader>ff', fzf.files, { desc = 'Find files' })
-vim.keymap.set('n', '<leader>gg', fzf.live_grep, { desc = 'Grep' })
+vim.keymap.set('n', '<leader>fg', fzf.live_grep, { desc = 'Grep' })
 vim.keymap.set('n', '<leader>bb', fzf.buffers, { desc = 'Buffers' })
 vim.keymap.set('n', '<leader>fr', fzf.lsp_references, { desc = 'LSP references' })
 vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, { desc = "Code Actions" })
@@ -63,3 +63,12 @@ vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, { desc = "Code Actions" 
 -- GIT
 keymap("n", "<leader>gg", '<cmd>Git<CR>', {})
 keymap("n", "<leader>gp", '<cmd>Git push<CR>', {})
+
+
+-- Navigation
+vim.keymap.set('n', '<C-n>', ':tabnext<CR>', { silent = true })
+vim.keymap.set('n', '<C-p>', ':tabprevious<CR>', { silent = true })
+
+-- Management
+vim.keymap.set('n', '<C-t>', ':tabnew<CR>', { silent = true })
+vim.keymap.set('n', '<C-q>', ':wq<CR>', { silent = true })
