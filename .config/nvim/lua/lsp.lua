@@ -1,6 +1,7 @@
 vim.lsp.enable({
 	'lua_ls',
 	'ts_ls',
+	'elixirls',
 	'biome',
 	'eslint',
 	'gopls',
