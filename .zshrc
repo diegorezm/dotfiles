@@ -137,7 +137,7 @@ export PATH="$PATH:$NPM_PACKAGES/bin"
 export PATH="$PATH:$HOME/.fly/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin/scripts/"
-export PATH="$PATH:$HOME/go/bin/"
+export PATH="$PATH:$HOME/go/bin"
 PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
