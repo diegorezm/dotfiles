@@ -16,7 +16,6 @@
   (require 'use-package))
 
 (setq use-package-always-ensure t)
-
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode t)
 
@@ -731,6 +730,68 @@
     (kbd "g H") #'ibuffer-update))
 
 ;; --------------------------------
+;; AI
+;; --------------------------------
+(use-package gptel
+  :ensure t
+  :commands (gptel gptel-send gptel-menu)
+  :config
+  (setq gptel-default-mode 'org-mode)
+
+  ;; Backends
+  (setq my/gptel-ollama-backend
+        (gptel-make-ollama "Ollama"
+          :host "localhost:11434"
+          :stream t
+          :models '(qwen3.5:2b)))
+
+  ;; OpenRouter uses an OpenAI-compatible API shape
+  (setq my/gptel-openrouter-backend
+        (gptel-make-openai "OpenRouter"
+          :host "openrouter.ai"
+          :endpoint "/api/v1/chat/completions"
+          :stream t
+          :key (getenv "OPENROUTER_API_KEY")
+          :models '(openai/gpt-4o-mini
+                    google/gemini-2.0-flash-exp
+                    meta-llama/llama-3.1-70b-instruct)))
+
+  ;; Default backend/model
+  (setq gptel-backend my/gptel-openrouter-backend
+        gptel-model 'openai/gpt-4o-mini)
+
+  ;; Named presets
+  (setq my/gptel-presets
+        `((ollama . ((backend . ,my/gptel-ollama-backend)
+                     (model . qwen2.5-coder:latest)))
+          (openrouter . ((backend . ,my/gptel-openrouter-backend)
+                         (model . openai/gpt-4o-mini)))))
+
+  (defun my/gptel-use-backend (name)
+    "Switch gptel backend preset by NAME."
+    (interactive
+     (list
+      (intern
+       (completing-read
+        "Backend: "
+        (mapcar (lambda (x) (symbol-name (car x))) my/gptel-presets)
+        nil t))))
+    (let* ((preset (alist-get name my/gptel-presets))
+           (backend (alist-get 'backend preset))
+           (model (alist-get 'model preset)))
+      (setq gptel-backend backend
+            gptel-model model)
+      (message "gptel backend: %s | model: %s" name model)))
+
+  (defun my/gptel-use-ollama ()
+    (interactive)
+    (my/gptel-use-backend 'ollama))
+
+  (defun my/gptel-use-openrouter ()
+    (interactive)
+    (my/gptel-use-backend 'openrouter)))
+
+;; --------------------------------
 ;; Terminals & Shells
 ;; --------------------------------
 (use-package vterm
@@ -741,13 +802,11 @@
 
 (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode -1)))
 
-;; --------------------------------
-;; Leader keys
-;; --------------------------------
-(defun my/reload-init-file ()
-  (interactive)
-  (load-file user-init-file)
-  (message "Reloaded init.el"))
+(use-package multi-vterm
+  :after vterm
+  :commands (multi-vterm multi-vterm-next multi-vterm-prev multi-vterm-project)
+  :config
+  (setq multi-vterm-buffer-name "vterm"))
 
 (defun my/project-vterm ()
   (interactive)
@@ -757,6 +816,107 @@
               (car (project-roots project))
             default-directory)))
     (vterm)))
+
+
+;; --------------------------------
+;; AI / gptel
+;; --------------------------------
+
+(use-package gptel
+  :ensure t
+  :commands (gptel gptel-send gptel-menu)
+  :init
+  (setq gptel-default-mode 'org-mode)
+
+  :config
+  ;; Optional but useful
+  (setq gptel-use-curl t)
+
+  ;; Helper for environment variables
+  (defun my/getenv-required (name)
+    "Return environment variable NAME or signal an error."
+    (or (getenv name)
+        (error "Missing environment variable: %s" name)))
+
+  ;; Ollama backend
+  (setq my/gptel-ollama-backend
+        (gptel-make-ollama
+            "Ollama"
+          :host "localhost:11434"
+          :stream t
+          :models '(llama3.2:1b
+                    qwen2.5:1.5b
+                    qwen2.5-coder:1.5b
+                    smollm2:1.7b
+                    )))
+
+  (setq my/gptel-ollama-backend
+        (gptel-make-ollama
+            "Ollama"
+          :host "localhost:11434"
+          :stream t
+          :models '(llama3.2:1b
+                    qwen2.5:1.5b
+                    qwen2.5-coder:1.5b
+                    smollm2:1.7b)))
+
+  ;; OpenRouter backend (OpenAI-compatible)
+  (setq my/gptel-openrouter-backend
+        (gptel-make-openai
+            "OpenRouter"
+          :host "openrouter.ai"
+          :endpoint "/api/v1/chat/completions"
+          :stream t
+          :key (lambda () (my/getenv-required "OPENROUTER_API_KEY"))
+          :models '(openai/gpt-4o-mini
+                    meta-llama/llama-3.1-70b-instruct)))
+
+  ;; Default backend/model
+  (setq gptel-backend my/gptel-openrouter-backend
+        gptel-model 'openai/gpt-4o-mini)
+
+  ;; Presets
+  (setq my/gptel-presets
+        `((ollama
+           . ((backend . ,my/gptel-ollama-backend)
+              (model . qwen2.5-coder:latest)))
+          (openrouter
+           . ((backend . ,my/gptel-openrouter-backend)
+              (model . openai/gpt-4o-mini)))))
+
+  (defun my/gptel-use-backend (name)
+    "Switch gptel backend preset by NAME."
+    (interactive
+     (list
+      (intern
+       (completing-read
+        "Backend: "
+        (mapcar (lambda (x) (symbol-name (car x))) my/gptel-presets)
+        nil t))))
+    (let* ((preset (alist-get name my/gptel-presets))
+           (backend (alist-get 'backend preset))
+           (model (alist-get 'model preset)))
+      (setq gptel-backend backend
+            gptel-model model)
+      (message "gptel backend: %s | model: %s" name model)))
+
+  (defun my/gptel-use-ollama ()
+    "Switch to local Ollama."
+    (interactive)
+    (my/gptel-use-backend 'ollama))
+
+  (defun my/gptel-use-openrouter ()
+    "Switch to OpenRouter."
+    (interactive)
+    (my/gptel-use-backend 'openrouter)))
+
+;; --------------------------------
+;; Leader keys
+;; --------------------------------
+(defun my/reload-init-file ()
+  (interactive)
+  (load-file user-init-file)
+  (message "Reloaded init.el"))
 
 (my/leader
   ;; top-level quick actions
@@ -829,9 +989,20 @@
   "ns"  '(consult-org-roam-search :which-key "search notes")
 
   ;; terminals & shells
-  "'" '(vterm :which-key "vterm")
-  "o" '(:ignore t :which-key "open")
-  "ot" '(my/project-vterm :which-key "terminal")
+  "'"  '(multi-vterm :which-key "new vterm")
+  "o"  '(:ignore t :which-key "open")
+  "ot" '(my/project-vterm :which-key "project terminal")
+  "on" '(multi-vterm-next :which-key "next terminal")
+  "op" '(multi-vterm-prev :which-key "previous terminal")
+  
+  ;; ai
+  "a"   '(:ignore t :which-key "ai")
+  "aa"  '(gptel :which-key "open chat")
+  "as"  '(gptel-send :which-key "send")
+  "am"  '(gptel-menu :which-key "menu")
+  "ab"  '(my/gptel-use-backend :which-key "switch backend")
+  "ao"  '(my/gptel-use-ollama :which-key "use ollama")
+  "aO"  '(my/gptel-use-openrouter :which-key "use openrouter")
 
   ;; Config
   "hr" '(my/reload-init-file :which-key "Reload config "))
