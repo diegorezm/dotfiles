@@ -8,6 +8,8 @@
         ("melpa"  . "https://melpa.org/packages/")))
 (package-initialize)
 
+(add-to-list 'exec-path (expand-file-name "~/go/bin/"))
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -18,6 +20,7 @@
 (setq use-package-always-ensure t)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode t)
+(setq vc-follow-symlinks t)
 
 ;; Set transparency to 80% for the current frame
 (set-frame-parameter nil 'alpha-background 90)
@@ -543,114 +546,70 @@
 ;; --------------------------------
 ;; LSP
 ;; --------------------------------
-(defun my/lsp-mode-setup-completion ()
-  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-        '(orderless))
+(defun my/eglot-capf ()
   (setq-local completion-at-point-functions
-              (list (cape-capf-super #'lsp-completion-at-point #'cape-file #'cape-dabbrev))))
+              (list (cape-capf-buster
+                     (cape-capf-super
+                      #'eglot-completion-at-point
+                      #'cape-file
+                      #'cape-dabbrev)))))
 
-
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook ((go-mode . lsp-deferred)
-         (go-ts-mode . lsp-deferred)
-         (elixir-mode . lsp-deferred)
-         (heex-ts-mode . lsp-deferred)
-         (typescript-mode . lsp-deferred)
-         (typescript-ts-mode . lsp-deferred)
-         (tsx-ts-mode . lsp-deferred)
-         (js-ts-mode . lsp-deferred)
-         (html-mode . lsp-deferred)
-         (html-ts-mode . lsp-deferred)
-         (css-mode . lsp-deferred)
-         (css-ts-mode . lsp-deferred)
-         (lsp-completion-mode . my/lsp-mode-setup-completion)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :init
-  (setq lsp-keymap-prefix "C-c l")
+(use-package eglot
+  :ensure nil
+  :hook ((typescript-ts-mode . eglot-ensure)
+         (tsx-ts-mode        . eglot-ensure)
+         (js-ts-mode         . eglot-ensure)
+         (css-ts-mode        . eglot-ensure)
+         (html-mode          . eglot-ensure)
+         (go-mode            . eglot-ensure)
+         (go-ts-mode         . eglot-ensure)
+         (elixir-mode        . eglot-ensure)
+         (heex-ts-mode       . eglot-ensure)
+         (eglot-managed-mode . my/eglot-capf))
   :custom
-  (lsp-completion-provider :none)
-  (lsp-prefer-capf t)
-  (lsp-completion-enable t)
-  (lsp-completion-show-detail t)
-  (lsp-completion-show-kind t)
-  (lsp-diagnostics-provider :flycheck)
-  (lsp-enable-symbol-highlighting t)
-  (lsp-enable-file-watchers nil)
-  (lsp-idle-delay 0.3)
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-log-io nil)
-  (lsp-use-plists t)
-  (lsp-enable-on-type-formatting nil)
-  (lsp-semantic-tokens-enable nil))
+  (eglot-autoshutdown t)
+  (eglot-send-changes-idle-time 0.3)
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-workspace-configuration
+   '((:gopls . ((staticcheck         . t)
+                (matcher             . "CaseSensitive")
+                (completeUnimported  . t)
+                (usePlaceholders     . t)
+                (analyses . ((unusedparams . t)
+                             (shadow       . t)
+                             (nilness      . t)))))))
+  :config
+  (add-to-list 'eglot-server-programs
+               '((typescript-ts-mode tsx-ts-mode js-ts-mode)
+                 . ("typescript-language-server" "--stdio"))))
 
-(use-package lsp-ui
-  :after lsp-mode
-  :commands lsp-ui-mode
-  :custom
-  (lsp-ui-doc-enable nil)
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-sideline-enable t)
-  (lsp-ui-sideline-show-hover nil)
-  (lsp-ui-sideline-show-code-actions nil)
-  (lsp-ui-peek-enable t))
+(use-package eldoc-box
+  :after eglot
+  :hook (eglot-managed-mode . eldoc-box-hover-mode))
 
-(with-eval-after-load 'lsp-mode
-  (evil-define-key 'normal lsp-mode-map
-    (kbd "K") #'lsp-describe-thing-at-point))
-
-;; --------------------------------
-;; emacs-lsp-booster
-;; --------------------------------
-(defun my/lsp-booster--advice-json-parse (old-fn &rest args)
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-
-(advice-add
- (if (fboundp 'json-parse-buffer) 'json-parse-buffer 'json-read)
- :around #'my/lsp-booster--advice-json-parse)
-
-(defun my/lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  (let ((orig-result (funcall old-fn cmd test?)))
-    (if (and (not test?)
-             (not (file-remote-p default-directory))
-             lsp-use-plists
-             (not (functionp 'json-rpc-connection))
-             (executable-find "emacs-lsp-booster"))
-        (progn
-          (when-let ((command-from-exec-path (executable-find (car orig-result))))
-            (setcar orig-result command-from-exec-path))
-          (cons "emacs-lsp-booster" orig-result))
-      orig-result)))
-
-(with-eval-after-load 'lsp-mode
-  (advice-add 'lsp-resolve-final-command :around #'my/lsp-booster--advice-final-command))
+(with-eval-after-load 'eglot
+  (evil-define-key 'normal eglot-mode-map
+    (kbd "K") #'eldoc-box-help-at-point))
 
 ;; --------------------------------
 ;; Language-specific helpers
 ;; --------------------------------
 (use-package go-mode
-  :mode "\\.go\\'")
+  :hook (before-save . gofmt-before-save))
 
 (use-package typescript-mode
   :mode "\\.ts\\'")
 
 (use-package heex-ts-mode
-  :mode ("\\.heex\\'" . heex-ts-mode))
+  :mode "\\.heex\\'")
 
 (use-package elixir-mode
-  :mode ("\\.ex\\'" . elixir-mode)
-  :mode ("\\.exs\\'" . elixir-mode)
-  :mode ("\\.sface\\'" . elixir-mode))
+  :mode ("\\.ex\\'"
+         "\\.exs\\'"
+         "\\.sface\\'"))
 
 (use-package web-mode
-  :mode ("\\.html?\\'" "\\.tsx\\'" "\\.jsx\\'")
-  :config
-  (setq web-mode-enable-auto-quoting nil))
+  :mode "\\.html?\\'")  
 
 ;; Prefer tree-sitter modes when available
 (add-hook 'tsx-ts-mode-hook
@@ -817,99 +776,6 @@
             default-directory)))
     (vterm)))
 
-
-;; --------------------------------
-;; AI / gptel
-;; --------------------------------
-
-(use-package gptel
-  :ensure t
-  :commands (gptel gptel-send gptel-menu)
-  :init
-  (setq gptel-default-mode 'org-mode)
-
-  :config
-  ;; Optional but useful
-  (setq gptel-use-curl t)
-
-  ;; Helper for environment variables
-  (defun my/getenv-required (name)
-    "Return environment variable NAME or signal an error."
-    (or (getenv name)
-        (error "Missing environment variable: %s" name)))
-
-  ;; Ollama backend
-  (setq my/gptel-ollama-backend
-        (gptel-make-ollama
-            "Ollama"
-          :host "localhost:11434"
-          :stream t
-          :models '(llama3.2:1b
-                    qwen2.5:1.5b
-                    qwen2.5-coder:1.5b
-                    smollm2:1.7b
-                    )))
-
-  (setq my/gptel-ollama-backend
-        (gptel-make-ollama
-            "Ollama"
-          :host "localhost:11434"
-          :stream t
-          :models '(llama3.2:1b
-                    qwen2.5:1.5b
-                    qwen2.5-coder:1.5b
-                    smollm2:1.7b)))
-
-  ;; OpenRouter backend (OpenAI-compatible)
-  (setq my/gptel-openrouter-backend
-        (gptel-make-openai
-            "OpenRouter"
-          :host "openrouter.ai"
-          :endpoint "/api/v1/chat/completions"
-          :stream t
-          :key (lambda () (my/getenv-required "OPENROUTER_API_KEY"))
-          :models '(openai/gpt-4o-mini
-                    meta-llama/llama-3.1-70b-instruct)))
-
-  ;; Default backend/model
-  (setq gptel-backend my/gptel-openrouter-backend
-        gptel-model 'openai/gpt-4o-mini)
-
-  ;; Presets
-  (setq my/gptel-presets
-        `((ollama
-           . ((backend . ,my/gptel-ollama-backend)
-              (model . qwen2.5-coder:latest)))
-          (openrouter
-           . ((backend . ,my/gptel-openrouter-backend)
-              (model . openai/gpt-4o-mini)))))
-
-  (defun my/gptel-use-backend (name)
-    "Switch gptel backend preset by NAME."
-    (interactive
-     (list
-      (intern
-       (completing-read
-        "Backend: "
-        (mapcar (lambda (x) (symbol-name (car x))) my/gptel-presets)
-        nil t))))
-    (let* ((preset (alist-get name my/gptel-presets))
-           (backend (alist-get 'backend preset))
-           (model (alist-get 'model preset)))
-      (setq gptel-backend backend
-            gptel-model model)
-      (message "gptel backend: %s | model: %s" name model)))
-
-  (defun my/gptel-use-ollama ()
-    "Switch to local Ollama."
-    (interactive)
-    (my/gptel-use-backend 'ollama))
-
-  (defun my/gptel-use-openrouter ()
-    "Switch to OpenRouter."
-    (interactive)
-    (my/gptel-use-backend 'openrouter)))
-
 ;; --------------------------------
 ;; Leader keys
 ;; --------------------------------
@@ -962,19 +828,18 @@
 
   ;; code / lsp
   "l"   '(:ignore t :which-key "lsp")
-  "la"  '(lsp-execute-code-action :which-key "code action")
-  "ld"  '(lsp-find-definition :which-key "definition")
-  "lD"  '(lsp-find-declaration :which-key "declaration")
-  "li"  '(lsp-find-implementation :which-key "implementation")
-  "lr"  '(lsp-find-references :which-key "references")
-  "lt"  '(lsp-find-type-definition :which-key "type definition")
-  "lR"  '(lsp-rename :which-key "rename")
-  "lf"  '(lsp-format-buffer :which-key "format buffer")
-  "lh"  '(lsp-describe-thing-at-point :which-key "describe")
-  "le"  '(flycheck-list-errors :which-key "list errors")
-  "ln"  '(flycheck-next-error :which-key "next error")
-  "lp"  '(flycheck-previous-error :which-key "previous error")
-  "ls"  '(lsp-treemacs-symbols :which-key "symbols")
+  "la"  '(eglot-code-actions :which-key "code action")
+  "ld"  '(xref-find-definitions :which-key "definition")
+  "lD"  '(xref-find-definitions :which-key "declaration")     
+  "li"  '(eglot-find-implementation :which-key "implementation")
+  "lr"  '(xref-find-references :which-key "references")
+  "lt"  '(eglot-find-typeDefinition :which-key "type definition")
+  "lR"  '(eglot-rename :which-key "rename")
+  "lf"  '(eglot-format-buffer :which-key "format buffer")
+  "lh"  '(eldoc-box-help-at-point :which-key "describe")
+  "le"  '(flymake-show-buffer-diagnostics :which-key "list errors")
+  "ln"  '(flymake-goto-next-error :which-key "next error")
+  "lp"  '(flymake-goto-prev-error :which-key "previous error")
 
   ;; org
   "n"   '(:ignore t :which-key "notes")
@@ -995,15 +860,6 @@
   "on" '(multi-vterm-next :which-key "next terminal")
   "op" '(multi-vterm-prev :which-key "previous terminal")
   
-  ;; ai
-  "a"   '(:ignore t :which-key "ai")
-  "aa"  '(gptel :which-key "open chat")
-  "as"  '(gptel-send :which-key "send")
-  "am"  '(gptel-menu :which-key "menu")
-  "ab"  '(my/gptel-use-backend :which-key "switch backend")
-  "ao"  '(my/gptel-use-ollama :which-key "use ollama")
-  "aO"  '(my/gptel-use-openrouter :which-key "use openrouter")
-
   ;; Config
   "hr" '(my/reload-init-file :which-key "Reload config "))
 
@@ -1037,13 +893,14 @@
      default))
  '(package-selected-packages
    '(ace-window apheleia cape cfrs consult-flyspell corfu dashboard
-                dired-open doom-modeline elixir-mode embark-consult
-                evil-collection evil-org flycheck flyspell-correct
-                general go-mode guess-language hydra lsp-treemacs
-                lsp-ui magit marginalia no-littering orderless
-                org-bullets org-roam org-superstar org-view-mode
-                peep-dired pfuture projectile toc-org typescript-mode
-                vertico vterm web-mode)))
+                dired-open doom-modeline eldoc-box elixir-mode
+                embark-consult evil-collection evil-org flycheck
+                flyspell-correct general go-mode guess-language hydra
+                lsp-treemacs lsp-ui magit marginalia no-littering
+                orderless org-bullets org-roam org-superstar
+                org-view-mode peep-dired pfuture projectile
+                shell-maker toc-org typescript-mode vertico vterm
+                web-mode)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
