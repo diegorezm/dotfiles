@@ -13,6 +13,11 @@ input_path  = "~/.config/noctalia/templates/tmux.conf"
 output_path = "~/.tmux/noctalia-theme.conf"
 post_hook   = "tmux source-file ~/.tmux.conf"
 
+[templates.obsidian]
+input_path  = "~/.config/noctalia/templates/obsidian.css"
+output_path = "~/docs/notes/.obsidian/snippets/noctalia.css"
+post_hook   = "notify-send 'Obsidian theme updated'"
+
 # User-defined templates
 # Add your custom templates below
 # Example:
