@@ -1,4 +1,4 @@
-#include "./colorschemes/kanagawa.Xresources"
+#include "./colorschemes/vague.Xresources"
 
 ! urxvt
 URxvt*buffered: true
@@ -26,7 +26,7 @@ dmenu.selforeground: background
 st.font:  JetBrainsMono:size=13:antialias=true:autohint=true
 st.background: background
 st.foreground: foreground
-st.color12: secondary
+st.color12: subtext
 st.color4: secondary
 
 

@@ -1,55 +1,26 @@
 #!/bin/bash
 
-THEME="$HOME/.config/rofi/noctalia-theme.rasi"
-
-get_icon() {
-    local name="$1"
-    icon=$(find /usr/share/icons ~/.local/share/icons -name "${name}.png" -o -name "${name}.svg" 2>/dev/null | head -1)
-    if [[ -n "$icon" ]]; then
-        echo "$name"
-    else
-        echo "text-editor"
-    fi
-}
-
 declare -A apps=(
-    [kitty]="Kitty Terminal"
-    [zsh]="Z Shell"
-    [nvim]="Neovim"
-    [rofi]="Rofi Launcher"
-    [hyprland]="Hyprland WM"
+    [kitty]="$HOME/.config/kitty/kitty.conf"
+    [zsh]="$HOME/.zshrc"
+    [nvim]="$HOME/.config/nvim/"
+    [rofi]="$HOME/.local/share/rofi/"
+    [hyprland]="$HOME/.config/hypr/"
 )
 
 options=""
 for key in "${!apps[@]}"; do
-    label="${apps[$key]}"
-    options+="$label\0icon\x1f$(get_icon "$key")\n"
+    options+="$key\n"
 done
 
-esc=$(echo -e "$options" | rofi -dmenu -p "Edit config" -theme "$THEME" | xargs)
-esc=${esc,,}
+esc=$(echo -e "$options" | dmenu -p "Edit config:" | xargs)
+[[ -z "$esc" ]] && exit 0
 
-case "$esc" in
-    "kitty terminal")
-        esc="$HOME/.config/kitty/kitty.conf"
-        ;;
-    "z shell")
-        esc="$HOME/.zshrc"
-        ;;
-    "neovim")
-        esc="$HOME/.config/nvim/"
-        ;;
-    "rofi launcher")
-        esc="$HOME/.local/share/rofi/"
-        ;;
-    "hyprland wm")
-        esc="$HOME/.config/hypr/"
-        ;;
-    *)
-        echo "${esc} is not an option."
-        exit 0
-        ;;
-esac
+target="${apps[$esc]}"
 
-echo "$TERMINAL -e nvim "$esc""
-$TERMINAL -e nvim "$esc"
+if [[ -z "$target" ]]; then
+    echo "${esc} is not an option."
+    exit 0
+fi
+
+$TERMINAL -d $target -e nvim "$target"

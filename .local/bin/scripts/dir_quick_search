@@ -1,57 +1,35 @@
 #!/bin/bash
 
-get_icon() {
-    local name="$1"
-    icon=$(find /usr/share/icons ~/.local/share/icons -name "${name}.png" -o -name "${name}.svg" 2>/dev/null | head -1)
-    [[ -n "$icon" ]] && echo "$name" || echo "folder"
-}
-
-# label | path | icon
-folders=(
-    ".local  | $HOME/.local        | folder"
-    "download| $HOME/down          | folder-download"
-    "images  | $HOME/img           | folder-pictures"
-    "docs    | $HOME/docs          | folder-documents"
-    "videos  | $HOME/vids          | folder-videos"
-    "code    | $HOME/code          | folder-development"
-    "music   | $HOME/msc           | folder-music"
-    "bin     | $HOME/.local/bin    | folder"
-    "share   | $HOME/.local/share  | folder"
+declare -A folders=(
+    [.local]="$HOME/.local"
+    [download]="$HOME/down"
+    [images]="$HOME/img"
+    [docs]="$HOME/docs"
+    [videos]="$HOME/vids"
+    [code]="$HOME/code"
+    [music]="$HOME/msc"
+    [bin]="$HOME/.local/bin"
+    [share]="$HOME/.local/share"
 )
 
-# Build options string from array
 options=""
-for entry in "${folders[@]}"; do
-    IFS='|' read -r label path icon <<< "$entry"
-    label=$(echo "$label" | xargs)  # trim whitespace
-    options+="$label\0icon\x1f$(get_icon "$(echo "$icon" | xargs)")\n"
+for key in "${!folders[@]}"; do
+    options+="$key\n"
 done
-options="${options%\\n}"
 
-esc=$(echo -e "$options" | rofi -dmenu -p "Go to" | xargs)
+esc=$(echo -e "$options" | dmenu -p "Go to:" | xargs)
 [[ -z "$esc" ]] && exit 0
 
-# Find matching entry
-target=""
-for entry in "${folders[@]}"; do
-    IFS='|' read -r label path icon <<< "$entry"
-    label=$(echo "$label" | xargs)
-    if [[ "$label" == "$esc" ]]; then
-        target=$(echo "$path" | xargs)
-        break
-    fi
-done
+target="${folders[$esc]}"
+[[ -z "$target" ]] && exit 0
 
 # Special case: code drills down into projects
 if [[ "$esc" == "code" ]]; then
     dir=$(for d in "$HOME/code"/*/; do
-        name=$(basename "$d")
-        printf '%s\0icon\x1f%s\n' "$name" "$(get_icon "$name")"
-    done | rofi -dmenu -p "Project")
+        basename "$d"
+    done | dmenu -p "Project:")
     [[ -z "$dir" ]] && exit 0
     target="$HOME/code/$dir"
 fi
 
-[[ -z "$target" ]] && exit 0
-
-$TERMINAL --working-directory="$target"
+$TERMINAL -d $target

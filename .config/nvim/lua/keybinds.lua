@@ -1,27 +1,7 @@
 local keymap = vim.keymap.set
 
 vim.g.mapleader = ' '
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open netrw" })
-
--- LSP
-keymap("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Code Rename" })
--- keymap("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
-keymap("n", "<leader>k", vim.lsp.buf.hover, { desc = "Hover Documentation" })
-keymap("n", "K", vim.lsp.buf.hover, { desc = "Hover (alt)" })
-keymap("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
-keymap("i", "<C-space>", vim.lsp.completion.get, { desc = "Trigger completion" })
-
--- Jump to next/previous diagnostic
-vim.keymap.set('n', ']d', function()
-	vim.diagnostic.jump({ count = 1, float = true })
-end, { desc = 'Next diagnostic' })
-
-vim.keymap.set('n', '[d', function()
-	vim.diagnostic.jump({ count = -1, float = true })
-end, { desc = 'Previous diagnostic' })
-
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = 'Diagnostics to quickfix' })
-
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open oil" })
 
 vim.keymap.set('i', '<CR>', function()
 	if vim.fn.pumvisible() == 1 then
@@ -59,11 +39,9 @@ vim.keymap.set('n', '<leader>bb', fzf.buffers, { desc = 'Buffers' })
 vim.keymap.set('n', '<leader>fr', fzf.lsp_references, { desc = 'LSP references' })
 vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, { desc = "Code Actions" })
 
-
 -- GIT
 keymap("n", "<leader>gg", '<cmd>Git<CR>', {})
 keymap("n", "<leader>gp", '<cmd>Git push<CR>', {})
-
 
 -- Navigation
 vim.keymap.set('n', '<C-n>', ':tabnext<CR>', { silent = true })

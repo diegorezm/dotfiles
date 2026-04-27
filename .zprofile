@@ -11,7 +11,7 @@ export AMD_VULKAN_ICD=RADV
 
 # Programs
 export EDITOR="nvim"
-export TERMINAL="kitty"
+export TERMINAL="st"
 export VISUAL=/bin/nvim
 export BROWSER="zen-browser"
 export READER="zathura"

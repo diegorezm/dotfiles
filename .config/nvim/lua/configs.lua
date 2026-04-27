@@ -21,7 +21,6 @@ opt.winborder = "rounded"
 opt.inccommand = "nosplit"
 opt.ignorecase = true
 opt.autoindent = true
--- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 vim.o.clipboard = "unnamedplus"
 
 opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
@@ -30,11 +29,9 @@ opt.undofile = true
 cmd('syntax off')
 cmd.filetype("plugin indent on")
 
-
 vim.g.copilot_no_tab_map = true
 vim.g.netrw_liststyle = 1
 vim.g.netrw_sort_by = "size"
-
 
 local ok_ui2, ui2 = pcall(require, "vim._core.ui2")
 if ok_ui2 and type(ui2.enable) == "function" then

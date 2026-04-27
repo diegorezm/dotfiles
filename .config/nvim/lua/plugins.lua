@@ -15,6 +15,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/rafamadriz/friendly-snippets" },
 	{ src = "https://github.com/L3MON4D3/LuaSnip",                  version = "v2.5.0", },
+	{src ="https://github.com/lukas-reineke/indent-blankline.nvim"},
 })
 
 require('nvim-treesitter').setup {
@@ -55,12 +56,8 @@ require("mason").setup({
 })
 
 require('nvim-ts-autotag').setup({})
-require("nvim-highlight-colors").setup {
-	render = 'virtual',
-	virtual_symbol = '⚫︎',
-	virtual_symbol_suffix = '',
-}
+require("nvim-highlight-colors").setup()
 
-require('matugen').setup()
 require("oil").setup()
 require("mini.icons").setup()
+require("ibl").setup()

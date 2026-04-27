@@ -9,6 +9,7 @@
 (package-initialize)
 
 (add-to-list 'exec-path (expand-file-name "~/go/bin/"))
+(add-to-list 'exec-path (expand-file-name "/usr/bin/"))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -54,37 +55,53 @@
 (add-hook 'server-after-make-frame-hook #'my/dashboard-open)
 
 ;; --------------------------------
-;; Theme from local directory
+;; Theme path
 ;; --------------------------------
 (add-to-list 'custom-theme-load-path
              (expand-file-name "themes/" user-emacs-directory))
 
-(load-theme 'noctalia t)
+;; Optional: avoid interactive theme safety prompt for your own theme
+;; (add-to-list 'custom-safe-themes t)
 
 ;; --------------------------------
 ;; Fonts
 ;; --------------------------------
 (defvar my/default-font "JetBrains Mono")
-(defvar my/default-font-size 130) ; 13pt = 130
+(defvar my/default-font-size 140) ; 14pt-ish
 
-(defun my/apply-fonts ()
-  (when (display-graphic-p)
-    (set-face-attribute 'default nil
-                        :family my/default-font
-                        :height my/default-font-size
-                        :weight 'regular)
-    (set-face-attribute 'fixed-pitch nil
-                        :family my/default-font
-                        :height 1.0)
-    (set-face-attribute 'variable-pitch nil
-                        :family "Sans Serif"
-                        :height 1.0)))
+(defun my/apply-ui (&optional frame)
+  (let ((frame (or frame (selected-frame))))
+    (when (display-graphic-p frame)
+      (with-selected-frame frame
+        ;; Theme
+        (unless (custom-theme-enabled-p 'vague)
+          (load-theme 'vague t))
 
+        ;; Fonts
+        (when (find-font (font-spec :name my/default-font))
+          (set-face-attribute 'default frame
+                              :family my/default-font
+                              :height my/default-font-size
+                              :weight 'regular)
+          (set-face-attribute 'fixed-pitch frame
+                              :family my/default-font
+                              :height my/default-font-size))
+
+        (set-face-attribute 'variable-pitch frame
+                            :family "Sans Serif"
+                            :height my/default-font-size)
+
+        ;; Frame defaults for future GUI frames
+        (add-to-list 'default-frame-alist
+                     `(font . ,(format "%s-%d"
+                                       my/default-font
+                                       (/ my/default-font-size 10))))))))
 
 (setq-default line-spacing 0.2)
-(add-to-list 'default-frame-alist `(font . "JetBrains Mono-14"))
-(add-hook 'after-init-hook #'my/apply-fonts)
-(add-hook 'server-after-make-frame-hook #'my/apply-fonts)
+
+(if (daemonp)
+    (add-hook 'server-after-make-frame-hook #'my/apply-ui)
+  (add-hook 'emacs-startup-hook #'my/apply-ui))
 
 ;; --------------------------------
 ;; Status bar / modeline
@@ -324,6 +341,13 @@
 ;; Show inherited tags in agenda
 (setq org-agenda-show-inherited-tags t)
 
+(use-package org-fragtog
+  :hook (org-mode-hook . org-fragtog-mode))
+
+(with-eval-after-load 'org
+  (plist-put org-format-latex-options :scale 1.8))
+
+
 ;; Properties you'll use for metadata (context, source, etc.)
 ;; Add :PROPERTIES: drawers like :SOURCE:, :CREATED:, :CONTEXT: manually
 ;; or via capture templates below
@@ -363,6 +387,19 @@
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))
+
+(use-package org-superstar
+  :config
+  (setq org-superstar-leading-bullet " ")
+  (setq org-superstar-headline-bullets-list '("◉" "○" "⚬" "◈" "◇"))
+  (setq org-superstar-special-todo-items t) ;; Makes TODO header bullets into boxes
+  (setq org-superstar-todo-bullet-alist '(("TODO"  . 9744)
+                                          ("WAIT"  . 9744)
+                                          ("READ"  . 9744)
+                                          ("PROG"  . 9744)
+					  ("DONE"  . 9745)))
+  :hook (org-mode . org-superstar-mode))
+
 
 (eval-after-load 'org-indent '(diminish 'org-indent-mode))
 
@@ -505,15 +542,15 @@
         (html-mode       . html-ts-mode)
         (json-mode       . json-ts-mode)))
 
-;; (add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'"  . js-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"  . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'"  . js-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-mode))
+
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.jsonc\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ex\\'" . elixir-mode))
 (add-to-list 'auto-mode-alist '("\\.heex\\'" . heex-ts-mode))
-
 ;; --------------------------------
 ;; Syntax checking / formatting
 ;; --------------------------------
@@ -556,9 +593,9 @@
 
 (use-package eglot
   :ensure nil
-  :hook ((typescript-ts-mode . eglot-ensure)
-         (tsx-ts-mode        . eglot-ensure)
-         (js-ts-mode         . eglot-ensure)
+  :hook ((typescript-mode . eglot-ensure)
+         (tsx-mode        . eglot-ensure)
+         (js-mode         . eglot-ensure)
          (css-ts-mode        . eglot-ensure)
          (html-mode          . eglot-ensure)
          (go-mode            . eglot-ensure)
@@ -580,7 +617,7 @@
                              (nilness      . t)))))))
   :config
   (add-to-list 'eglot-server-programs
-               '((typescript-ts-mode tsx-ts-mode js-ts-mode)
+               '((typescript-mode tsx-mode js-mode)
                  . ("typescript-language-server" "--stdio"))))
 
 (use-package eldoc-box
@@ -591,6 +628,22 @@
   (evil-define-key 'normal eglot-mode-map
     (kbd "K") #'eldoc-box-help-at-point))
 
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `((elixir-mode heex-ts-mode)
+                 . (,(expand-file-name "var/lsp/server/elixir-ls/language_server.sh"
+                                       user-emacs-directory)))))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `((elixir-mode heex-ts-mode)
+                 . (,(expand-file-name "var/lsp/server/elixir-ls/language_server.sh"
+                                       user-emacs-directory)))))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               `((typescript-ts-mode tsx-mode typescript-mode tsx-ts-mode js-ts-mode)
+                 . (,(expand-file-name "var/lsp/server/npm/typescript-language-server/bin/typescript-language-server"
+                                       user-emacs-directory)
+                    "--stdio"))))
 ;; --------------------------------
 ;; Language-specific helpers
 ;; --------------------------------
@@ -598,7 +651,8 @@
   :hook (before-save . gofmt-before-save))
 
 (use-package typescript-mode
-  :mode "\\.ts\\'")
+  :mode ("\\.ts\\'"
+         "\\.tsx\\'"))
 
 (use-package heex-ts-mode
   :mode "\\.heex\\'")
@@ -609,7 +663,7 @@
          "\\.sface\\'"))
 
 (use-package web-mode
-  :mode "\\.html?\\'")  
+  :mode "\\.html?\\'")
 
 ;; Prefer tree-sitter modes when available
 (add-hook 'tsx-ts-mode-hook
@@ -892,15 +946,15 @@
    '("3fec76abc5ade433345791d7a5b062e47ac2c6fa0fffcb795a6fb3f404b7bc51"
      default))
  '(package-selected-packages
-   '(ace-window apheleia cape cfrs consult-flyspell corfu dashboard
-                dired-open doom-modeline eldoc-box elixir-mode
-                embark-consult evil-collection evil-org flycheck
-                flyspell-correct general go-mode guess-language hydra
-                lsp-treemacs lsp-ui magit marginalia no-littering
-                orderless org-bullets org-roam org-superstar
-                org-view-mode peep-dired pfuture projectile
-                shell-maker toc-org typescript-mode vertico vterm
-                web-mode)))
+   '(ace-window apheleia cape cfrs consult-flyspell consult-org-roam
+                corfu dashboard diminish dired-open doom-modeline
+                eldoc-box elixir-mode embark-consult evil-collection
+                evil-org flycheck flyspell-correct general go-mode
+                gptel guess-language hydra lsp-ui magit marginalia
+                multi-vterm no-littering orderless org-bullets
+                org-fragtog org-superstar org-view-mode pdf-tools
+                peep-dired pfuture projectile shell-maker toc-org
+                tsx-ts-mode typescript-mode vertico web-mode)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

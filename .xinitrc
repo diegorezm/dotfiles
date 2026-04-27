@@ -7,7 +7,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 lxsession & 
-# redshift -l -22.905843:-47.052617  -P -O 3200 &
+redshift &
 redshift &
 $HOME/.local/bin/scripts/screen.sh &
 spotify &
@@ -21,6 +21,6 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
 wmname LG3D
 exec dwm
-#
+
 # exec qtile start
 # exec startxfce4
