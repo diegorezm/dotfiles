@@ -4,7 +4,10 @@ vim.lsp.enable({
 	'elixirls',
 	'biome',
 	'eslint',
+	'rust_analyzer',
 	'gopls',
+	'jsonls',
+	'marksman',
 	'emmet_language_server',
 })
 

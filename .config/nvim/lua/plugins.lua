@@ -14,8 +14,11 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/rafamadriz/friendly-snippets" },
-	{ src = "https://github.com/L3MON4D3/LuaSnip",                  version = "v2.5.0", },
-	{src ="https://github.com/lukas-reineke/indent-blankline.nvim"},
+	{ src = "https://github.com/L3MON4D3/LuaSnip",                   version = "v2.5.0", },
+	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
+	{ src = "https://github.com/windwp/nvim-autopairs" },
+	{ src = "https://github.com/OXY2DEV/markview.nvim" },
+	{ src = "https://github.com/folke/which-key.nvim" }
 })
 
 require('nvim-treesitter').setup {
@@ -61,3 +64,6 @@ require("nvim-highlight-colors").setup()
 require("oil").setup()
 require("mini.icons").setup()
 require("ibl").setup()
+
+local npairs = require('nvim-autopairs')
+npairs.setup({ map_cr = true })

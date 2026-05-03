@@ -27,7 +27,7 @@ st.font:  JetBrainsMono:size=13:antialias=true:autohint=true
 st.background: background
 st.foreground: foreground
 st.color12: subtext
-st.color4: secondary
+st.color4: subtext
 
 
 ! window border
@@ -40,11 +40,6 @@ dwm.normfgcolor: foreground
 
 dwm.selbgcolor: primary
 dwm.selfgcolor: background
-
-wallpapercl.bg: background
-wallpapercl.fg: foreground
-wallpapercl.pr: primary
-wallpapercl.sb: subtext
 
 qtile.bg: background
 qtile.fg: foreground

@@ -1,172 +1,186 @@
-local M = {}
+local fzf      = require('fzf-lua')
 
-local fzf = require('fzf-lua')
-local notes_dir = vim.env.NOTES_DIR or (vim.env.HOME .. '/notes')
-local daily_dir = notes_dir .. '/daily'
+local NOTES    = vim.fn.expand("~/docs/notes")
+local ZETTEL   = NOTES .. "/notes"
+local INBOX    = NOTES .. "/inbox"
+local PROJECTS = NOTES .. "/projects"
+local DAILY    = NOTES .. "/daily"
 
--- Ensure base dirs exist
-vim.fn.mkdir(notes_dir, 'p')
-vim.fn.mkdir(daily_dir, 'p')
+-- ── Helpers ────────────────────────────────
 
-local function slugify(str)
-	return str:lower():gsub('[^a-z0-9/]', '-'):gsub('%-+', '-'):gsub('^%-+', ''):gsub('%-+$', '')
-end
-
-local function template(title)
+local function make_frontmatter(title, extra_tags)
+	local tags = extra_tags or {}
+	local tag_str = "["
+	for i, t in ipairs(tags) do
+		tag_str = tag_str .. t .. (i < #tags and ", " or "")
+	end
+	tag_str = tag_str .. "]"
 	return {
-		'---',
-		'date: ' .. os.date('%Y-%m-%d'),
-		'tags: []',
-		'---',
-		'',
-		'# ' .. title,
-		'',
+		"---",
+		'title: "' .. title .. '"',
+		"date: " .. os.date("%Y-%m-%d"),
+		"id: " .. os.date("%Y%m%d%H%M"),
+		"tags: " .. tag_str,
+		"---",
+		"",
+		""
 	}
 end
 
--- Resolve a path like "work/ideas/my-note" into:
---   dir  = notes_dir/work/ideas
---   name = my-note
---   title = My note  (prettified from slug)
-local function resolve(input)
-	local slug = slugify(input)
-	if slug == '' then return nil end
-
-	local parts = {}
-	for part in slug:gmatch('[^/]+') do
-		table.insert(parts, part)
-	end
-
-	local name = table.remove(parts)
-	local subpath = table.concat(parts, '/')
-	local dir = subpath ~= '' and (notes_dir .. '/' .. subpath) or notes_dir
-	local path = dir .. '/' .. name .. '.md'
-	local title = name:gsub('-', ' '):gsub('^%l', string.upper)
-
-	return { dir = dir, path = path, title = title }
+local function slug(name)
+	return name:gsub("%s+", "-"):lower()
 end
 
--- Create a new note.
--- Prompt accepts plain names ("my note") or subpaths ("work/ideas/my note").
-function M.new(prefill)
-	vim.ui.input({ prompt = 'New Note: ', default = prefill or '' }, function(input)
-		if not input or input == '' then return end
-
-		local r = resolve(input)
-		if not r then
-			vim.notify('Could not resolve a filename from that input.', vim.log.levels.ERROR)
-			return
-		end
-
-		vim.fn.mkdir(r.dir, 'p')
-
-		if vim.fn.filereadable(r.path) == 1 then
-			vim.notify('Note already exists, opening it.', vim.log.levels.INFO)
-		else
-			local ok = vim.fn.writefile(template(r.title), r.path)
-			if ok ~= 0 then
-				vim.notify('Failed to write note to ' .. r.path, vim.log.levels.ERROR)
-				return
-			end
-		end
-
-		vim.cmd('edit ' .. vim.fn.fnameescape(r.path))
-		vim.cmd('normal! G')
-	end)
+local function timestamp()
+	return os.date("%Y%m%d%H%M")
 end
 
--- Fuzzy find notes by filename (searches all subdirs)
-function M.find()
-	fzf.files({
-		cwd = notes_dir,
-		prompt = 'Notes> ',
-	})
-end
+-- ── Note Creators ──────────────────────────
 
--- Live grep across all note content
-function M.grep()
-	fzf.live_grep({
-		cwd = notes_dir,
-		prompt = 'Notes grep> ',
-	})
-end
-
--- Filter notes by tag (reads from frontmatter)
-function M.tag()
-	vim.ui.input({ prompt = 'Tag: ' }, function(tag)
-		if not tag or tag == '' then return end
-		fzf.grep({
-			search = 'tags:.*' .. tag,
-			cwd = notes_dir,
-			prompt = 'Notes [' .. tag .. ']> ',
-			no_esc = true,
+local function daily_note()
+	local today = os.date("%Y-%m-%d")
+	local filename = DAILY .. "/" .. today .. ".md"
+	vim.cmd("edit " .. filename)
+	if vim.fn.filereadable(filename) == 0 then
+		local lines = make_frontmatter(today, { "daily" })
+		vim.list_extend(lines, {
+			"## " .. os.date("%A, %B %d"),
+			"",
+			"### Tasks",
+			"- [ ] ",
+			"",
+			"### Notes",
+			"",
 		})
-	end)
+		vim.api.nvim_buf_set_lines(0, 0, 0, false, lines)
+	end
 end
 
--- Browse all tags found across notes and filter by selected one
-function M.tags_browse()
-	local results = vim.fn.systemlist(
-		string.format("rg --no-filename -o 'tags:\\s*\\[.*\\]' %s", vim.fn.shellescape(notes_dir))
-	)
-	local tag_set = {}
-	for _, line in ipairs(results) do
-		for tag in line:gmatch('[%w_-]+') do
-			if tag ~= 'tags' then
-				tag_set[tag] = true
-			end
-		end
-	end
-	local tags = vim.tbl_keys(tag_set)
-	table.sort(tags)
-	if #tags == 0 then
-		vim.notify('No tags found in ' .. notes_dir, vim.log.levels.WARN)
-		return
-	end
-	fzf.fzf_exec(tags, {
-		prompt = 'Tags> ',
+local function new_note()
+	local kinds = { "permanent", "inbox", "daily", "project" }
+
+	fzf.fzf_exec(kinds, {
+		prompt = "Note type> ",
 		actions = {
-			['default'] = function(selected)
-				if selected and selected[1] then
-					fzf.grep({
-						search = 'tags:.*' .. selected[1],
-						cwd = notes_dir,
-						prompt = 'Notes [' .. selected[1] .. ']> ',
-						no_esc = true,
-					})
+			["default"] = function(selected)
+				if not selected or #selected == 0 then return end
+				local kind = selected[1]
+
+				-- Daily: no title prompt needed
+				if kind == "daily" then
+					daily_note()
+					return
 				end
+
+				-- Project: pick project first, then title
+				if kind == "project" then
+					local projects = vim.fn.glob(PROJECTS .. "/*/", false, true)
+					if #projects == 0 then
+						vim.notify("No projects found. Create one with <leader>np first.",
+							vim.log.levels.WARN)
+						return
+					end
+
+					local names = {}
+					local name_to_path = {}
+					for _, p in ipairs(projects) do
+						local name = p:match(".+/(.+)/$")
+						table.insert(names, name)
+						name_to_path[name] = p
+					end
+
+					vim.schedule(function()
+						fzf.fzf_exec(names, {
+							prompt = "Project> ",
+							actions = {
+								["default"] = function(sel)
+									if not sel or #sel == 0 then return end
+									local project_dir = name_to_path[sel[1]]
+									local title = vim.fn.input("Note title: ")
+									if title == "" then return end
+									local filename = timestamp() ..
+									    "-" .. slug(title) .. ".md"
+									vim.cmd("edit " .. project_dir .. filename)
+									vim.api.nvim_buf_set_lines(0, 0, 0, false,
+										make_frontmatter(title,
+											{ "project/" .. sel[1] }))
+									vim.cmd("normal! G")
+								end,
+							},
+						})
+					end)
+					return
+				end
+
+				-- Permanent and inbox: just need a title
+				local title = vim.fn.input("Note title: ")
+				if title == "" then return end
+				local filename = timestamp() .. "-" .. slug(title) .. ".md"
+				local dir = kind == "permanent" and ZETTEL or INBOX
+				local tags = kind == "inbox" and { "inbox" } or {}
+				vim.cmd("edit " .. dir .. "/" .. filename)
+				vim.api.nvim_buf_set_lines(0, 0, 0, false, make_frontmatter(title, tags))
+				vim.cmd("normal! G")
 			end,
 		},
 	})
 end
 
--- Open today's daily note (lives in notes_dir/daily/YYYY-MM-DD.md)
-function M.today()
-	local date = os.date('%Y-%m-%d')
-	local path = daily_dir .. '/' .. date .. '.md'
-	if vim.fn.filereadable(path) == 0 then
-		local ok = vim.fn.writefile(template(date), path)
-		if ok ~= 0 then
-			vim.notify('Failed to create daily note at ' .. path, vim.log.levels.ERROR)
-			return
-		end
+local function new_project()
+	local name = vim.fn.input("Project name: ")
+	if name == "" then return end
+	local dir = PROJECTS .. "/" .. slug(name)
+	vim.fn.mkdir(dir, "p")
+	local index = dir .. "/_index.md"
+	vim.cmd("edit " .. index)
+	if vim.fn.filereadable(index) == 0 then
+		local lines = make_frontmatter(name, { "project" })
+		vim.list_extend(lines, {
+			"## Overview",
+			"",
+			"## Index",
+			"",
+			"## Progress",
+			"",
+		})
+		vim.api.nvim_buf_set_lines(0, 0, 0, false, lines)
 	end
-	vim.cmd('edit ' .. vim.fn.fnameescape(path))
-	vim.cmd('normal! G')
 end
 
--- Register all keymaps under <leader>n
-function M.setup()
-	local map = function(key, fn, desc)
-		vim.keymap.set('n', '<leader>n' .. key, fn, { desc = 'Notes: ' .. desc })
-	end
+-- ── Keybindings ────────────────────────────
 
-	map('n', M.new, 'new note')
-	map('f', M.find, 'find by filename')
-	map('g', M.grep, 'grep content')
-	map('t', M.tag, 'filter by tag')
-	map('T', M.tags_browse, 'browse all tags')
-	map('d', M.today, "open today's daily note")
-end
+local o = { noremap = true, silent = true }
+local function desc(d) return vim.tbl_extend("force", o, { desc = d }) end
 
-return M
+-- Create
+vim.keymap.set("n", "<leader>nn", new_note, desc("New note"))
+vim.keymap.set("n", "<leader>nd", daily_note, desc("Open today's daily note"))
+vim.keymap.set("n", "<leader>np", new_project, desc("New / open project"))
+
+-- Search
+vim.keymap.set("n", "<leader>nf", function()
+	fzf.live_grep({ cwd = NOTES, prompt = "Search Notes> " })
+end, desc("Full-text search all notes"))
+
+vim.keymap.set("n", "<leader>nt", function()
+	fzf.grep({
+		cwd = NOTES,
+		search = "",
+		rg_opts = "--no-heading -g '*.md' --multiline",
+		prompt = "Tags> ",
+		query = "tags:",
+	})
+end, desc("Search by tag"))
+
+vim.keymap.set("n", "<leader>no", function()
+	fzf.files({ cwd = ZETTEL, prompt = "Open Note> " })
+end, desc("Open permanent note"))
+
+vim.keymap.set("n", "<leader>nP", function()
+	fzf.files({ cwd = PROJECTS, prompt = "Projects> " })
+end, desc("Browse projects"))
+
+-- LSP (Marksman)
+vim.keymap.set("n", "<leader>nb", fzf.lsp_references, desc("Backlinks to current note"))
+vim.keymap.set("n", "<leader>nl", fzf.lsp_document_symbols, desc("Links in current note"))
+vim.keymap.set("n", "<leader>nm", "<cmd>Markview Toggle<CR>", { desc = "Toggle markdown preview" })

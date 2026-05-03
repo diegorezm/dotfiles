@@ -1,18 +1,19 @@
-#!/bin/bash 
-# my slightly modified version of ufetch
+#!/bin/sh
+#
+# ufetch-arch - tiny system info for arch
 
 ## INFO
 
+# user is already defined
 host="$(cat /etc/hostname)"
 os='Arch Linux'
-kernel="$(uname -sr | sed 's/-.*//g')"
+kernel="$(uname -sr)"
 uptime="$(uptime -p | sed 's/up //')"
 packages="$(pacman -Q | wc -l)"
 shell="$(basename "${SHELL}")"
-editor="$(printenv | grep "EDITOR" | cut -d '/' -f3 | sed 's/EDITOR=//g')"
-browser="$(printenv | grep "BROWSER" | sed 's/BROWSER=//g')"
 
 ## UI DETECTION
+
 parse_rcs() {
 	for f in "${@}"; do
 		wm="$(tail -n 1 "${f}" 2> /dev/null | cut -d ' ' -f 2)"
@@ -61,30 +62,22 @@ if [ -x "$(command -v tput)" ]; then
 	reset="$(tput sgr0 2> /dev/null)"
 fi
 
-#colors
-lc="${reset}${bold}${white}"         # labels
-nc="${reset}${bold}${red}"         # user and hostname
+# you can change these
+lc="${reset}${bold}${blue}"         # labels
+nc="${reset}${bold}${blue}"         # user and hostname
 ic="${reset}"                       # info
-c0="${reset}${gray}"                # first color
+c0="${reset}${blue}"                # first color
 
 ## OUTPUT
 
 cat <<EOF
-⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⠤⠔⠒⠒⠒⠒⠲⠤⣄⡀
-⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠚⠁⠀⢀⣤⣶⣶⣿⣿⣿⣿⣶⣯⣒⠤⣀      
-⠀${c0}⠀⠀⠀⠀⠀⠀⠀⣰⠋⠀⠀⢀⣴⣿⣿⣿⣿⠿⠟⠛⠿⠿⣿⣿⣷⡈⠳⡀    ${nc} ┌───────────@${USER}───────────┐${ic}${reset}
-⠀${c0}⠀⠀⠀⠀⠀⠀⡼⠁⠀⠀⢠⣿⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⢉⠻⣿⠀⠹⡀       ${lc}OS:        ${ic}${os}${reset}
-⠀${c0}⠀⠀⠀⠀⠀⣼⠇⠀⠀⠀⢾⣿⡿⠃⠀⠀⠀⠀⠀⠀⠀⠀⡀⣼⣇⠘⠇⠀⣼⡄      ${lc}UPTIME:    ${ic}${uptime}${reset}
-⠀${c0}⠀⠀⠀⠀⢸⡹⠀⠀⠀⠀⢸⣿⠁⠀⠀⠀⠀⠀⠀⢀⡄⢀⣾⣿⣿⡆⡀⠀⠈⡇      ${lc}PACKAGES:  ${ic}${packages}${reset}
-⠀${c0}⠀⠀⠀⠀⢸⠇⢠⠀⠀⠀⠀⠇⠀⠀⠀⢠⠆⠀⣠⠎⣠⣿⣿⣿⣿⣷⢁⠆⠀⡇      ${lc}SHELL:     ${ic}${shell}${reset}
-⠀${c0}⠀⠀⠀⠀⢸⠀⠈⡆⠀⠀⠀⠀⠀⠀⣆⣇⣤⣾⡷⠿⠟⡿⣿⣿⣿⣧⠊⠀⠀⡇      ${lc}${uitype}:        ${ic}${ui}${reset}
-⠀${c0}⠀⠀⠀⠀⠀⢇⢣⢡⡠⠀⠀⠀⠀⢰⡿⠋⠈⠀⠀⠀⢠⣾⠈⡻⣿⠁⠀⡀⢀⠇      ${lc}KERNEL:    ${ic}${kernel}${reset}
-⠀${c0}⠀⠀⠀⠀⠀⠈⠻⢷⡹⣷⣄⡀⡄⢸⣇⡀⠀⠀⠀⢠⣤⠀⢀⣼⣿⡶⣰⣇⠎       ${lc}EDITOR:    ${ic}${editor}${reset}
-⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⣿⣼⣜⣿⣝⣶⣤⣀⣀⣡⣶⣿⣿⣿⠟⠛⠁        ${lc}BROWSER:   ${ic}${browser}${reset}
-⠀${c0}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠉⠿⠋         ${nc}└─────────────────────────────┘${reset}
-⠀${c0}⠀⠀⣠⣶⣿⣿⣦⣤⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣄⠀⠀⣠⣤⣤⣄
-⠀${c0}⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣷⣄
-⠀${c0}⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄
-⠀${c0}
-EOF
 
+${c0}        /\\         ${nc}${USER}${ic}@${nc}${host}${reset}
+${c0}       /  \\        ${lc}OS:        ${ic}${os}${reset}
+${c0}      /\\   \\       ${lc}KERNEL:    ${ic}${kernel}${reset}
+${c0}     /  __  \\      ${lc}UPTIME:    ${ic}${uptime}${reset}
+${c0}    /  (  )  \\     ${lc}PACKAGES:  ${ic}${packages}${reset}
+${c0}   / __|  |__\\\\    ${lc}SHELL:     ${ic}${shell}${reset}
+${c0}  /.\`        \`.\\   ${lc}${uitype}:        ${ic}${ui}${reset}
+
+EOF
