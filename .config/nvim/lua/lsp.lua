@@ -1,4 +1,9 @@
-vim.lsp.enable({
+vim.pack.add({
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+})
+
+local servers = {
 	'lua_ls',
 	'ts_ls',
 	'elixirls',
@@ -9,8 +14,19 @@ vim.lsp.enable({
 	'jsonls',
 	'marksman',
 	'emmet_language_server',
-})
+}
 
+vim.lsp.enable(servers)
+
+require("mason").setup({
+	ui = {
+		icons = {
+			package_installed = "✓",
+			package_pending = "➜",
+			package_uninstalled = "✗"
+		}
+	},
+})
 
 
 vim.diagnostic.config({

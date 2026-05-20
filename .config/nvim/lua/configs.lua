@@ -21,7 +21,14 @@ opt.winborder = "rounded"
 opt.inccommand = "nosplit"
 opt.ignorecase = true
 opt.autoindent = true
+opt.expandtab = true
+opt.tabstop = 4 
+opt.softtabstop = 4
+opt.shiftwidth = 4
 vim.o.clipboard = "unnamedplus"
+opt.scrolloff = 8
+opt.inccommand = "nosplit"
+opt.hlsearch = false 
 
 opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 opt.undofile = true

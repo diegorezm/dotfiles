@@ -9,6 +9,11 @@
       "rev": "190397833e53fdfd5cf400c5baaf1a4e533158e5",
       "src": "https://github.com/RRethy/base16-nvim"
     },
+    "blink.cmp": {
+      "rev": "78336bc89ee5365633bcf754d93df01678b5c08f",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "1.0.0 - 2.0.0"
+    },
     "friendly-snippets": {
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"
@@ -32,6 +37,10 @@
     "mason.nvim": {
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "mellifluous.nvim": {
+      "rev": "ec0575bdb63594c5e7fba6eb9607b009aa1fb74e",
+      "src": "https://github.com/ramojus/mellifluous.nvim"
     },
     "mini.icons": {
       "rev": "7fdae2443a0e2910015ca39ad74b50524ee682d3",
