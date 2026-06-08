@@ -38,6 +38,10 @@
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "matteblack.nvim": {
+      "rev": "a8a039f5d6189b28d76fa0221e64965efec7e996",
+      "src": "https://github.com/tahayvr/matteblack.nvim"
+    },
     "mellifluous.nvim": {
       "rev": "ec0575bdb63594c5e7fba6eb9607b009aa1fb74e",
       "src": "https://github.com/ramojus/mellifluous.nvim"

@@ -5,7 +5,7 @@ opt.number = true
 opt.relativenumber = true
 opt.ignorecase = true
 opt.smartcase = true
-opt.colorcolumn = '80'
+-- opt.colorcolumn = '80'
 opt.textwidth = 80
 opt.completeopt = 'menu,menuone,fuzzy,noinsert'
 opt.swapfile = false
@@ -22,13 +22,13 @@ opt.inccommand = "nosplit"
 opt.ignorecase = true
 opt.autoindent = true
 opt.expandtab = true
-opt.tabstop = 4 
+opt.tabstop = 4
 opt.softtabstop = 4
 opt.shiftwidth = 4
 vim.o.clipboard = "unnamedplus"
 opt.scrolloff = 8
 opt.inccommand = "nosplit"
-opt.hlsearch = false 
+opt.hlsearch = false
 
 opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 opt.undofile = true
@@ -42,11 +42,11 @@ vim.g.netrw_sort_by = "size"
 
 local ok_ui2, ui2 = pcall(require, "vim._core.ui2")
 if ok_ui2 and type(ui2.enable) == "function" then
-	ui2.enable({
-		enable = true,
-		msg = {
-			targets = "cmd",
-			timeout = 4000,
-		},
-	})
+    ui2.enable({
+        enable = true,
+        msg = {
+            targets = "cmd",
+            timeout = 4000,
+        },
+    })
 end

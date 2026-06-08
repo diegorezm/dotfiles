@@ -4,10 +4,8 @@ fi
 
 fpath+=~/.zfunc
 
-source $HOME/.env
-#
 #       General conf
-$SCRIPTS_DIR/ufetch stty stop undef
+ufetch stty stop undef
 autoload -U colors && colors
 
 #       Reminder
@@ -67,6 +65,7 @@ alias p="sudo pacman -Sy"
 alias rp="sudo pacman -Rcs"
 alias aps="pacman -Ss"
 alias pu="sudo pacman -Syu"
+alias cppath='realpath "$1" | xclip -selection clipboard'
 alias cat="bat"
 alias android="aft-mtp-mount $HOME/docs/pendrive"
 alias ssh-conn="ssh diego@192.168.10.2"
