@@ -8,8 +8,8 @@ fi
 
 lxsession & 
 redshift &
-redshift &
 $HOME/.local/bin/scripts/screen.sh &
+$HOME/.local/bin/scripts/autosuspend.sh &
 spotify &
 discord &
 steam &
@@ -20,7 +20,7 @@ xrdb -merge ~/.config/Xresources/Xresources
 export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT=MToolkit
 wmname LG3D
-exec dwm
+exec dwm > ~/.local/state/dwm.log 2>&1
 
 # exec qtile start
 # exec startxfce4

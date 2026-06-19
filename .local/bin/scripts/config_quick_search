@@ -1,26 +1,44 @@
-#!/bin/bash
+#!/bin/sh
 
-declare -A apps=(
-    [kitty]="$HOME/.config/kitty/kitty.conf"
-    [zsh]="$HOME/.zshrc"
-    [nvim]="$HOME/.config/nvim/"
-    [rofi]="$HOME/.local/share/rofi/"
-    [hyprland]="$HOME/.config/hypr/"
+choice=$(
+	printf "%s\n" \
+		"kitty" \
+		"zsh" \
+		"nvim" \
+		"rofi" \
+		"dwm" \
+		"hyprland" |
+	dmenu -p "Edit config:"
 )
 
-options=""
-for key in "${!apps[@]}"; do
-    options+="$key\n"
-done
+[ -z "$choice" ] && exit 0
 
-esc=$(echo -e "$options" | dmenu -p "Edit config:" | xargs)
-[[ -z "$esc" ]] && exit 0
+case "$choice" in
+	kitty)
+		target="$HOME/.config/kitty/kitty.conf"
+		;;
+	zsh)
+		target="$HOME/.zshrc"
+		;;
+	nvim)
+		target="$HOME/.config/nvim"
+		;;
+	rofi)
+		target="$HOME/.config/rofi"
+		;;
+	dwm)
+		target="$HOME/.config/dwm"
+		;;
+	hyprland)
+		target="$HOME/.config/hypr"
+		;;
+	*)
+		exit 1
+		;;
+esac
 
-target="${apps[$esc]}"
-
-if [[ -z "$target" ]]; then
-    echo "${esc} is not an option."
-    exit 0
+if printf '%s' "$TERMINAL" | grep -q alacritty; then
+	"$TERMINAL" --working-directory "$(dirname "$target")" -e nvim "$target"
+else
+	"$TERMINAL" -d "$(dirname "$target")" -e nvim "$target"
 fi
-
-$TERMINAL -d $target -e nvim "$target"

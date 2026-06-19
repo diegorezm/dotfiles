@@ -11,9 +11,9 @@ export AMD_VULKAN_ICD=RADV
 
 # Programs
 export EDITOR="nvim"
-export TERMINAL="st"
+export TERMINAL="alacritty"
 export VISUAL=/bin/nvim
-export BROWSER="/mnt/c/Program Files/Zen Browser/zen.exe"
+export BROWSER="zen"
 export READER="zathura"
 export SCRIPTS_DIR=$HOME/.local/bin/scripts
 export npm_config_prefix="$HOME/.local"

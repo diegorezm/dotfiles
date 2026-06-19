@@ -1,0 +1,40 @@
+# matteblack theme for Alacritty
+#
+# Upstream: github.com/tahayvr/matteblack.nvim
+# Website:  matteblacktheme.com
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black   = "#8A8A8D"
+blue    = "#3C71F6"
+cyan    = "#24D0C7"
+green   = "#22C55E"
+magenta = "#B027DE"
+red     = "#E62222"
+white   = "#FFFFFF"
+yellow  = "#F1CB42"
+
+[colors.cursor]
+cursor = "#F59E0B"
+text   = "#121212"
+
+[colors.normal]
+black   = "#333333"
+blue    = "#3B82F6"
+cyan    = "#1EA7A0"
+green   = "#059669"
+magenta = "#8D20B2"
+red     = "#B91C1C"
+white   = "#BEBEBE"
+yellow  = "#FBBF24"
+
+[colors.primary]
+background        = "#121212"
+bright_foreground = "#FFFFFF"
+foreground        = "#EAEAEA"
+
+[colors.selection]
+background = "#262626"
+text       = "#FFFFFF"

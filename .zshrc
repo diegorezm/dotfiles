@@ -1,11 +1,13 @@
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
- startx
+   startx
 fi
 
+#
 fpath+=~/.zfunc
 
 #       General conf
-ufetch stty stop undef
+# fastfetch stty stop undef
+fastfetch
 autoload -U colors && colors
 
 #       Reminder
@@ -60,6 +62,8 @@ preexec() { echo -ne '\e[5 q' ;}
 
 
 #       alias
+alias zs="zypper search"
+alias zi="sudo zypper install"
 alias ap="sudo pacman -S"
 alias p="sudo pacman -Sy"
 alias rp="sudo pacman -Rcs"
@@ -88,9 +92,9 @@ alias fmrecordsm="ffmpeg -video_size 1366x768 -framerate 30 -f x11grab -i :0.0+2
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME/'
 alias yt-audio="yt-dlp --add-metadata -x -i -f bestaudio"
 alias yt-video="yt-dlp --add-metadata -i -f best/video"
-alias l="exa -al --color=always --group-directories-first --icons"
-alias ls="exa -a --color=always --group-directories-first --icons"
-alias sl="exa -a --color=always --group-directories-first --icons"
+alias l="eza -al --color=always --group-directories-first --icons"
+alias ls="eza -a --color=always --group-directories-first --icons"
+alias sl="eza -a --color=always --group-directories-first --icons"
 alias cp="cp -i"
 alias dcompile="sudo make clean install"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
@@ -130,7 +134,9 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
 #       source 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/zsh-highlighting/zsh-syntax-highlighting.zsh
+
 
 NPM_PACKAGES="${HOME}/.local/pkg/"
 export PATH="$PATH:$NPM_PACKAGES/bin"
@@ -144,7 +150,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+# export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # bun completions
 [ -s "/home/diego/.bun/_bun" ] && source "/home/diego/.bun/_bun"

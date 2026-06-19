@@ -1,4 +1,4 @@
-#include "./colorschemes/vague.Xresources"
+#include "./colorschemes/matteblack.Xresources"
 
 ! urxvt
 URxvt*buffered: true

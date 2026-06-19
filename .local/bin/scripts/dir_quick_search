@@ -1,35 +1,48 @@
-#!/bin/bash
+#!/bin/sh
 
-declare -A folders=(
-    [.local]="$HOME/.local"
-    [download]="$HOME/down"
-    [images]="$HOME/img"
-    [docs]="$HOME/docs"
-    [videos]="$HOME/vids"
-    [code]="$HOME/code"
-    [music]="$HOME/msc"
-    [bin]="$HOME/.local/bin"
-    [share]="$HOME/.local/share"
+choice=$(
+	printf "%s\n" \
+		".local" \
+		"download" \
+		"images" \
+		"docs" \
+		"videos" \
+		"code" \
+		"music" \
+		"bin" \
+		"share" |
+	dmenu -p "Go to:"
 )
 
-options=""
-for key in "${!folders[@]}"; do
-    options+="$key\n"
-done
+[ -z "$choice" ] && exit 0
 
-esc=$(echo -e "$options" | dmenu -p "Go to:" | xargs)
-[[ -z "$esc" ]] && exit 0
+case "$choice" in
+	.local)  target="$HOME/.local" ;;
+	download) target="$HOME/down" ;;
+	images) target="$HOME/img" ;;
+	docs) target="$HOME/docs" ;;
+	videos) target="$HOME/vids" ;;
+	music) target="$HOME/msc" ;;
+	bin) target="$HOME/.local/bin" ;;
+	share) target="$HOME/.local/share" ;;
+	code)
+		project=$(
+			find "$HOME/code" -mindepth 1 -maxdepth 1 -type d \
+				-exec basename {} \; |
+			sort |
+			dmenu -p "Project:"
+		)
 
-target="${folders[$esc]}"
-[[ -z "$target" ]] && exit 0
+		[ -z "$project" ] && exit 0
+		target="$HOME/code/$project"
+		;;
+	*)
+		exit 1
+		;;
+esac
 
-# Special case: code drills down into projects
-if [[ "$esc" == "code" ]]; then
-    dir=$(for d in "$HOME/code"/*/; do
-        basename "$d"
-    done | dmenu -p "Project:")
-    [[ -z "$dir" ]] && exit 0
-    target="$HOME/code/$dir"
+if [ "$TERMINAL" = "alacritty" ]; then
+	alacritty --working-directory "$target" &
+else
+	"$TERMINAL" -d "$target" &
 fi
-
-$TERMINAL -d $target
