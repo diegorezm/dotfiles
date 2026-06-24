@@ -16,38 +16,40 @@ URxvt.perl-ext-common: default,matcher
 URxvt.urlLauncher: firefox
 URxvt.matcher.button: 1
 
-! sk
+! sk / dmenu
 dmenu.font:  xft:JetBrainsMono:size=12:antialias=true
-dmenu.background: background
-dmenu.foreground: foreground
-dmenu.selbackground: foreground
-dmenu.selforeground: background
+dmenu.background: CLR_BACKGROUND
+dmenu.foreground: CLR_FOREGROUND
+dmenu.selbackground: CLR_PRIMARY
+dmenu.selforeground: CLR_BACKGROUND
+dmenu.normhighlightforeground: CLR_SECONDARY
+dmenu.selhighlightforeground: CLR_SECONDARY
 
-st.font:  JetBrainsMono:size=13:antialias=true:autohint=true
-st.background: background
-st.foreground: foreground
-st.color12: subtext
-st.color4: subtext
+! st
+st.font: JetBrainsMono:size=13:antialias=true:autohint=true
+st.background: CLR_BACKGROUND
+st.foreground: CLR_FOREGROUND
+st.color12: CLR_SUBTEXT
+st.color4:  CLR_SUBTEXT
 
+! dwm
+dwm.normbordercolor: CLR_BACKGROUND
+dwm.selbordercolor: CLR_PRIMARY
 
-! window border
-dwm.normbordercolor: background
-dwm.selbordercolor: primary
+dwm.normbgcolor: CLR_BACKGROUND
+dwm.normfgcolor: CLR_FOREGROUND
 
-! non active tag bg
-dwm.normbgcolor: background
-dwm.normfgcolor: foreground
+dwm.selbgcolor: CLR_PRIMARY
+dwm.selfgcolor: CLR_BACKGROUND
 
-dwm.selbgcolor: primary
-dwm.selfgcolor: background
+! qtile
+qtile.bg: CLR_BACKGROUND
+qtile.fg: CLR_FOREGROUND
+qtile.pr: CLR_PRIMARY
+qtile.sb: CLR_SUBTEXT
 
-qtile.bg: background
-qtile.fg: foreground
-qtile.pr: primary
-qtile.sb: subtext
-
-
-xmonad.normalBorderColor: background
-xmonad.focusedBorderColor: primary
-xmonad.bgColor: background
-xmonad.fgColor: foreground
+! xmonad
+xmonad.normalBorderColor: CLR_BACKGROUND
+xmonad.focusedBorderColor: CLR_PRIMARY
+xmonad.bgColor: CLR_BACKGROUND
+xmonad.fgColor: CLR_FOREGROUND

@@ -34,8 +34,8 @@
 *.color14: #24D0C7
 *.color15: #FFFFFF
 
-#define background #121212
-#define foreground #EAEAEA
-#define primary #F59E0B
-#define secondary #FBBF24
-#define subtext #BEBEBE
+#define CLR_BACKGROUND #121212
+#define CLR_FOREGROUND #EAEAEA
+#define CLR_PRIMARY    #F59E0B
+#define CLR_SECONDARY  #FBBF24
+#define CLR_SUBTEXT    #BEBEBE

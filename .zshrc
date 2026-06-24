@@ -64,6 +64,7 @@ preexec() { echo -ne '\e[5 q' ;}
 #       alias
 alias zs="zypper search"
 alias zi="sudo zypper install"
+alias zr='sudo zypper rm -u'
 alias ap="sudo pacman -S"
 alias p="sudo pacman -Sy"
 alias rp="sudo pacman -Rcs"
