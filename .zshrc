@@ -82,8 +82,7 @@ alias genpsw="head -c 16 /dev/random | od -A n -t x1 | sed 's/[[:space:]]//g'"
 alias xd="xrdb -merge $HOME/.config/Xresources/Xresources"
 alias n="nvim"
 alias ms="ncmpcpp"
-alias fmrecord="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast"
-
+alias fmrecord="ffmpeg -probesize 42M -video_size 1920x1080 -framerate 30 -f x11grab -s 1920x1080 -i :0.0+0,0 -c:v libx264 -preset ultrafast -movflags frag_keyframe+empty_moov"
 alias fmrecord_w="ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0+0,0 \
 -c:v libx264 -preset ultrafast -tune zerolatency -pix_fmt yuv420p -crf 23 \
 -movflags +faststart"
