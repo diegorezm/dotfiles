@@ -3,6 +3,7 @@
 choice=$(
 	printf "%s\n" \
 		".local" \
+		"scripts" \
 		"download" \
 		"images" \
 		"docs" \
@@ -20,6 +21,7 @@ case "$choice" in
 	.local)  target="$HOME/.local" ;;
 	download) target="$HOME/down" ;;
 	images) target="$HOME/img" ;;
+	scripts) target="$HOME/.local/bin/scripts" ;;
 	docs) target="$HOME/docs" ;;
 	videos) target="$HOME/vids" ;;
 	music) target="$HOME/msc" ;;

@@ -156,10 +156,10 @@
                 },
                 {
                     "colorizeDistroLogo": false,
-                    "colorizeSystemIcon": "none",
+                    "colorizeSystemIcon": "tertiary",
                     "colorizeSystemText": "none",
                     "customIconPath": "",
-                    "enableColorization": false,
+                    "enableColorization": true,
                     "icon": "noctalia",
                     "id": "ControlCenter",
                     "useDistroLogo": false
@@ -307,6 +307,7 @@
         "allowPasswordWithFprintd": false,
         "animationDisabled": false,
         "animationSpeed": 1,
+        "autoNetworkEnabled": true,
         "autoStartAuth": false,
         "avatarImage": "/home/diego/face.jpg",
         "boxRadiusRatio": 1,
@@ -345,7 +346,7 @@
             ]
         },
         "language": "",
-        "lockOnSuspend": true,
+        "lockOnSuspend": false,
         "lockScreenAnimations": false,
         "lockScreenBlur": 0,
         "lockScreenCountdownDuration": 10000,
@@ -381,17 +382,17 @@
     },
     "idle": {
         "customCommands": "[]",
-        "enabled": false,
+        "enabled": true,
         "fadeDuration": 5,
         "lockCommand": "",
-        "lockTimeout": 660,
+        "lockTimeout": 130,
         "resumeLockCommand": "",
         "resumeScreenOffCommand": "",
         "resumeSuspendCommand": "",
         "screenOffCommand": "",
-        "screenOffTimeout": 600,
+        "screenOffTimeout": 120,
         "suspendCommand": "",
-        "suspendTimeout": 1800
+        "suspendTimeout": 600
     },
     "location": {
         "analogClockInCalendar": false,
@@ -609,7 +610,15 @@
             },
             {
                 "enabled": true,
-                "id": "emacs"
+                "id": "alacritty"
+            },
+            {
+                "enabled": true,
+                "id": "niri"
+            },
+            {
+                "enabled": true,
+                "id": "fuzzel"
             }
         ],
         "enableUserTheming": true
@@ -641,8 +650,8 @@
         "linkLightAndDarkWallpapers": true,
         "monitorDirectories": [
         ],
-        "overviewBlur": 0.4,
-        "overviewEnabled": false,
+        "overviewBlur": 0.5,
+        "overviewEnabled": true,
         "overviewTint": 0.6,
         "panelPosition": "center",
         "randomIntervalSec": 300,

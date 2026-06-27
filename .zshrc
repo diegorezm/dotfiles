@@ -1,5 +1,8 @@
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-   startx
+#    startx
+    niri-session
+
+
 fi
 
 #
@@ -62,6 +65,7 @@ preexec() { echo -ne '\e[5 q' ;}
 
 
 #       alias
+alias listfc="fc-list : family | sort -u"
 alias zs="zypper search"
 alias zi="sudo zypper install"
 alias zr='sudo zypper rm -u'
@@ -76,7 +80,6 @@ alias android="aft-mtp-mount $HOME/docs/pendrive"
 alias ssh-conn="ssh diego@192.168.10.2"
 alias create_venv="pyenv exec python -m venv .venv && source .venv/bin/activate"
 alias grep="grep --color=auto"
-alias bc="BC_ENV_ARGS=<(echo "scale=2") \bc -q"
 alias vf="vifm"
 alias sxiv="sxiv -b"
 alias genpsw="head -c 16 /dev/random | od -A n -t x1 | sed 's/[[:space:]]//g'"
@@ -99,6 +102,7 @@ alias cp="cp -i"
 alias dcompile="sudo make clean install"
 alias gitconf="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
 alias rmt_server="/opt/urserver/urserver --daemon"
+alias bc='BC_ENV_ARGS="-l /home/$USER/.config/bc/stdlib.bc" command bc -q'
 
 #       laravel alias
 alias a="php artisan"
