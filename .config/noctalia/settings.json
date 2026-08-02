@@ -196,10 +196,10 @@
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "monitorForColors": "",
-        "predefinedScheme": "Oxide",
+        "predefinedScheme": "Everdeer",
         "schedulingMode": "off",
         "syncGsettings": true,
-        "useWallpaperColors": true
+        "useWallpaperColors": false
     },
     "controlCenter": {
         "cards": [
@@ -382,7 +382,7 @@
     },
     "idle": {
         "customCommands": "[]",
-        "enabled": true,
+        "enabled": false,
         "fadeDuration": 5,
         "lockCommand": "",
         "lockTimeout": 130,
@@ -606,10 +606,6 @@
             },
             {
                 "enabled": true,
-                "id": "zed"
-            },
-            {
-                "enabled": true,
                 "id": "alacritty"
             },
             {
@@ -619,6 +615,10 @@
             {
                 "enabled": true,
                 "id": "fuzzel"
+            },
+            {
+                "enabled": true,
+                "id": "zed"
             }
         ],
         "enableUserTheming": true

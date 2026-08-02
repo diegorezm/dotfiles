@@ -1,4 +1,5 @@
 input {
+   focus-follows-mouse max-scroll-amount="0%"
     keyboard {
         repeat-delay 300
         repeat-rate 50
@@ -13,6 +14,7 @@ input {
     }
     warp-mouse-to-focus
 }
+
 
 window-rule {
     geometry-corner-radius 12
@@ -34,7 +36,6 @@ layer-rule {
 window-rule {
   background-effect {
     blur true
-    xray false
   }
 }
 
@@ -75,7 +76,7 @@ layout {
     default-column-width { proportion 0.5; }
     focus-ring {
         // off
-        width 2
+        width 1.5
         active-color "#7fc8ff"
         inactive-color "#505050"
     }
@@ -83,15 +84,39 @@ layout {
         off
     }
     shadow {
-        on
+        off
     }
 }
 
+workspace "work"
+workspace "entertainment"
+
+window-rule {
+    match app-id="zen"
+    open-on-workspace "work"
+    open-maximized true
+    open-focused true
+}
+
+window-rule {
+  match app-id="discord"
+  open-on-workspace "entertainment"
+  open-focused false
+}
+
+window-rule {
+  match app-id="steam"
+  open-on-workspace "entertainment"
+  open-focused false
+}
+
 // Spawn at startup
+spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-sh-at-startup  "swayidle timeout 600 'systemctl suspend'"
+spawn-at-startup "zen"
 spawn-at-startup "spotify-launcher"
 spawn-at-startup "steam"
 spawn-at-startup "discord"
-spawn-at-startup "qs" "-c" "noctalia-shell"
 
 // skip hotkeys thing
 hotkey-overlay {
@@ -134,9 +159,8 @@ binds {
     Mod+W hotkey-overlay-title="Open a Browser: zen" { spawn "zen"; }
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Mod+D { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
-    Mod+E { spawn-sh "qs -c noctalia-shell ipc call volume togglePanel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-
+    Mod+E { spawn-sh "thunar"; }
+    Mod+A { spawn-sh "qs -c noctalia-shell ipc call volume togglePanel"; }
     // XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
     // XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
     // XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }

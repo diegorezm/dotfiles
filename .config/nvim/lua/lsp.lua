@@ -8,11 +8,12 @@ local servers = {
     'ts_ls',
     'elixirls',
     'biome',
+    'basedpyright',
+    'astro',
     'eslint',
     'rust_analyzer',
     'gopls',
     'jsonls',
-    'marksman',
     'emmet_language_server',
 }
 
