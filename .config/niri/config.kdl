@@ -17,7 +17,7 @@ input {
 
 
 window-rule {
-    geometry-corner-radius 12
+    geometry-corner-radius 6
     clip-to-geometry true
 }
 
@@ -31,6 +31,15 @@ layer-rule {
   match namespace="^noctalia-overview*"
   place-within-backdrop true
 }
+
+// Floating Noctalia settings window.
+window-rule {
+  match app-id="dev.noctalia.Noctalia"
+  open-floating true
+  default-column-width { fixed 1080; }
+  default-window-height { fixed 920; }
+}
+
 
 /* Apps: blur them all without xray for a better look */
 window-rule {
@@ -111,12 +120,17 @@ window-rule {
 }
 
 // Spawn at startup
-spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-sh-at-startup "flatpak run com.valvesoftware.Steam"
+spawn-sh-at-startup "flatpak run com.discordapp.Discord"
+spawn-sh-at-startup "flatpak run com.spotify.Client"
+spawn-at-startup "noctalia"
+// spawn-at-startup "wlsunset" "-l" "-23.0" "-L" "-45.6" "-T" "6500" "-t" "4500"
+spawn-at-startup "flameshot"
+// spawn-at-startup "wallpapercl" "restore"
+// spawn-sh-at-startup  "qs -p ~/.config/dshell/navbar.qml"
 spawn-sh-at-startup  "swayidle timeout 600 'systemctl suspend'"
 spawn-at-startup "zen"
-spawn-at-startup "spotify-launcher"
-spawn-at-startup "steam"
-spawn-at-startup "discord"
+
 
 // skip hotkeys thing
 hotkey-overlay {
@@ -158,28 +172,24 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+W hotkey-overlay-title="Open a Browser: zen" { spawn "zen"; }
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Mod+D { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
+
+    Mod+D { spawn-sh "noctalia msg panel-toggle launcher"; }
     Mod+E { spawn-sh "thunar"; }
-    Mod+A { spawn-sh "qs -c noctalia-shell ipc call volume togglePanel"; }
-    // XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    // XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    // XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioRaiseVolume { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "increase"; }
-    XF86AudioLowerVolume { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "decrease"; }
-    XF86AudioMute { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    Mod+Shift+Return { spawn-sh "alacritty -e zsh -ic nnn"; }
 
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    Mod+C { spawn-sh "~/.local/bin/scripts/config_quick_search"; }
+    Mod+Z { spawn-sh "~/.local/bin/scripts/dir_quick_search.sh"; }
 
-    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
-    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
-    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+    Mod+A { spawn-sh "pavucontrol"; }
+
+    XF86AudioRaiseVolume { spawn-sh "noctalia msg volume-up"; }
+    XF86AudioLowerVolume { spawn-sh "noctalia msg volume-down"; }
+    XF86AudioMute { spawn-sh "noctalia msg volume-mute"; }
+    XF86MonBrightnessUp { spawn-sh "noctalia msg brightness-up"; }
+    XF86MonBrightnessDown { spawn-sh "noctalia msg brightness-down"; }
 
     // XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
     // XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
-
-    XF86MonBrightnessUp { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "increase"; }
-    XF86MonBrightnessDown { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -370,7 +380,7 @@ binds {
     // Makes the column "fill the rest of the space".
     Mod+Ctrl+F { expand-column-to-available-width; }
 
-    Mod+C { center-column; }
+    Mod+Shift+C { center-column; }
 
     // Center all fully visible columns on screen.
     Mod+Ctrl+C { center-visible-columns; }
@@ -394,15 +404,14 @@ binds {
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
-    // Print { screenshot; }
-    // Ctrl+Print { screenshot-screen; }
-    // Alt+Print { screenshot-window; }
+    // Flameshot screenshot controls.
+    // Print opens the interactive region selector; Ctrl+Print captures the full screen.
     Print {
-        spawn-sh  "grim -g \"$(slurp)\" - | wl-copy";
+        spawn "flameshot" "gui";
     }
 
     Ctrl+Print {
-        spawn-sh  "grim -g \"$(slurp)\" - | tee ~/img/prints/$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy";
+        spawn-sh "flameshot full --path ~/img/prints --clipboard";
     }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
@@ -415,4 +424,4 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 }
 
-include "./noctalia.kdl"
+include "noctalia.kdl"

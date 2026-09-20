@@ -37,7 +37,7 @@
     ],
     "logo": {
         "type": "small", // Logo type: auto, builtin, small, file, etc.
-        "source": "opensuse", // Built-in logo name or file path
+        "source": "fedora", // Built-in logo name or file path
         "padding": {
             "left": 1
         }

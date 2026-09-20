@@ -43,6 +43,12 @@ vim.keymap.set("n", "<leader>ca", fzf.lsp_code_actions, { desc = "Code Actions" 
 keymap("n", "<leader>gg", '<cmd>Git<CR>', {})
 keymap("n", "<leader>gp", '<cmd>Git push<CR>', {})
 
+-- DIFFVIEW
+keymap("n", "<leader>do", "<cmd>DiffviewOpen<CR>", { desc = "Open diffview" })
+keymap("n", "<leader>dh", "<cmd>DiffviewFileHistory %<CR>", { desc = "File history" })
+keymap("n", "<leader>dc", "<cmd>DiffviewClose<CR>", { desc = "Close diffview" })
+keymap("n", "<leader>dt", "<cmd>DiffviewToggleFiles<CR>", { desc = "Toggle diffview files" })
+
 -- Navigation
 vim.keymap.set('n', '<C-n>', ':tabnext<CR>', { silent = true })
 vim.keymap.set('n', '<C-p>', ':tabprevious<CR>', { silent = true })

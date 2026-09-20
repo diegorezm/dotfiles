@@ -1,44 +1,34 @@
 #!/bin/sh
 
 choice=$(
-	printf "%s\n" \
-		"kitty" \
-		"zsh" \
-		"nvim" \
-		"rofi" \
-		"dwm" \
-		"hyprland" |
-	dmenu -p "Edit config:"
-)
-
-[ -z "$choice" ] && exit 0
+	printf '%s\n' \
+		'Noctalia' \
+		'Alacritty' \
+		'Neovim' \
+		'Niri' \
+		'Tmux' \
+		'Shell scripts' \
+		'Zsh' |
+		noctalia dmenu -p 'Edit config'
+) || exit 0
 
 case "$choice" in
-	kitty)
-		target="$HOME/.config/kitty/kitty.conf"
-		;;
-	zsh)
-		target="$HOME/.zshrc"
-		;;
-	nvim)
-		target="$HOME/.config/nvim"
-		;;
-	rofi)
-		target="$HOME/.config/rofi"
-		;;
-	dwm)
-		target="$HOME/.config/dwm"
-		;;
-	hyprland)
-		target="$HOME/.config/hypr"
-		;;
-	*)
-		exit 1
-		;;
+	Noctalia) target="$HOME/.config/noctalia" ;;
+	Alacritty) target="$HOME/.config/alacritty/alacritty.toml" ;;
+	Neovim) target="$HOME/.config/nvim" ;;
+	Niri) target="$HOME/.config/niri/config.kdl" ;;
+	Tmux) target="$HOME/.tmux.conf" ;;
+	'Shell scripts') target="$HOME/.local/bin/scripts" ;;
+	Zsh) target="$HOME/.zshrc" ;;
+	*) exit 1 ;;
 esac
 
-if printf '%s' "$TERMINAL" | grep -q alacritty; then
-	"$TERMINAL" --working-directory "$(dirname "$target")" -e nvim "$target"
-else
-	"$TERMINAL" -d "$(dirname "$target")" -e nvim "$target"
-fi
+[ -e "$target" ] || exit 1
+
+working_directory=$target
+[ -d "$working_directory" ] || working_directory=$(dirname "$working_directory")
+
+case "${TERMINAL:-alacritty}" in
+	*alacritty*) alacritty --working-directory "$working_directory" -e "${EDITOR:-nvim}" "$target" ;;
+	*) "${TERMINAL:-alacritty}" -d "$working_directory" -e "${EDITOR:-nvim}" "$target" ;;
+esac

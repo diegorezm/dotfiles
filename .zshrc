@@ -1,9 +1,12 @@
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
 #    startx
     niri-session
-
-
 fi
+
+### NNN
+export NNN_BMS="d:$HOME/down;D:$HOME/docs;h:$HOME;c:$HOME/code;C:$HOME/.config"
+export NNN_OPENER="$HOME/.config/nnn/opener"
+export NNN_PLUG='t:tmux-here'
 
 #
 fpath+=~/.zfunc
@@ -190,3 +193,6 @@ complete -o nospace -C /usr/bin/terraform terraform
 # Add JBang to environment
 alias j!=jbang
 export PATH="$HOME/.jbang/bin:$PATH"
+
+# kilo
+export PATH=/home/diego/.kilo/bin:$PATH

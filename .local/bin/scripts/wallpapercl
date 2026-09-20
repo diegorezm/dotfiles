@@ -1,51 +1,53 @@
-#!/bin/bash
-# Simple wallpaper manager using xwallpaper
+#!/usr/bin/env bash
 
-CONFIG="$HOME/.config/xwallpaper.conf"
+set -e
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/wallpaper"
+CURRENT="$STATE_DIR/current"
+
+mkdir -p "$STATE_DIR"
 
 set_wallpaper() {
-    local img="$1"
+    local wallpaper="$1"
 
-    if [ ! -f "$img" ]; then
-        echo "Error: File not found -> $img"
+    # Resolve relative paths / ~ into an absolute path
+    wallpaper="$(realpath "$wallpaper")"
+
+    if [[ ! -f "$wallpaper" ]]; then
+        echo "Wallpaper not found: $wallpaper" >&2
         exit 1
     fi
 
-    mkdir -p "$(dirname "$CONFIG")"
-    echo "$img" > "$CONFIG"
-    xwallpaper --stretch "$img"
-    echo "Wallpaper set to: $img"
+    pkill swaybg 2>/dev/null || true
+
+    swaybg -i "$wallpaper" -m fill >/dev/null 2>&1 &
+
+    printf '%s\n' "$wallpaper" > "$CURRENT"
 }
 
-restore_wallpaper() {
-    if [ ! -f "$CONFIG" ]; then
-        echo "No wallpaper config found at $CONFIG."
-        exit 1
-    fi
-
-    local img
-    img=$(cat "$CONFIG")
-
-    if [ ! -f "$img" ]; then
-        echo "Stored wallpaper not found: $img"
-        exit 1
-    fi
-
-    xwallpaper --stretch "$img"
-    echo "Wallpaper restored: $img"
-}
-
-case "$1" in
+case "${1:-}" in
     set)
+        if [[ -z "${2:-}" ]]; then
+            echo "Usage: wallpaper set <image>"
+            exit 1
+        fi
+
         set_wallpaper "$2"
         ;;
+
     restore)
-        restore_wallpaper
+        if [[ ! -f "$CURRENT" ]]; then
+            echo "No wallpaper has been saved yet." >&2
+            exit 1
+        fi
+
+        set_wallpaper "$(cat "$CURRENT")"
         ;;
+
     *)
         echo "Usage:"
-        echo "  $0 set /path/to/image.jpg"
-        echo "  $0 restore"
+        echo "  wallpaper set <image>"
+        echo "  wallpaper restore"
         exit 1
         ;;
 esac
